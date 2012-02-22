@@ -126,90 +126,146 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent event) {
 		if ("OK".equals(event.getActionCommand())) {
-			checkEmptyFields();
-			startDate = Integer.parseInt(date1.getText());
-			startMonth = Integer.parseInt(month1.getText());
-			startYear = Integer.parseInt(year1.getText());
-			endDate = Integer.parseInt(date2.getText());
-			endMonth = Integer.parseInt(month2.getText());
-			endYear = Integer.parseInt(year2.getText());
-			checkDate(startDate, startMonth, startYear);
-			checkDate(endDate, endMonth, endYear);
-			checkDate(startYear, endYear);
-			checkDate(startDate, endDate);
-			checkDate(startMonth, endMonth);
-			//startDay = new Date(startYear, startMonth - 1, startDate);
-			//endDay = new Date(endYear, endMonth - 1, endDate);
-			endYear -= 1900;
-			startYear -= 1900;
-			endMonth -= 1;
-			startMonth -= 1;
-			setHoliday();
-			//System.out.println(startDay.toString());
-			//System.out.println(endDay.toString());
-			System.out.println(taken);
-			HolidayConfirm nextFrame = new HolidayConfirm(list);
-			nextFrame.setVisible(true);
-			this.dispose();
+			if (checkEmptyFields()) {
+				
+			}
+			else {
+				startDate = Integer.parseInt(date1.getText());
+				startMonth = Integer.parseInt(month1.getText());
+				startYear = Integer.parseInt(year1.getText());
+				endDate = Integer.parseInt(date2.getText());
+				endMonth = Integer.parseInt(month2.getText());
+				endYear = Integer.parseInt(year2.getText());
+				if (!checkDate(startDate, startMonth, startYear)) {
+				}
+				else if (!checkDate(endDate, endMonth, endYear)) {
+				}
+				else if (!checkDate(startYear, endYear)) {
+				}
+				else if (!checkDate(startDate, endDate)) {
+				}
+				else if (!checkDate(startMonth, endMonth)) {
+				}
+				//startDay = new Date(startYear, startMonth - 1, startDate);
+				//endDay = new Date(endYear, endMonth - 1, endDate);
+				else {
+					endYear -= 1900;
+					startYear -= 1900;
+					endMonth -= 1;
+					startMonth -= 1;
+					startDay = new Date(startYear, startMonth - 1, startDate);
+					endDay = new Date(endYear, endMonth - 1, endDate);
+					if (startDay.before(database.today())) {
+						JOptionPane.showMessageDialog(this, "Please select a future date.");
+					}
+					else if (endDay.before(database.today())) {
+						JOptionPane.showMessageDialog(this, "Please select a future date.");
+					}
+					else {
+						setHoliday();
+						//System.out.println(startDay.toString());
+						//System.out.println(endDay.toString());
+						//System.out.println(taken);
+						HolidayConfirm nextFrame = new HolidayConfirm(list);
+						nextFrame.setVisible(true);
+						this.dispose();
+					}
+				}
+			}
 		}
 		else if ("Cancel".equals(event.getActionCommand())) {
 			System.exit(0);
 		}
 	}
 	
-	public void checkDate(int day, int month, int year) {
+	public boolean checkDate(int day, int month, int year) {
 		if (month > 12) {
 			JOptionPane.showMessageDialog(this, "Please check the month.");
+			return false;
 		}
-		if (month == 1) {
+		else if (month == 2) {
 			if ((year % 4) == 0) {
-				if (day > 29) {
+				if ((day > 29) || (day < 1)) {
 					JOptionPane.showMessageDialog(this, "Please check the date.");
+					return false;
 				}
+				else {
+					return true;
+				}
+				
 			}
 			else {
-				if (day > 28) {
+				if ((day > 28) || (day < 1)) {
 					JOptionPane.showMessageDialog(this, "Please check the date.");
+					return false;
+				}
+				else {
+					return true;
 				}
 			}
 		}
 		else if ((month ==1) || (month == 3) || (month == 5) || (month == 7)
 				|| (month == 8) || (month == 10) || (month == 12)) {
-			if (day > 31) {
+			if ((day > 31) || (day < 1)) {
 				JOptionPane.showMessageDialog(this, "Please check the date.");
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if ((month == 4) || (month == 6) || (month == 9)
+				|| (month == 11)) {
+			if ((day > 30) || (day < 1)) {
+				JOptionPane.showMessageDialog(this, "Please check the date.");
+				return false;
+			}
+			else {
+				return true;
 			}
 		}
 		else {
-			if (day > 30) {
-				JOptionPane.showMessageDialog(this, "Please check the date.");
-			}
+			return true;
 		}
 	}
 	
-	public void checkDate(int year1, int year2) {
+	public boolean checkDate(int year1, int year2) {
 		if (year2 < year1) {
-			JOptionPane.showMessageDialog(this, "Please check the year.");
+			JOptionPane.showMessageDialog(this, "Please check the fields.");
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 	
-	public void checkEmptyFields() {
+	public boolean checkEmptyFields() {
 		if (date1.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Please fill all fields.");
+			return true;
 		}
-		if (date2.getText().isEmpty()) {
+		else if (date2.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Please fill all fields.");
+			return true;
 		}
-		if (month1.getText().isEmpty()) {
+		else if (month1.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Please fill all fields.");
+			return true;
 		}
-		if (month2.getText().isEmpty()) {
+		else if (month2.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Please fill all fields.");
+			return true;
 		}
-		if (year1.getText().isEmpty()) {
+		else if (year1.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Please fill all fields.");
+			return true;
 		}
-		if (year2.getText().isEmpty()) {
+		else if (year2.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Please fill all fields.");
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	
@@ -227,8 +283,9 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 						DriverInfo.setAvailable(ID, tempDay, false);
 						list = list + tempDay.toString() + "\n";
 						taken = DriverInfo.getHolidaysTaken(ID);
-						if (DriverInfo.isAvailable(ID, tempDay)) {
+						if (!DriverInfo.isAvailable(ID, tempDay)) {
 						  taken ++;
+						  //System.out.println("test");
 						}
 						DriverInfo.setHolidaysTaken(ID, taken);
 					}
@@ -250,7 +307,7 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 							DriverInfo.setAvailable(ID, tempDay, false);
 							list = list + tempDay.toString() + "\n";
 							taken = DriverInfo.getHolidaysTaken(ID);
-							if (DriverInfo.isAvailable(ID, tempDay)) {
+							if (!DriverInfo.isAvailable(ID, tempDay)) {
 								taken ++;
 							}
 							DriverInfo.setHolidaysTaken(ID, taken);
@@ -260,7 +317,7 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 							DriverInfo.setAvailable(ID, tempDay, false);
 							list = list + tempDay.toString() + "\n";
 							taken = DriverInfo.getHolidaysTaken(ID);
-							if (DriverInfo.isAvailable(ID, tempDay)) {
+							if (!DriverInfo.isAvailable(ID, tempDay)) {
 								taken ++;
 							}
 							DriverInfo.setHolidaysTaken(ID, taken);
@@ -281,7 +338,7 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 							DriverInfo.setAvailable(ID, tempDay, false);
 							list = list + tempDay.toString() + "\n";
 							taken = DriverInfo.getHolidaysTaken(ID);
-							if (DriverInfo.isAvailable(ID, tempDay)) {
+							if (!DriverInfo.isAvailable(ID, tempDay)) {
 								taken ++;
 							}
 							DriverInfo.setHolidaysTaken(ID, taken);
@@ -291,7 +348,7 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 							DriverInfo.setAvailable(ID, tempDay, false);
 							list = list + tempDay.toString() + "\n";
 							taken = DriverInfo.getHolidaysTaken(ID);
-							if (DriverInfo.isAvailable(ID, tempDay)) {
+							if (!DriverInfo.isAvailable(ID, tempDay)) {
 								taken ++;
 							}
 							DriverInfo.setHolidaysTaken(ID, taken);
@@ -312,7 +369,7 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 					DriverInfo.setAvailable(ID, tempDay, false);
 					list = list + tempDay.toString() + "\n";
 					taken = DriverInfo.getHolidaysTaken(ID);
-					if (DriverInfo.isAvailable(ID, tempDay)) {
+					if (!DriverInfo.isAvailable(ID, tempDay)) {
 						taken ++;
 					}
 					DriverInfo.setHolidaysTaken(ID, taken);
@@ -322,7 +379,7 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 					DriverInfo.setAvailable(ID, tempDay, false);
 					list = list + tempDay.toString() + "\n";
 					taken = DriverInfo.getHolidaysTaken(ID);
-					if (DriverInfo.isAvailable(ID, tempDay)) {
+					if (!DriverInfo.isAvailable(ID, tempDay)) {
 						taken ++;
 					}
 					DriverInfo.setHolidaysTaken(ID, taken);

@@ -51,11 +51,15 @@ public class HolidayConfirm extends JFrame implements ActionListener {
 		JButton finishButton = new JButton("Finish");
 		finishButton.setActionCommand("Finish");
 		finishButton.addActionListener(this);
+		JButton restartButton = new JButton("Restart");
+		restartButton.setActionCommand("Restart");
+		restartButton.addActionListener(this);
 		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		centerPanel.add(answer);
 		centerPanel.add(scrollPane);
 		southPanel.add(finishButton);
+		southPanel.add(restartButton);
 		contentPane.add(BorderLayout.NORTH, centerPanel);
 		contentPane.add(BorderLayout.SOUTH, southPanel);
 		setContentPane(contentPane);
@@ -65,6 +69,11 @@ public class HolidayConfirm extends JFrame implements ActionListener {
 		if ("Finish".equals(event.getActionCommand())) {
 			this.dispose();
 			System.exit(0);
+		}
+		else if ("Restart".equals(event.getActionCommand())) {
+			HolidayRequestID newFrame = new HolidayRequestID();
+			newFrame.setVisible(true);
+			this.dispose();
 		}
 	}
 }
