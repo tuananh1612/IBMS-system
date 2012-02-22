@@ -5,5 +5,5 @@ nikki.schofield92@googlemail.com
               "BkYO0XO47uT2jGyi", "jdbc:mysql://ramen.cs.man.ac.uk:3306",
               "com.mysql.jdbc.Driver"
 
- export CLASSPATH=$CLASSPATH:~/Download/H2/mysql-connector-java-5.1.12-bin.jar
+ export CLASSPATH=$CLASSPATH:mysql-connector-java-5.1.12-bin.jar
 
