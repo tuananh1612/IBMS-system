@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
@@ -24,7 +25,7 @@ public class HolidayConfirm extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					HolidayConfirm frame = new HolidayConfirm();
+					HolidayConfirm frame = new HolidayConfirm("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +37,7 @@ public class HolidayConfirm extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public HolidayConfirm() {
+	public HolidayConfirm(String list) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -45,13 +46,15 @@ public class HolidayConfirm extends JFrame implements ActionListener {
 		JLabel answer = new JLabel("Your request has been approved " 
 				+ "for following days:");
 		JTextArea dayList = new JTextArea(10, 30);
+		JScrollPane scrollPane = new JScrollPane(dayList);
+		dayList.append(list);
 		JButton finishButton = new JButton("Finish");
 		finishButton.setActionCommand("Finish");
 		finishButton.addActionListener(this);
 		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		centerPanel.add(answer);
-		centerPanel.add(dayList);
+		centerPanel.add(scrollPane);
 		southPanel.add(finishButton);
 		contentPane.add(BorderLayout.NORTH, centerPanel);
 		contentPane.add(BorderLayout.SOUTH, southPanel);

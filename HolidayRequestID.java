@@ -67,15 +67,17 @@ public class HolidayRequestID extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent event) {
 		if ("OK".equals(event.getActionCommand())) {
-			int ID = Integer.parseInt(IDField.getText());
+			String ID = IDField.getText();
 			//Connect to database
-			
-			if (1 != 0) {
+			database.openBusDatabase();
+			int driverID = DriverInfo.findDriver(ID);
+			if (driverID == 0) {
 				HolidayIDReject rejectFrame = new HolidayIDReject();
 				rejectFrame.setVisible(true);
 			}
-			else if (1 != 2) {
-				HolidayRequestDay nextFrame = new HolidayRequestDay(ID);
+			else {
+				HolidayRequestDay nextFrame = new HolidayRequestDay(driverID);
+				nextFrame.setVisible(true);
 			}
 			this.dispose();
 		}
