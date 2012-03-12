@@ -73,10 +73,14 @@ public class HolidayRequestID extends JFrame implements ActionListener {
 			int driverID = DriverInfo.findDriver(ID);
 			if (driverID == 0) {
 				HolidayIDReject rejectFrame = new HolidayIDReject();
+				rejectFrame.setTitle("Error");
 				rejectFrame.setVisible(true);
 			}
 			else {
-				HolidayRequestDay nextFrame = new HolidayRequestDay(driverID);
+				//HolidayRequestDay nextFrame = new HolidayRequestDay(driverID);
+				//nextFrame.setVisible(true);
+				OptionFrame nextFrame = new OptionFrame(driverID);
+				nextFrame.setTitle("Option frame");
 				nextFrame.setVisible(true);
 			}
 			this.dispose();
