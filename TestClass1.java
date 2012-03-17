@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 public class TestClass1 {
   private static Roster newRoster;
   private static boolean driveTimeDay;
-      
+  private static boolean driveTimeWeek;   
+  private static boolean breakTime;
+  private static boolean workDaysPerWeek;
       
   @Before
   public void setUp()
