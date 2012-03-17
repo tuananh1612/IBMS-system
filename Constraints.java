@@ -1,6 +1,7 @@
 public class Constraints
 {
-
+  // Should this variable not be part of a Driver class?
+  // The value is different for each driver
   Boolean breakTaken = false;
 
   
