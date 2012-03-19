@@ -29,6 +29,17 @@ public class DataMining {
 		return totalServiceTime;
 	}
 	
+	public int getAverageWorkingTime() {
+		int averageDay = (int) ((double)totalServiceTime * 60 / (7 * driverList.length));
+		int averageDriver = (int) ((double) totalServiceTime * 60 / driverList.length);
+		int holidayTaken = 0;
+		for (int i = 0; i < driverList.length; i ++) {
+			holidayTaken += driverList[i][1];
+		}
+		averageDriver += averageDay * holidayTaken / driverList.length;
+		return averageDriver;
+	}
+	
 	@SuppressWarnings("deprecation")
 	private void getNextDate(Date date1) {
 		if (date1.getYear() % 4 == 0) {
@@ -188,6 +199,12 @@ public class DataMining {
 		return driverList4;
 	}
 	
+	public int getDuration(int from, int to) {
+		int fromTime = (from / 100) * 60 + (from % 100);
+		int toTime = (to / 100) * 60 + (to % 100);
+		return toTime - fromTime;
+	}
+	
 	public void getServiceList() {
 		//database.openBusDatabase();
 		int numberOfService = TimetableInfo.getNumberOfServices(65, 
@@ -210,7 +227,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.weekday, serviceList11[i][0]);
 			serviceList11[i][1] = timeList[0];
 			serviceList11[i][2] = timeList[timeList.length - 1];
-			serviceList11[i][3] = serviceList11[i][2] - serviceList11[i][1];
+			//serviceList11[i][3] = serviceList11[i][2] - serviceList11[i][1];
+			serviceList11[i][3] = getDuration(serviceList11[i][1], serviceList11[i][2]);
 			serviceTime[0][0] += serviceList11[i][3];
 		}
 		//Route 65, saturday
@@ -226,7 +244,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.saturday, serviceList12[i][0]);
 			serviceList12[i][1] = timeList[0];
 			serviceList12[i][2] = timeList[timeList.length - 1];
-			serviceList12[i][3] = serviceList12[i][2] - serviceList12[i][1];
+			//serviceList12[i][3] = serviceList12[i][2] - serviceList12[i][1];
+			serviceList12[i][3] = getDuration(serviceList12[i][1], serviceList12[i][2]);
 			serviceTime[0][1] += serviceList12[i][3];
 		}
 		//Route 65, sunday
@@ -242,7 +261,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.sunday, serviceList13[i][0]);
 			serviceList13[i][1] = timeList[0];
 			serviceList13[i][2] = timeList[timeList.length - 1];
-			serviceList13[i][3] = serviceList13[i][2] - serviceList13[i][1];
+			//serviceList13[i][3] = serviceList13[i][2] - serviceList13[i][1];
+			serviceList13[i][3] = getDuration(serviceList13[i][1], serviceList13[i][2]);
 			serviceTime[0][2] += serviceList13[i][3];
 		}
 		//Route 66, weekday
@@ -258,7 +278,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.sunday, serviceList21[i][0]);
 			serviceList21[i][1] = timeList[0];
 			serviceList21[i][2] = timeList[timeList.length - 1];
-			serviceList21[i][3] = serviceList21[i][2] - serviceList21[i][1];
+			//serviceList21[i][3] = serviceList21[i][2] - serviceList21[i][1];
+			serviceList21[i][3] = getDuration(serviceList21[i][1], serviceList21[i][2]);
 			serviceTime[1][0] += serviceList21[i][3];
 		}
 		//Route 66, saturday
@@ -274,7 +295,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.saturday, serviceList22[i][0]);
 			serviceList22[i][1] = timeList[0];
 			serviceList22[i][2] = timeList[timeList.length - 1];
-			serviceList22[i][3] = serviceList22[i][2] - serviceList22[i][1];
+			//serviceList22[i][3] = serviceList22[i][2] - serviceList22[i][1];
+			serviceList22[i][3] = getDuration(serviceList22[i][1], serviceList22[i][2]);
 			serviceTime[1][1] += serviceList22[i][3];
 		}
 		//Route 66, sunday
@@ -290,7 +312,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.sunday, serviceList23[i][0]);
 			serviceList23[i][1] = timeList[0];
 			serviceList23[i][2] = timeList[timeList.length - 1];
-			serviceList23[i][3] = serviceList23[i][2] - serviceList23[i][1];
+			//serviceList23[i][3] = serviceList23[i][2] - serviceList23[i][1];
+			serviceList23[i][3] = getDuration(serviceList23[i][1], serviceList23[i][2]);
 			serviceTime[1][2] += serviceList23[i][3];
 		}
 		//Route 67, weekday
@@ -306,7 +329,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.weekday, serviceList31[i][0]);
 			serviceList31[i][1] = timeList[0];
 			serviceList31[i][2] = timeList[timeList.length - 1];
-			serviceList31[i][3] = serviceList31[i][2] - serviceList31[i][1];
+			//serviceList31[i][3] = serviceList31[i][2] - serviceList31[i][1];
+			serviceList31[i][3] = getDuration(serviceList31[i][1], serviceList31[i][2]);
 			serviceTime[2][0] += serviceList31[i][3];
 		}
 		//Route 67, saturday
@@ -322,7 +346,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.saturday, serviceList32[i][0]);
 			serviceList32[i][1] = timeList[0];
 			serviceList32[i][2] = timeList[timeList.length - 1];
-			serviceList32[i][3] = serviceList32[i][2] - serviceList32[i][1];
+			//serviceList32[i][3] = serviceList32[i][2] - serviceList32[i][1];
+			serviceList32[i][3] = getDuration(serviceList32[i][1], serviceList32[i][2]);
 			serviceTime[2][1] += serviceList32[i][3];
 		}
 		//Route 67, sunday
@@ -338,7 +363,8 @@ public class DataMining {
 					TimetableInfo.timetableKind.sunday, serviceList33[i][0]);
 			serviceList33[i][1] = timeList[0];
 			serviceList33[i][2] = timeList[timeList.length - 1];
-			serviceList33[i][3] = serviceList33[i][2] - serviceList33[i][1];
+			//serviceList33[i][3] = serviceList33[i][2] - serviceList33[i][1];
+			serviceList33[i][3] = getDuration(serviceList33[i][1], serviceList33[i][2]);
 			serviceTime[2][2] += serviceList33[i][3];
 		}
 		//Route 68, weekday
