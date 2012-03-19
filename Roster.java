@@ -65,6 +65,7 @@ public class Roster {
         while (constraintsCheck && 
                shiftDurationSoFar < AVERAGE_WORKING_HOURS) {
           // assign an iteration
+          // modify currentStartTime, currentEndTime accordingly
         } // while constraints OK and average hrs not exceeded
         
         /* Save timeslot to array */
