@@ -1,0 +1,9 @@
+elisehein@gmail.com
+tuananh1612@gmail.com
+nikki.schofield92@googlemail.com
+"12_COMP23420_H2", "12_COMP23420_H2",
+              "BkYO0XO47uT2jGyi", "jdbc:mysql://ramen.cs.man.ac.uk:3306",
+              "com.mysql.jdbc.Driver"
+
+ export CLASSPATH=$CLASSPATH:mysql-connector-java-5.1.12-bin.jar
+

@@ -77,11 +77,10 @@ public class HolidayRequestID extends JFrame implements ActionListener {
 				rejectFrame.setVisible(true);
 			}
 			else {
-				//HolidayRequestDay nextFrame = new HolidayRequestDay(driverID);
-				//nextFrame.setVisible(true);
-				OptionFrame nextFrame = new OptionFrame(driverID);
-				nextFrame.setTitle("Option frame");
+				HolidayRequestDay nextFrame = new HolidayRequestDay(driverID);
 				nextFrame.setVisible(true);
+				//OptionFrame nextFrame = new OptionFrame(driverID);
+				//nextFrame.setTitle("Option frame");
 			}
 			this.dispose();
 		}
