@@ -25,6 +25,10 @@ public class DataMining {
 		endDate = date2;
 	}
 	
+	public int getTotalServiceTime() {
+		return totalServiceTime;
+	}
+	
 	@SuppressWarnings("deprecation")
 	private void getNextDate(Date date1) {
 		if (date1.getYear() % 4 == 0) {
@@ -385,9 +389,10 @@ public class DataMining {
 			serviceList43[i][3] = serviceList43[i][2] - serviceList43[i][1];
 			serviceTime[3][2] += serviceList43[i][3];
 		}
+		calculateTotalServiceTime();
 	}
 	
-	public void getTotalServiceTime() {
+	public void calculateTotalServiceTime() {
 		totalServiceTime = 0;
 		for (int i = 0; i < 4; i ++) {
 			for (int j = 0; j < 3; j ++) {

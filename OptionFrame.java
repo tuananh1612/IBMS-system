@@ -74,8 +74,8 @@ public class OptionFrame extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == holidayRequest) {
-			HolidayRequestDay nextFrame = new HolidayRequestDay(driverID);
-			nextFrame.setTitle("Holiday request");
+			HolidayRequestID nextFrame = new HolidayRequestID();
+			nextFrame.setTitle("ID request");
 			nextFrame.setVisible(true);
 		}
 		if (event.getSource() == rostering) {
