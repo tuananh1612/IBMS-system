@@ -103,7 +103,7 @@ public class Roster {
       } // for each driver
     } // while the entire timetable has not been populated 
       
-  } // Roster
+  } // Roster  
   
   /* Confirm that assigning a timeslot to a driver
    * will not breach the constraints (TRUE if assignment is allowed)
@@ -126,20 +126,4 @@ public class Roster {
     // else return false;
   } // timetablePopulated
     
-  /* Initialize an array of iterations that correspond to this service
-   * 
-   * iteration -- the route a service takes to and from the depot 
-   * (because shifts need to start and end at the depot) */
-  private int[][] getWeekdayIterations() { 
-    
-  } // getWeekdayIterations
-  
-  private int[][] getSatIterations() { 
-    
-  } // getSatIterations
-  
-  private int[][] getSunIterations() { 
-    
-  } // getSunIterations
-
 } class Roster
