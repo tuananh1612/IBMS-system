@@ -8,7 +8,7 @@ public class Constraints
 
   
   //2. The maximum driving time for any driver in any one day is 10 hours.
-  public boolean maximumDrivingTimeDay (int minsWorkedToday, 
+  public static boolean maximumDrivingTimeDay (int minsWorkedToday, 
       					int iterationDuration)
   {
     if((minsWorkedToday + iterationDuration)<= 600)
@@ -18,7 +18,7 @@ public class Constraints
   }
 
   //3. There can be no more than 50 hours driven by any one driver in any one week.
-  public boolean maximumDrivingTimeWeek(int minsWorkedSoFarThisWeek,
+  public static boolean maximumDrivingTimeWeek(int minsWorkedSoFarThisWeek,
       					int iterationDuration)
   {
     if((minsWorkedSoFarThisWeek + iterationDuration)<= 3000)
@@ -29,7 +29,7 @@ public class Constraints
 
   //4. A driver can drive for a maximum of 5 hours at any one time and must have
   // a break of at least one hour. Breaks can only be taken at the bus depot.
-  public boolean minsWorkedContinuosly(int minsWorkedToday,
+  public static boolean minsWorkedContinuosly(int minsWorkedToday,
       				       int iterationDuration, 
       				       Boolean breakTaken)
   {
@@ -47,7 +47,7 @@ public class Constraints
     else return false;
   }      
       
- // public void takeBreak(int driver)
+ // public static void takeBreak(int driver)
  // {
   //  breakTaken = true;
   //}  

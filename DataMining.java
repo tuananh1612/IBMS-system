@@ -42,7 +42,7 @@ public class DataMining {
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void getNextDate(Date date1) {
+	public static void getNextDate(Date date1) {
 		if (date1.getYear() % 4 == 0) {
 			if ((date1.getMonth() == 2) && (date1.getDate() == 29)) {
 				date1.setDate(1);

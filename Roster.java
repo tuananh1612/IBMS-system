@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.ArrayList; 
 
 /* A class that will generate a driver timetable 
- * based on the information it gets from DataMining */
+   * based on the information it gets from DataMining */
 public class Roster {
   
   public Date startDate;                     // Start date of timetable
@@ -15,7 +15,7 @@ public class Roster {
   private int currentStartTime;              // current start of TimeSlot
   private int currentEndTime;                // current end of TimeSlot
   private int noOfDrivers;
-  private int[noOfDrivers][2] minsWorkedSoFar;
+  private int minsWorkedSoFar[][] = new int[noOfDrivers][2];
   private int currentDriver = 0;             // The first driver in availableDrivers
   private int[] drivers;                     // Drivers in this roster
   
@@ -45,18 +45,23 @@ public class Roster {
     int noOfServicesSat = serviceInfoSat[0].length;
     int noOfServicesSun = serviceInfoSun[0].length;
     
+    // All of the services
+    int[] allServicesW = serviceInfoWeekday[0];
+    int[] allServicesSat = serviceInfoSat[0];
+    int[] allServicesSun = serviceInfoSun[0];
+    
     // Durations of all the services
-    int[] durationsW = serviceInfoW[3];
+    int[] durationsW = serviceInfoWeekday[3];
     int[] durationsSat = serviceInfoSat[3];
     int[] durationsSun = serviceInfoSun[3];
     
     // Start times of all the services
-    int[] startTimesW = serviceInfoW[1];
+    int[] startTimesW = serviceInfoWeekday[1];
     int[] startTimesSat = serviceInfoSat[1];
     int[] startTimesSun = serviceInfoSun[1];
     
     // End times of all the services
-    int[] endTimesW = serviceInfoW[2];
+    int[] endTimesW = serviceInfoWeekday[2];
     int[] endTimesSat = serviceInfoSat[2];
     int[] endTimesSun = serviceInfoSun[2];
     
@@ -78,15 +83,15 @@ public class Roster {
     /* WEEKDAYS
      * ********************************************************************/
     for (int weekday = 0; weekday < 5; weekday++)
-      generateDay(noOfServicesW, durationsW, startTimesW, endTimesW);
+      generateDay(noOfServicesW, durationsW, startTimesW, endTimesW, allServicesW);
     
     /* SATURDAY
      * ********************************************************************/
-    generateDay(noOfServicesSat, durationsSat, startTimesSat, endTimesSat);
+    generateDay(noOfServicesSat, durationsSat, startTimesSat, endTimesSat, allServicesSat);
     
     /* SUNDAY
      * ********************************************************************/
-    generateDay(noOfServicesSun, durationsSun, startTimesSun, endTimesSun);
+    generateDay(noOfServicesSun, durationsSun, startTimesSun, endTimesSun, allServicesSun);
   
   } // Roster
   
@@ -101,25 +106,27 @@ public class Roster {
   private void generateDay(int noOfServices, 
                            int[] durations, 
                            int[] startTimes, 
-                           int[] endTimes) {
+                           int[] endTimes,
+                           int[] allServices) {
                                
     int shiftDurationToday = minsWorkedSoFar[currentDriver][0];
     int shiftDurationWeek = minsWorkedSoFar[currentDriver][1];
     
     // The number of services we have managed to assign to one driver
-    noOfServicesAssigned = 0;
-    firstServiceAssigned = 0;
+    int noOfServicesAssigned = 0;
+    int firstServiceAssigned = 0;
     
     for (int currentService = 0; currentService < noOfServices; currentService++) {
       
       // The duration of the this service 
       int durationOfThisService = durations[currentService];
       
-      if (constraintsCheck(availableDrivers[0][currentDriver],
+      if (constraintsCheck(drivers[currentDriver],
                            currentDate,
                            durationOfThisService,
                            shiftDurationToday,
-                           shiftDurationWeek) &&
+                           shiftDurationWeek,
+                           false) &&
           (shiftDurationToday + durationOfThisService) < avgWorkHrs) {
         
         // Increment time worked today
@@ -134,11 +141,11 @@ public class Roster {
       
       else {
         
-        int[noOfSerivesAssigned] services;
+        int services[] = new int[noOfServicesAssigned];
         for (int service = firstServiceAssigned; 
              service < (firstServiceAssigned + noOfServicesAssigned); 
              service++) {
-          services[service] = serviceInfoWeekday[0][service];
+          services[service] = allServices[service];
         } // for every service assigned
         
         TimeSlot thisSlot = new TimeSlot(currentDate,
@@ -146,7 +153,7 @@ public class Roster {
                                          currentEndTime,
                                          drivers[currentDriver],
                                          services);
-        timeslots.add(thisSlot);
+        timeSlots.add(thisSlot);
         
         // Add values to the minsWorkedSoFar matrix
         minsWorkedSoFar[currentDriver][0] += shiftDurationToday;
@@ -201,7 +208,7 @@ public class Roster {
   
   /* Return the ArrayList */
   public ArrayList<TimeSlot> getTimeslots() {
-    return timeslots;
+    return timeSlots;
   }
   
 } // class Roster
