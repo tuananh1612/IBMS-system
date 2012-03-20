@@ -8,10 +8,14 @@ import java.util.ArrayList;
  * based on the information it gets from DataMining */
 public class Roster {
   
-  /* Note: I have no memory of how these class variables had to
-   * be initialized, am I doing it right? */
-  public Date startDate;            // Start date of timetable
+  public Date startDate;                     // Start date of timetable
   public ArrayList<TimeSlot> timeSlots;      // the timeslots making up the timetable
+  
+  private Date currentDate;
+  private int currentStartTime;
+  private int currentEndTime;
+  private int noOfDrivers;
+  private int[noOfDrivers][2] minsWorkedSoFar;
   
   /* Create a timetable object for a specific route
    * 7 days from a required startDate,
@@ -31,21 +35,20 @@ public class Roster {
      * *******************************************************************/ 
    
     // Number of drivers 
-    int noOfDrivers = availableDrivers[0].length();
+    int noOfDrivers = availableDrivers[0].length;
     
     // Number of services 
-    int noOfServicesW = serviceInfoWeekday[0].length();
-    int noOfServicesSat = serviceInfoSat[0].length();
-    int noOfServicesSun = serviceInfoSun[0].length();
+    int noOfServicesW = serviceInfoWeekday[0].length;
+    int noOfServicesSat = serviceInfoSat[0].length;
+    int noOfServicesSun = serviceInfoSun[0].length;
     
     // Time service leaves depot on Monday 
-    int currentStartTime = serviceInfoWeekday[1][0];   
+    currentStartTime = serviceInfoWeekday[1][0];   
     
     // Time earliest service gets back to depot
-    int currentEndTime = serviceInfoWeekday[2][0];
+    currentEndTime = serviceInfoWeekday[2][0];
     
     // Initialize array of time worked so far for each driver
-    int[noOfDrivers][2] minsWorkedSoFar;
     for (int driver = 0; driver < noOfDrivers; driver++) {
       minsWorkedSoFar[driver][0] = 0;   // During this day
       minsWorkedSoFar[driver][1] = 0;   // During this week
@@ -54,9 +57,14 @@ public class Roster {
     // The current date we are on
     currentDate = startDate;
     
-    /* For five weekdays
+    /* WEEKDAYS
      * ********************************************************************/
-    
+    for (int weekday = 0; weekday < 5; weekday++)
+      generateWeekday(noOfDrivers, 
+                      noOfServicesW,
+                      currentStartTime,
+                      currentEndTime,
+                      currentDate);
     /* 
      * Take a driver
      * Try assigning this driver while keeping track of time worked so far
@@ -139,6 +147,12 @@ public class Roster {
      
     } // for five weekdays
     
+    /* SATURDAY
+     * ********************************************************************/
+    
+    /* SUNDAY
+     * ********************************************************************/
+    
   } // Roster
   
   /* Confirm that assigning a timeslot to a driver
@@ -151,16 +165,15 @@ public class Roster {
                                    int minsWorkedSoFarToday,
                                    int minsWorkedSoFarThisWeek,
       				                     boolean breakTaken ) {
-    // Use methods from Constraints class
-    
     if (!Constraints.maximumDrivingTimeDay(minsWorkedSoFarToday, 
-					  iterationDuration))
+			                                     iterationDuration))
        return false;
     else if(!Constraints.maximumDrivingTimeWeek(minsWorkedSoFarThisWeek,
-     						 iterationDuration))
+     						                                iterationDuration))
        return false;
     else if(!Constraints.minsWorkedContinuosly(minsWorkedSoFarToday, 
-                                        iterationDuration, breakTaken)) 
+                                               iterationDuration, 
+                                               breakTaken)) 
        return false;
     else	      
       return true;
