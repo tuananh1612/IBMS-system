@@ -1,3 +1,9 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.ArrayList; 
+
 /* THIS IS VERY MUCH UNFINISHED!! 
  * lol look at all the comments.. anyway they should make clear 
  * what i'm trying to achieve */
@@ -6,7 +12,7 @@
 /* A class that will generate a driver timetable 
  * based on the information it gets from DataMining */
 public class Roster {
-  
+
   /* Just hard coding this at the moment 
    * until we're able to to get it from DataMining 
    * 
@@ -19,52 +25,73 @@ public class Roster {
   /* Note: I have no memory of how these class variables had to
    * be initialized, am I doing it right? */
   public Date startDate;            // Start date of timetable
-  public Date endDate;              // End date of timetable
   public TimeSlot[] timeSlots;      // the timeslots making up the timetable
   
   /* Create a timetable object for a specific service
-   * from a required startDate to an endDate,
+   * 7 days from a required startDate,
    * using only drivers from a specified list 
    * 
    * currently does not assign buses */
   public Roster(Date requiredStartDate, 
-                Date requiredEndDate, 
                 int[][] requiredService,   
                 int[][] availableDrivers) {
+    
     startDate = requiredStartDate;
-    endDate = requiredEndDate;
    
     /* Get info needed to generate timeslots */ 
     
     /* Need to initialize the current start time as 
      * the earliest time on startDate when the bus first leaves the depot */
-    int currentStartTime;   // NEEDS CODE
-    int currentEndTime; 
+    int currentStartTime = requiredService[0][0];    // time service leaves depot on Monday 
+    int currentEndTime;
+   
+    /* Build an array that contains all of the iterations
+     * of this service during the specified dates.
+     * Determining the type of day is easy
+     * since we know that startDate is always a Monday */
+    int[][] iterations;
+    for (int i = 0; i < 7; i++) {
+      /* If it's a weekday */
+      if (i < 6) {
+        getWeekdayIterations();
+        // append to iterations
+      }
+      /* If it's a Saturday */
+      if (i == 6) {
+        getSatIterations();
+        // append to iterations
+      }
+      /* If it's a Sunday */
+      if (i == 7) {
+        getSunIterations();
+        // append to iterations
+      }
+    }
     
-    /* Initialize an array of iterations that correspond to this service
-     * 
-     * It will need to first loop through five weekdays, then Sat and Sun.
-     * All iterations would still be in the same array
-     * and iteratively assigned to drivers later.
-     * 
-     * iteration -- the route a service takes to and from the depot 
-     * (because shifts need to start and end at the depot) */
-    int[] iterations;       // NEEDS CODE
+    /* The number of iterations during this week for this service */
+    int numberOfIterations = iterations.length();
    
     /* 
      * Begin by going through each driver.
      * Try assigning as many iterations to a driver as you can
      * while not breaching the constraints OR
      * exceeding the average working hours OR
-     * until where out of iterations
+     * until we're out of iterations
      * 
      * */
     while (!timetablePopulated) {
+        
+      /* Get the duration of the next iteration in the list */
+      int durationOfNextIteration = iterations[0][0] - iterations[0][1];
+      
       for (int i = 0; i < availableDrivers.length(); i++ ) {
         int shiftDurationSoFar = 0;
+        currentStartTime; 
         while (constraintsCheck && 
-               shiftDurationSoFar < AVERAGE_WORKING_HOURS) {
-          // assign an iteration
+               (shiftDurationSoFar + durationOfNextIteration) <
+                AVERAGE_WORKING_HOURS) {
+          shiftDurationSoFar += durationOfNextIteration;
+          
           // modify currentStartTime, currentEndTime accordingly
         } // while constraints OK and average hrs not exceeded
         
@@ -72,7 +99,7 @@ public class Roster {
         TimeSlot thisSlot = new TimeSlot(currentStartTime, 
                                          currentEndTime,
                                          availableDrivers[i]);
-        timeSlots[i] = thisSlot;
+        timeSlots[] = thisSlot;
       } // for each driver
     } // while the entire timetable has not been populated 
       
@@ -94,7 +121,24 @@ public class Roster {
    * from startDate to endDate have been filled */
   private boolean timetablePopulated() {
     // Have we gone through all of the iterations in the array?
-    return false;
-    // else return true;
+    return true;
+    // else return false;
   } // timetablePopulated
-} // class Roster
+    
+  /* Initialize an array of iterations that correspond to this service
+   * 
+   * iteration -- the route a service takes to and from the depot 
+   * (because shifts need to start and end at the depot) */
+  private int[][] getWeekdayIterations() { 
+    
+  } // getWeekdayIterations
+  
+  private int[][] getSatIterations() { 
+    
+  } // getSatIterations
+  
+  private int[][] getSunIterations() { 
+    
+  } // getSunIterations
+
+} class Roster
