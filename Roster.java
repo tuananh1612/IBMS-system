@@ -32,44 +32,35 @@ public class Roster {
    * using only drivers from a specified list 
    * 
    * currently does not assign buses */
-  public Roster(Date requiredStartDate, 
-                int[][] requiredService,   
-                int[][] availableDrivers) {
-    
+  public Roster(Date requiredStartDate,
+                int serviceID,
+                int[][] serviceInfo,   
+                int[][] availableDrivers,
+                int simultaneousBusesOnRoute) {
+                
     startDate = requiredStartDate;
    
-    /* Get info needed to generate timeslots */ 
+    /* Get info needed to generate timeslots 
+     * *******************************************************************/ 
     
-    /* Need to initialize the current start time as 
-     * the earliest time on startDate when the bus first leaves the depot */
+    /* Initialize the arrays to contain 
+     * the startTimes and endTimes for each iteration
+     * for each bus.
+     * 
+     * Format: 
+     * iterations[bus][startTime][endTime]
+     *    
+     * */
+    int[][][] iterationsWeekday = buildWeekdayIterations(serviceID, 
+                                                         simultaneousBusesOnRoute);
+    int[][][] iterationsSat = buildSatIterations(serviceID, 
+                                                 simultaneousBusesOnRoute);
+    int[][][] iterationsSun = buildSunIterations(serviceID, 
+                                                 simultaneousBusesOnRoute);
+    
     int currentStartTime = requiredService[0][0];    // time service leaves depot on Monday 
     int currentEndTime;
    
-    /* Build an array that contains all of the iterations
-     * of this service during the specified dates.
-     * Determining the type of day is easy
-     * since we know that startDate is always a Monday */
-    int[][] iterations;
-    for (int i = 0; i < 7; i++) {
-      /* If it's a weekday */
-      if (i < 6) {
-        getWeekdayIterations();
-        // append to iterations
-      }
-      /* If it's a Saturday */
-      if (i == 6) {
-        getSatIterations();
-        // append to iterations
-      }
-      /* If it's a Sunday */
-      if (i == 7) {
-        getSunIterations();
-        // append to iterations
-      }
-    }
-    
-    /* The number of iterations during this week for this service */
-    int numberOfIterations = iterations.length();
    
     /* 
      * Begin by going through each driver.
@@ -103,7 +94,7 @@ public class Roster {
       } // for each driver
     } // while the entire timetable has not been populated 
       
-  } // Roster  
+  } // Roster
   
   /* Confirm that assigning a timeslot to a driver
    * will not breach the constraints (TRUE if assignment is allowed)
