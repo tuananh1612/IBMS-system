@@ -4,30 +4,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList; 
 
-/* THIS IS VERY MUCH UNFINISHED!! 
- * lol look at all the comments.. anyway they should make clear 
- * what i'm trying to achieve */
-
-
 /* A class that will generate a driver timetable 
  * based on the information it gets from DataMining */
 public class Roster {
-
-  /* Just hard coding this at the moment 
-   * until we're able to to get it from DataMining 
-   * 
-   * Reminder: we use the concept of an average working time 
-   * to guarantee fairness between all the drivers.
-   * During rostering we try to make the duration of each shift
-   * as close to this as possible */
-  public int AVERAGE_WORKING_HOURS = 5;
   
   /* Note: I have no memory of how these class variables had to
    * be initialized, am I doing it right? */
   public Date startDate;            // Start date of timetable
-  public TimeSlot[] timeSlots;      // the timeslots making up the timetable
+  public ArrayList<TimeSlot> timeSlots;      // the timeslots making up the timetable
   
-  /* Create a timetable object for a specific service
+  /* Create a timetable object for a specific route
    * 7 days from a required startDate,
    * using only drivers from a specified list 
    * 
@@ -36,48 +22,115 @@ public class Roster {
                 int[][] serviceInfoWeekday,
                 int[][] serviceInfoSat,
                 int[][] serviceInfoSun,
-                int[][] availableDrivers) {
+                int[][] availableDrivers,
+                int avgWorkHrs) {
                 
     startDate = requiredStartDate;
    
     /* Get info needed to generate TimeSlots 
      * *******************************************************************/ 
+   
+    // Number of drivers 
+    int noOfDrivers = availableDrivers[0].length();
     
-    int currentStartTime = requiredService[0][0];    // time service leaves depot on Monday 
-    int currentEndTime;
-   
-   
+    // Number of services 
+    int noOfServicesW = serviceInfoWeekday[0].length();
+    int noOfServicesSat = serviceInfoSat[0].length();
+    int noOfServicesSun = serviceInfoSun[0].length();
+    
+    // Time service leaves depot on Monday 
+    int currentStartTime = serviceInfoWeekday[1][0];   
+    
+    // Time earliest service gets back to depot
+    int currentEndTime = serviceInfoWeekday[2][0];
+    
+    // Initialize array of time worked so far for each driver
+    int[noOfDrivers][2] minsWorkedSoFar;
+    for (int driver = 0; driver < noOfDrivers; driver++) {
+      minsWorkedSoFar[driver][0] = 0;   // During this day
+      minsWorkedSoFar[driver][1] = 0;   // During this week
+    } 
+    
+    // The current date we are on
+    currentDate = startDate;
+    
+    /* For five weekdays
+     * ********************************************************************/
+    
     /* 
-     * Begin by going through each driver.
-     * Try assigning as many iterations to a driver as you can
-     * while not breaching the constraints OR
-     * exceeding the average working hours OR
-     * until we're out of iterations
+     * Take a driver
+     * Try assigning this driver while keeping track of time worked so far
+     * If not possible to add more
+     * Take next driver
+     * and add the timeslot object to the ArrayList
      * 
      * */
-    while (!timetablePopulated) {
-        
-      /* Get the duration of the next iteration in the list */
-      int durationOfNextIteration = iterations[0][0] - iterations[0][1];
+    
+    // The first driver in availableDrivers
+    int currentDriver = 0;
+    int shiftDurationToday = minsWorkedSoFar[currentDriver][0];
+    int shiftDurationWeek = minsWorkedSoFar[currentDriver][1];
+    
+    for (int weekday = 0; weekday < 5; weekday++) {
       
-      for (int i = 0; i < availableDrivers.length(); i++ ) {
-        int shiftDurationSoFar = 0;
-        currentStartTime; 
-        while (constraintsCheck && 
-               (shiftDurationSoFar + durationOfNextIteration) <
-                AVERAGE_WORKING_HOURS) {
-          shiftDurationSoFar += durationOfNextIteration;
-          
-          // modify currentStartTime, currentEndTime accordingly
-        } // while constraints OK and average hrs not exceeded
+      // The number of services we have managed to assign to one driver
+      noOfServicesAssigned = 0;
+      
+      for (int currentService = 0; currentService < noOfServices; currentService++) {
         
-        /* Save timeslot to array */
-        TimeSlot thisSlot = new TimeSlot(currentStartTime, 
-                                         currentEndTime,
-                                         availableDrivers[i]);
-        timeSlots[] = thisSlot;
-      } // for each driver
-    } // while the entire timetable has not been populated 
+        // The duration of the this service 
+        int durationOfThisService =  serviceInfoWeekday[currentService][3];
+        
+        if (constraintsCheck(availableDrivers[0][currentDriver],
+                             currentDate,
+                             durationOfThisService,
+                             shiftDurationToday,
+                             shiftDurationWeek) &&
+            (shiftDurationToday + durationOfThisService) < avgWorkHrs) {
+          
+          // Increment time worked today
+          shiftDurationToday += durationOfThisService;
+          
+          // Update end time
+          currentEndTime = serviceInfoWeekday[2][currentService];
+          
+          // Increment noOfServicesAssigned
+          noOfServicesAssigned++;
+        } // if we can assign this service
+        
+        else {
+          // Create a TimeSlot object
+           
+          int[noOfSerivesAssigned] services;
+          for (int service = firstServiceAssigned; service < noOfServicesAssigned; service++) {
+            services[service] = serviceInfoWeekday[0][service];
+          } // for every service assigned
+          
+        } // if we cannot assign this service
+     
+     } // for each service
+       
+    } // for five weekdays
+    
+    
+    
+    for (int i = 0; i < availableDrivers.length(); i++ ) {
+      int shiftDurationSoFar = 0;
+      currentStartTime; 
+      while (constraintsCheck && 
+             (shiftDurationSoFar + durationOfNextIteration) <
+              AVERAGE_WORKING_HOURS) {
+        shiftDurationSoFar += durationOfNextIteration;
+        
+        // modify currentStartTime, currentEndTime accordingly
+      } // while constraints OK and average hrs not exceeded
+      
+      /* Save timeslot to array */
+      TimeSlot thisSlot = new TimeSlot(currentStartTime, 
+                                       currentEndTime,
+                                       availableDrivers[i]);
+      timeSlots[] = thisSlot;
+    } // for each driver
       
   } // Roster
   
