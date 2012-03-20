@@ -33,30 +33,15 @@ public class Roster {
    * 
    * currently does not assign buses */
   public Roster(Date requiredStartDate,
-                int serviceID,
-                int[][] serviceInfo,   
-                int[][] availableDrivers,
-                int simultaneousBusesOnRoute) {
+                int[][] serviceInfoWeekday,
+                int[][] serviceInfoSat,
+                int[][] serviceInfoSun,
+                int[][] availableDrivers) {
                 
     startDate = requiredStartDate;
    
-    /* Get info needed to generate timeslots 
+    /* Get info needed to generate TimeSlots 
      * *******************************************************************/ 
-    
-    /* Initialize the arrays to contain 
-     * the startTimes and endTimes for each iteration
-     * for each bus.
-     * 
-     * Format: 
-     * iterations[bus][startTime][endTime]
-     *    
-     * */
-    int[][][] iterationsWeekday = buildWeekdayIterations(serviceID, 
-                                                         simultaneousBusesOnRoute);
-    int[][][] iterationsSat = buildSatIterations(serviceID, 
-                                                 simultaneousBusesOnRoute);
-    int[][][] iterationsSun = buildSunIterations(serviceID, 
-                                                 simultaneousBusesOnRoute);
     
     int currentStartTime = requiredService[0][0];    // time service leaves depot on Monday 
     int currentEndTime;
@@ -129,4 +114,4 @@ public class Roster {
     // else return false;
   } // timetablePopulated
     
-} class Roster
+} // class Roster
