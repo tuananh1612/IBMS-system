@@ -27,7 +27,8 @@ public class TimeSlot {
   } // Constructor
   
   /* Print out the TimeSlot */
-  private String toString() {
+  @Override
+  public String toString() {
     return "\nDate: " 
             + date.toString() 
             + "\n From: " 
