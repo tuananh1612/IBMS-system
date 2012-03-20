@@ -29,7 +29,14 @@ public class TimeSlot {
   /* Print out the TimeSlot */
   @Override
   public String toString() {
-    return "\nDate: " 
+	  String output = "Date: " + date.toString() + "\tFrom: " + startTime
+	  					+ "\tTo: " + endTime + "\tDriver ID: " + driver
+	  					+ "\tDriving services: ";
+	  for (int i = 0; i < services.length; i ++) {
+		  output += "" + services[i] + ", ";
+	  }
+	  output += "\n";
+    /*return "\nDate: " 
             + date.toString() 
             + "\n From: " 
             + startTime 
@@ -38,7 +45,8 @@ public class TimeSlot {
             + "\nDriver ID: "
             + driver
             + "\n Using services: "
-            + services;
+            + services;*/
+	  return output;
   } // toString
   
 } // TimeSlot

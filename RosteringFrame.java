@@ -155,6 +155,33 @@ public class RosteringFrame extends JFrame implements ActionListener {
 					else {
 						DataMining miner = new DataMining(date1, date2);
 						miner.getDriverList();
+						Roster worker = new Roster(date1, miner.getServiceList65Weekday(), 
+								miner.getServiceList65Saturday(), miner.getServiceList65Sunday(), 
+								miner.getDriverList1(), miner.getAverageWorkingTime());
+						createdRoster = worker.getTimeslots();
+						ArrayList<TimeSlot> tempList;
+						worker = new Roster(date1, miner.getServiceList66Weekday(),
+								miner.getServiceList66Saturday(), miner.getServiceList66Sunday(),
+								miner.getDriverList2(), miner.getAverageWorkingTime());
+						tempList = worker.getTimeslots();
+						for (int i = 0; i < tempList.size(); i ++) {
+							createdRoster.add(tempList.get(i));
+						}
+						worker = new Roster(date1, miner.getServiceList67Weekday(), 
+								miner.getServiceList67Saturday(), miner.getServiceList67Sunday(), 
+								miner.getDriverList3(), miner.getAverageWorkingTime());
+						tempList = worker.getTimeslots();
+						for (int i = 0; i < tempList.size(); i ++) {
+							createdRoster.add(tempList.get(i));
+						}
+						worker = new Roster(date1, miner.getServiceList68Weekday(),
+								miner.getServiceList68Saturday(), miner.getServiceList68Sunday(),
+								miner.getDriverList4(), miner.getAverageWorkingTime());
+						tempList = worker.getTimeslots();
+						for (int i = 0; i < tempList.size(); i ++) {
+							createdRoster.add(tempList.get(i));
+						}
+						writeRoster(createdRoster);
 					}
 				}
 			}

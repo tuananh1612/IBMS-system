@@ -45,6 +45,7 @@ public class ViewFrame extends JFrame implements ActionListener {
 	}
 	
 	public ViewFrame(int ID) {
+		readRoster();
 		driverID = ID;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPanel = new JPanel(new GridBagLayout());
