@@ -6,6 +6,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +27,8 @@ public class ViewFrame extends JFrame implements ActionListener {
 	private JTextField periodField;
 	private JLabel periodLabel;
 	private int driverID;
+	ArrayList<String> createdRoster;
+	String period;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -45,7 +51,8 @@ public class ViewFrame extends JFrame implements ActionListener {
 		GridBagConstraints contraints = new GridBagConstraints();
 		JPanel northPanel = new JPanel();
 		periodField = new JTextField();
-		periodField.setPreferredSize(new Dimension(110, 30));
+		periodField.setText(period);
+		periodField.setPreferredSize(new Dimension(150, 30));
 		periodLabel = new JLabel("Current period:");
 		periodLabel.setPreferredSize(new Dimension(110, 30));
 		northPanel.add(periodLabel);
@@ -58,6 +65,9 @@ public class ViewFrame extends JFrame implements ActionListener {
 		table = new JTextArea(7, 30);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setEditable(false);
+		for (int i = 0; i < createdRoster.size(); i ++) {
+			table.append(createdRoster.get(i) + "\n");
+		}
 		contraints.anchor = GridBagConstraints.CENTER;
 		contraints.gridx = 0;
 		midPanel.add(scrollPane);
@@ -90,5 +100,20 @@ public class ViewFrame extends JFrame implements ActionListener {
 			System.exit(0);
 		}
 		this.dispose();
+	}
+	
+	public void readRoster() {
+		BufferedReader input;
+		String line = "";
+		try {
+			input = new BufferedReader(new FileReader("Roster.txt"));
+			period = input.readLine();
+			while ((line = input.readLine()) != null) {
+				createdRoster.add(line);
+			}
+		}
+		catch (IOException exception) {
+			exception.getMessage();
+		}
 	}
 }

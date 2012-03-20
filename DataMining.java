@@ -13,6 +13,7 @@ public class DataMining {
 	int[][] serviceList41, serviceList42, serviceList43;
 	int[][] serviceTime;
 	int[][] driverList1, driverList2, driverList3, driverList4;
+	int[][] busList;
 	Date startDate, endDate, tempDate;
 	int totalServiceTime;
 	
@@ -83,6 +84,59 @@ public class DataMining {
 				date1.setDate(date1.getDate() + 1);
 			}
 		}
+	}
+	
+	public void calculateBusList() {
+		//database.OpenBusDatabase();
+		int[] busID = BusInfo.getBuses();
+		busList = new int[busID.length][2];
+		for (int i = 0; i < busID.length; i ++) {
+			busList[i][0] = busID[i];
+		}
+		int numBus1, numBus2, numBus3, numBus4;
+		numBus1 = (int)(((double) serviceTime[0][0] / totalServiceTime) * busID.length);
+		numBus2 = (int)(((double) serviceTime[1][0] / totalServiceTime) * busID.length);
+		numBus3 = (int)(((double) serviceTime[2][0] / totalServiceTime) * busID.length);
+		numBus4 = (int)(((double) serviceTime[3][0] / totalServiceTime) * busID.length);
+		int remainBus = busID.length - numBus1 - numBus2 - numBus3 - numBus4;
+		while (remainBus > 0) {
+			if (remainBus % 4 == 1) {
+				numBus1 ++;
+				remainBus --;
+			}
+			else if (remainBus % 4 == 2) {
+				numBus2 ++;
+				remainBus --;
+			}
+			else if (remainBus % 4 == 3) {
+				numBus3 ++;
+				remainBus --;
+			}
+			else {
+				numBus4 ++;
+				remainBus --;
+			}
+		}
+		int index;
+		for (int i = 0; i < numBus1; i ++) {
+			busList[i][1] = 0;
+		}
+		index  = numBus1;
+		for (int i = index; i < index + numBus2; i ++) {
+			busList[i][1] = 1;
+		}
+		index += numBus2;
+		for (int i = index; i < index + numBus3; i ++) {
+			busList[i][1] = 2;
+		}
+		index += numBus3;
+		for (int i = index; i < busID.length; i ++) {
+			busList[i][1] = 3;
+		}
+	}
+	
+	public int[][] getBusList() {
+		return busList;
 	}
 	
 	public void getDriverList() {

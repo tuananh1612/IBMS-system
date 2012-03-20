@@ -12,10 +12,8 @@ public class Main {
         database.openBusDatabase();
         int[] driverIDs = DriverInfo.getDrivers();
         String[] driverNames = new String [driverIDs.length];
-        for (int i=0; i<driverIDs.length; i++){
+        for (int i=0; i<driverIDs.length; i++)
             System.out.println(DriverInfo.getName(driverIDs[i]));
-            System.out.println(DriverInfo.getNumber(driverIDs[i]));
-}
     }
 
 }

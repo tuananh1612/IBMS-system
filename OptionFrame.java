@@ -79,7 +79,9 @@ public class OptionFrame extends JFrame implements ActionListener {
 			nextFrame.setVisible(true);
 		}
 		if (event.getSource() == rostering) {
-			
+			RosteringFrame nextFrame = new RosteringFrame(driverID);
+			nextFrame.setTitle("Create roster");
+			nextFrame.setVisible(true);
 		}
 		if (event.getSource() == report) {
 			ReportFrame nextFrame = new ReportFrame(driverID);
