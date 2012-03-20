@@ -75,6 +75,7 @@ public class Roster {
       
       // The number of services we have managed to assign to one driver
       noOfServicesAssigned = 0;
+      firstServiceAssigned = 0;
       
       for (int currentService = 0; currentService < noOfServices; currentService++) {
         
@@ -101,7 +102,9 @@ public class Roster {
         else {
           
           int[noOfSerivesAssigned] services;
-          for (int service = firstServiceAssigned; service < noOfServicesAssigned; service++) {
+          for (int service = firstServiceAssigned; 
+               service < (firstServiceAssigned + noOfServicesAssigned); 
+               service++) {
             services[service] = serviceInfoWeekday[0][service];
           } // for every service assigned
           
@@ -110,6 +113,8 @@ public class Roster {
                                            currentEndTime,
                                            availableDrivers[0][currentDriver],
                                            services);
+          timeslots.add(thisSlot);
+          
           
           // Add values to the minsWorkedSoFar matrix
           minsWorkedSoFar[currentDriver][0] += shiftDurationToday;
@@ -118,7 +123,10 @@ public class Roster {
           // The start time of the next TimeSlot 
           // is the start time of the next service
           currentStartTime = serviceInfoWeekday[1][currentService+1];
-         
+          
+          // The first service that will be assigned to the next driver
+          firstServiceAssigned += (firstServiceAssigned + noOfServicesAssigned + 1);
+          
           // Take the next driver from the list
           currentDriver++;
           
@@ -127,7 +135,7 @@ public class Roster {
      } // for each service
      
      // Go to the next Date
-     getNextDate(currentDate);
+     DataMining.getNextDate(currentDate);
      
     } // for five weekdays
     
@@ -158,11 +166,9 @@ public class Roster {
       return true;
   } // Constraints
   
-  /* Check whether the all of the slots 
-   * from startDate to endDate have been filled */
-  private boolean timetablePopulated() {
-    // Have we gone through all of the iterations in the array?
-    return true;
-    // else return false;
-  } // timetablePopulated
+  /* Return the ArrayList */
+  public ArrayList<TimeSlot> getTimeslots() {
+    return timeslots;
+  }
+  
 } // class Roster
