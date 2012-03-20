@@ -79,7 +79,7 @@ public class Roster {
       for (int currentService = 0; currentService < noOfServices; currentService++) {
         
         // The duration of the this service 
-        int durationOfThisService =  serviceInfoWeekday[currentService][3];
+        int durationOfThisService = serviceInfoWeekday[currentService][3];
         
         if (constraintsCheck(availableDrivers[0][currentDriver],
                              currentDate,
@@ -99,39 +99,38 @@ public class Roster {
         } // if we can assign this service
         
         else {
-          // Create a TimeSlot object
-           
+          
           int[noOfSerivesAssigned] services;
           for (int service = firstServiceAssigned; service < noOfServicesAssigned; service++) {
             services[service] = serviceInfoWeekday[0][service];
           } // for every service assigned
           
+          TimeSlot thisSlot = new TimeSlot(currentDate,
+                                           currentStartTime,
+                                           currentEndTime,
+                                           availableDrivers[0][currentDriver],
+                                           services);
+          
+          // Add values to the minsWorkedSoFar matrix
+          minsWorkedSoFar[currentDriver][0] += shiftDurationToday;
+          minsWorkedSoFar[currentDriver][1] += minsWorkedSoFar[currentDriver][0];
+          
+          // The start time of the next TimeSlot 
+          // is the start time of the next service
+          currentStartTime = serviceInfoWeekday[1][currentService+1];
+         
+          // Take the next driver from the list
+          currentDriver++;
+          
         } // if we cannot assign this service
      
      } // for each service
-       
+     
+     // Go to the next Date
+     getNextDate(currentDate);
+     
     } // for five weekdays
     
-    
-    
-    for (int i = 0; i < availableDrivers.length(); i++ ) {
-      int shiftDurationSoFar = 0;
-      currentStartTime; 
-      while (constraintsCheck && 
-             (shiftDurationSoFar + durationOfNextIteration) <
-              AVERAGE_WORKING_HOURS) {
-        shiftDurationSoFar += durationOfNextIteration;
-        
-        // modify currentStartTime, currentEndTime accordingly
-      } // while constraints OK and average hrs not exceeded
-      
-      /* Save timeslot to array */
-      TimeSlot thisSlot = new TimeSlot(currentStartTime, 
-                                       currentEndTime,
-                                       availableDrivers[i]);
-      timeSlots[] = thisSlot;
-    } // for each driver
-      
   } // Roster
   
   /* Confirm that assigning a timeslot to a driver
@@ -166,5 +165,4 @@ public class Roster {
     return true;
     // else return false;
   } // timetablePopulated
-    
 } // class Roster
