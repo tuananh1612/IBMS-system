@@ -113,9 +113,21 @@ public class Roster {
                                    Date requiredDate,
                                    int iterationDuration,
                                    int minsWorkedSoFarToday,
-                                   int minsWorkedSoFarThisWeek) {
+                                   int minsWorkedSoFarThisWeek,
+      				   Boolean breakTaken ) {
     // Use methods from Constraints class
-    return true;
+    
+    if (!Constraints.maximumDrivingTimeDay(minsWorkedSoFarToday, 
+					  iterationDuration))
+       return false;
+    else if(!Constraints.maximumDrivingTimeWeek(minsWorkedSoFarThisWeek,
+     						 iterationDuration))
+       return false;
+    else if(!Constraints.minsWorkedContinuosly(minsWorkedSoFarToday, 
+                                        iterationDuration, breakTaken)) 
+       return false;
+    else	      
+      return true;
   } // Constraints
   
   /* Check whether the all of the slots 
