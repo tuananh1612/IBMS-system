@@ -150,7 +150,7 @@ public class Roster {
                                    int iterationDuration,
                                    int minsWorkedSoFarToday,
                                    int minsWorkedSoFarThisWeek,
-      				   Boolean breakTaken ) {
+      				                     boolean breakTaken ) {
     // Use methods from Constraints class
     
     if (!Constraints.maximumDrivingTimeDay(minsWorkedSoFarToday, 
