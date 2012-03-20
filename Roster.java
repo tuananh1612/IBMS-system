@@ -109,10 +109,11 @@ public class Roster {
    * will not breach the constraints (TRUE if assignment is allowed)
    * based on a Driver object, and the date and time
    * of the timeslot required*/
-  private boolean constraintsCheck(Driver driver,
+  private boolean constraintsCheck(int driver,
                                    Date requiredDate,
-                                   int requiredStartTime,
-                                   int requiredEndTime) {
+                                   int iterationDuration,
+                                   int minsWorkedSoFarToday,
+                                   int minsWorkedSoFarThisWeek) {
     // Use methods from Constraints class
     return true;
   } // Constraints
