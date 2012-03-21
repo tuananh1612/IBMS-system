@@ -61,6 +61,8 @@ public class RosteringFrame extends JFrame implements ActionListener {
 		JPanel subNorth2 = new JPanel(new GridBagLayout());
 		createButton = new JButton("Create roster");
 		viewButton = new JButton("View roster");
+		createButton.addActionListener(this);
+		viewButton.addActionListener(this);
 		createButton.setPreferredSize(new Dimension(110, 30));
 		viewButton.setPreferredSize(new Dimension(100, 30));
 		subNorth2.add(createButton);
@@ -132,9 +134,9 @@ public class RosteringFrame extends JFrame implements ActionListener {
 				else if (!checkDate(endDate, endMonth, endYear)) {
 				}
 				else if (!checkDate(startYear, endYear)) {
-				}
+				}/*
 				else if (!checkDate(startDate, endDate)) {
-				}
+				}*/
 				else if (!checkDate(startMonth, endMonth)) {
 				}
 				//startDay = new Date(startYear, startMonth - 1, startDate);
@@ -142,8 +144,8 @@ public class RosteringFrame extends JFrame implements ActionListener {
 				else {
 					endYear -= 1900;
 					startYear -= 1900;
-					endMonth -= 1;
-					startMonth -= 1;
+					//endMonth -= 1;
+					//startMonth -= 1;
 					date1 = new Date(startYear, startMonth - 1, startDate);
 					date2 = new Date(endYear, endMonth - 1, endDate);
 					if (date1.before(database.today())) {
@@ -151,6 +153,9 @@ public class RosteringFrame extends JFrame implements ActionListener {
 					}
 					else if (date2.before(database.today())) {
 						JOptionPane.showMessageDialog(this, "Please select a future date.");
+					}
+					else if (!date1.before(date2)) {
+						JOptionPane.showMessageDialog(this, "Please check the date.");
 					}
 					else {
 						DataMining miner = new DataMining(date1, date2);
@@ -182,6 +187,7 @@ public class RosteringFrame extends JFrame implements ActionListener {
 							createdRoster.add(tempList.get(i));
 						}
 						writeRoster(createdRoster);
+						System.out.println("Finished");
 					}
 				}
 			}

@@ -127,7 +127,7 @@ public class HolidayRequestDay extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if ("OK".equals(event.getActionCommand())) {
 			if (checkEmptyFields()) {
-				JOptionPane.showMessageDialog(this, "Please fill in all fields");
+				
 			}
 			else {
 				startDate = Integer.parseInt(date1.getText());

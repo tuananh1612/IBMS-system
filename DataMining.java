@@ -169,10 +169,12 @@ public class DataMining {
 		        return b[1] - a[1];
 		    }
 		});
-		int numDriver1 = (int)(serviceTime[0][3] / totalServiceTime * driverID.length);
-		int numDriver2 = (int)(serviceTime[1][3] / totalServiceTime * driverID.length);
-		int numDriver3 = (int)(serviceTime[2][3] / totalServiceTime * driverID.length);
+		getServiceList();
+		int numDriver1 = (int)((double) serviceTime[0][3] / totalServiceTime * driverID.length);
+		int numDriver2 = (int)((double) serviceTime[1][3] / totalServiceTime * driverID.length);
+		int numDriver3 = (int)((double) serviceTime[2][3] / totalServiceTime * driverID.length);
 		int numDriver4 = driverID.length - numDriver1 - numDriver2 - numDriver3;
+		//System.out.println(numDriver1 + ", " + numDriver2 + ", " + numDriver3 + ", " + numDriver4);
 		driverList1 = new int[numDriver1][9];
 		driverList2 = new int[numDriver2][9];
 		driverList3 = new int[numDriver3][9];
@@ -207,26 +209,26 @@ public class DataMining {
 		for (int i = index1; i < numDriver1; i ++) {
 			for (int j = 0; j < 9; j ++) {
 				driverList1[i][j] = driverList[count][j];
-				count ++;
 			}
+			count ++;
 		}
 		for (int i = index2; i < numDriver2; i ++) {
 			for (int j = 0; j < 9; j ++) {
 				driverList1[i][j] = driverList[count][j];
-				count ++;
 			}
+			count ++;
 		}
 		for (int i = index3; i < numDriver3; i ++) {
 			for (int j = 0; j < 9; j ++) {
 				driverList1[i][j] = driverList[count][j];
-				count ++;
 			}
+			count ++;
 		}
 		for (int i = index4; i < numDriver4; i ++) {
 			for (int j = 0; j < 9; j ++) {
 				driverList1[i][j] = driverList[count][j];
-				count ++;
 			}
+			count ++;
 		}
 	}
 	
@@ -265,7 +267,7 @@ public class DataMining {
 				TimetableInfo.timetableKind.weekday);
 		serviceTime = new int[4][4];
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; i < 4; j++) {
+			for (int j = 0; j < 4; j++) {
 				serviceTime[i][j] = 0;
 			}
 		}
@@ -278,7 +280,8 @@ public class DataMining {
 		int[] timeList;
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(65, 
-					TimetableInfo.timetableKind.weekday, serviceList11[i][0]);
+					TimetableInfo.timetableKind.weekday, 
+					serviceList11[i][0] - serviceList11[0][0]);
 			serviceList11[i][1] = timeList[0];
 			serviceList11[i][2] = timeList[timeList.length - 1];
 			//serviceList11[i][3] = serviceList11[i][2] - serviceList11[i][1];
@@ -295,7 +298,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(65, 
-					TimetableInfo.timetableKind.saturday, serviceList12[i][0]);
+					TimetableInfo.timetableKind.saturday, 
+					serviceList12[i][0] - serviceList12[0][0]);
 			serviceList12[i][1] = timeList[0];
 			serviceList12[i][2] = timeList[timeList.length - 1];
 			//serviceList12[i][3] = serviceList12[i][2] - serviceList12[i][1];
@@ -312,7 +316,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(65, 
-					TimetableInfo.timetableKind.sunday, serviceList13[i][0]);
+					TimetableInfo.timetableKind.sunday, 
+					serviceList13[i][0] - serviceList13[0][0]);
 			serviceList13[i][1] = timeList[0];
 			serviceList13[i][2] = timeList[timeList.length - 1];
 			//serviceList13[i][3] = serviceList13[i][2] - serviceList13[i][1];
@@ -329,7 +334,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(66, 
-					TimetableInfo.timetableKind.sunday, serviceList21[i][0]);
+					TimetableInfo.timetableKind.weekday, 
+					serviceList21[i][0] - serviceList21[0][0]);
 			serviceList21[i][1] = timeList[0];
 			serviceList21[i][2] = timeList[timeList.length - 1];
 			//serviceList21[i][3] = serviceList21[i][2] - serviceList21[i][1];
@@ -339,14 +345,15 @@ public class DataMining {
 		//Route 66, saturday
 		numberOfService = TimetableInfo.getNumberOfServices(66, 
 				TimetableInfo.timetableKind.saturday);
-		serviceList13 = new int[numberOfService][4];
+		serviceList22 = new int[numberOfService][4];
 		service = TimetableInfo.getServices(66, TimetableInfo.timetableKind.saturday);
 		for (int i = 0; i < service.length; i ++) {
 			serviceList22[i][0] = service[i];
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(66, 
-					TimetableInfo.timetableKind.saturday, serviceList22[i][0]);
+					TimetableInfo.timetableKind.saturday, 
+					serviceList22[i][0] - serviceList22[0][0]);
 			serviceList22[i][1] = timeList[0];
 			serviceList22[i][2] = timeList[timeList.length - 1];
 			//serviceList22[i][3] = serviceList22[i][2] - serviceList22[i][1];
@@ -363,7 +370,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(66, 
-					TimetableInfo.timetableKind.sunday, serviceList23[i][0]);
+					TimetableInfo.timetableKind.sunday, 
+					serviceList23[i][0] - serviceList23[0][0]);
 			serviceList23[i][1] = timeList[0];
 			serviceList23[i][2] = timeList[timeList.length - 1];
 			//serviceList23[i][3] = serviceList23[i][2] - serviceList23[i][1];
@@ -373,14 +381,15 @@ public class DataMining {
 		//Route 67, weekday
 		numberOfService = TimetableInfo.getNumberOfServices(67, 
 				TimetableInfo.timetableKind.weekday);
-		serviceList23 = new int[numberOfService][4];
+		serviceList31 = new int[numberOfService][4];
 		service = TimetableInfo.getServices(67, TimetableInfo.timetableKind.weekday);
 		for (int i = 0; i < service.length; i ++) {
 			serviceList31[i][0] = service[i];
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(67, 
-					TimetableInfo.timetableKind.weekday, serviceList31[i][0]);
+					TimetableInfo.timetableKind.weekday, 
+					serviceList31[i][0] - serviceList31[0][0]);
 			serviceList31[i][1] = timeList[0];
 			serviceList31[i][2] = timeList[timeList.length - 1];
 			//serviceList31[i][3] = serviceList31[i][2] - serviceList31[i][1];
@@ -397,7 +406,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(67, 
-					TimetableInfo.timetableKind.saturday, serviceList32[i][0]);
+					TimetableInfo.timetableKind.saturday, 
+					serviceList32[i][0] - serviceList32[0][0]);
 			serviceList32[i][1] = timeList[0];
 			serviceList32[i][2] = timeList[timeList.length - 1];
 			//serviceList32[i][3] = serviceList32[i][2] - serviceList32[i][1];
@@ -414,7 +424,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(67, 
-					TimetableInfo.timetableKind.sunday, serviceList33[i][0]);
+					TimetableInfo.timetableKind.sunday, 
+					serviceList33[i][0] - serviceList33[0][0]);
 			serviceList33[i][1] = timeList[0];
 			serviceList33[i][2] = timeList[timeList.length - 1];
 			//serviceList33[i][3] = serviceList33[i][2] - serviceList33[i][1];
@@ -431,7 +442,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(68, 
-					TimetableInfo.timetableKind.weekday, serviceList41[i][0]);
+					TimetableInfo.timetableKind.weekday, 
+					serviceList41[i][0] - serviceList41[0][0]);
 			serviceList41[i][1] = timeList[0];
 			serviceList41[i][2] = timeList[timeList.length - 1];
 			serviceList41[i][3] = serviceList41[i][2] - serviceList41[i][1];
@@ -447,7 +459,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(68, 
-					TimetableInfo.timetableKind.saturday, serviceList42[i][0]);
+					TimetableInfo.timetableKind.saturday, 
+					serviceList42[i][0] - serviceList42[0][0]);
 			serviceList42[i][1] = timeList[0];
 			serviceList42[i][2] = timeList[timeList.length - 1];
 			serviceList42[i][3] = serviceList42[i][2] - serviceList42[i][1];
@@ -463,7 +476,8 @@ public class DataMining {
 		}
 		for (int i = 0; i < service.length; i ++) {
 			timeList = TimetableInfo.getServiceTimes(68, 
-					TimetableInfo.timetableKind.sunday, serviceList43[i][0]);
+					TimetableInfo.timetableKind.sunday, 
+					serviceList43[i][0] - serviceList43[0][0]);
 			serviceList43[i][1] = timeList[0];
 			serviceList43[i][2] = timeList[timeList.length - 1];
 			serviceList43[i][3] = serviceList43[i][2] - serviceList43[i][1];
