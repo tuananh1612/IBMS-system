@@ -51,9 +51,9 @@ public class Roster {
     previousDriver = noOfDrivers - 1;
     
     // Number of services 
-    int noOfServicesW = serviceInfoWeekday[0].length;
-    int noOfServicesSat = serviceInfoSat[0].length;
-    int noOfServicesSun = serviceInfoSun[0].length;
+    int noOfServicesW = serviceInfoWeekday.length;
+    int noOfServicesSat = serviceInfoSat.length;
+    int noOfServicesSun = serviceInfoSun.length;
     
     // All of the services
     int[] allServicesW = serviceInfoWeekday[0];
@@ -61,19 +61,37 @@ public class Roster {
     int[] allServicesSun = serviceInfoSun[0];
     
     // Durations of all the services
-    int[] durationsW = serviceInfoWeekday[3];
-    int[] durationsSat = serviceInfoSat[3];
-    int[] durationsSun = serviceInfoSun[3];
+    int durationsW[] = new int[noOfServicesW];
+		for (int i = 0; i < noOfServicesW; i++) 
+			durationsW[i] = serviceInfoWeekday[i][3];
+    int durationsSat[] = new int[noOfServicesSat];
+		for (int j = 0; j < noOfServicesSat; j++) 
+			durationsSat[j] = serviceInfoSat[j][3];
+    int durationsSun[]= new int[noOfServicesSun];
+		for (int k = 0; k < noOfServicesSun; k++) 
+			durationsSun[k] = serviceInfoSun[k][3];
     
     // Start times of all the services
-    int[] startTimesW = serviceInfoWeekday[1];
-    int[] startTimesSat = serviceInfoSat[1];
-    int[] startTimesSun = serviceInfoSun[1];
+    int[] startTimesW = new int[noOfServicesW];
+		for (int i = 0; i < noOfServicesW; i++) 
+			startTimesW[i] = serviceInfoWeekday[i][1];
+    int[] startTimesSat = new int[noOfServicesSat];
+		for (int i = 0; i < noOfServicesSat; i++) 
+			startTimesSat[i] = serviceInfoSat[i][1];
+    int[] startTimesSun = new int[noOfServicesSun];
+		for (int i = 0; i < noOfServicesSun; i++) 
+			startTimesSun[i] = serviceInfoSun[i][1];
     
     // End times of all the services
-    int[] endTimesW = serviceInfoWeekday[2];
-    int[] endTimesSat = serviceInfoSat[2];
-    int[] endTimesSun = serviceInfoSun[2];
+    int[] endTimesW = new int[noOfServicesW];
+		for (int i = 0; i < noOfServicesW; i++) 
+			endTimesW[i] = serviceInfoWeekday[i][1];
+    int[] endTimesSat = new int[noOfServicesSat];
+		for (int i = 0; i < noOfServicesSat; i++) 
+			endTimesSat[i] = serviceInfoSat[i][1];
+    int[] endTimesSun = new int[noOfServicesSun];
+		for (int i = 0; i < noOfServicesSun; i++) 
+			endTimesSun[i] = serviceInfoSun[i][1];
     
     // Time service leaves depot on weekdays
     currentStartTime = startTimesW[0];   
@@ -133,6 +151,9 @@ public class Roster {
     int noOfServicesAssigned = 0;
     int firstServiceAssigned = 0;
 		
+    System.out.println("noOfServicesAssigned: " + noOfServicesAssigned);
+    System.out.println("firstServiceAssigned: " + firstServiceAssigned);
+		
 		// Keep track of breaks
 		int breakDuration[] = new int[noOfDrivers];
 		boolean breakTaken[] = new boolean[noOfDrivers];
@@ -146,6 +167,12 @@ public class Roster {
       // The duration of the this service 
       int durationOfThisService = durations[currentService];
       
+			System.out.println("shiftDurationToday(" + shiftDurationToday 
+												+ ") + durationOfThisService("
+												+ durationOfThisService + ") = "
+												+ (shiftDurationToday + durationOfThisService));
+			System.out.println("avgWorkMins: " + avgWorkHrs);
+			
       if (constraintsCheck(drivers[currentDriver],
                            currentDate,
                            durationOfThisService,
@@ -154,6 +181,7 @@ public class Roster {
                            breakTaken[currentDriver]) &&
           (shiftDurationToday + durationOfThisService) < avgWorkHrs) {
         
+ 			  System.out.println("ASSIGNING SERVICE");
         // Increment time worked today
         shiftDurationToday += durationOfThisService;
         
@@ -162,6 +190,8 @@ public class Roster {
         
         // Increment noOfServicesAssigned
         noOfServicesAssigned++;
+				
+ 			  System.out.println("noOfServicesAssigned after incr: " + noOfServicesAssigned);
 				
 				// If the previous driver has been on break, incr breakDuration
 				if (breakTaken[previousDriver])
@@ -172,6 +202,10 @@ public class Roster {
       /* If we cannot assign this service */
       else {
         
+ 			  System.out.println("ENTERING ELSE");
+ 			  System.out.println("noOfServicesAssigned: " + noOfServicesAssigned);
+ 			  System.out.println("firstServiceAssigned: " + firstServiceAssigned);
+				
         int services[] = new int[noOfServicesAssigned];
         for (int service = firstServiceAssigned; 
              service < (firstServiceAssigned + noOfServicesAssigned); 
@@ -192,11 +226,14 @@ public class Roster {
         minsWorkedSoFar[currentDriver][1] += minsWorkedSoFar[currentDriver][0];
         
         // The start time of the next TimeSlot 
-        // is the start time of the next service
-        currentStartTime = startTimes[currentService+1];
+        // is the start time of the next service 
+				// (only needed if there is a next service..)
+				if (currentService < (noOfServices - 1))
+        	currentStartTime = startTimes[currentService+1];
         
         // The first service that will be assigned to the next driver
         firstServiceAssigned += (firstServiceAssigned + noOfServicesAssigned + 1);
+				noOfServicesAssigned = 0;
         
 				// If the previous driver had been on break 
 				// and the duration of the break has been more than an hour

@@ -69,7 +69,7 @@ public class TestRoster {
 		
 		
 		// The average working hours for each driver
-		int avgWorkHours = 5;
+		int avgWorkHours = 360;
 	
 		// print stuff
 		System.out.println("Number of drivers: " + drivers.length);
