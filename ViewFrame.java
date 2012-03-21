@@ -45,6 +45,7 @@ public class ViewFrame extends JFrame implements ActionListener {
 	}
 	
 	public ViewFrame(int ID) {
+		createdRoster = new ArrayList<String>();
 		readRoster();
 		driverID = ID;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,8 +67,10 @@ public class ViewFrame extends JFrame implements ActionListener {
 		table = new JTextArea(7, 30);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setEditable(false);
-		for (int i = 0; i < createdRoster.size(); i ++) {
-			table.append(createdRoster.get(i) + "\n");
+		if (!createdRoster.isEmpty()) {
+			for (int i = 0; i < createdRoster.size(); i ++) {
+				table.append(createdRoster.get(i) + "\n");
+			}
 		}
 		contraints.anchor = GridBagConstraints.CENTER;
 		contraints.gridx = 0;
