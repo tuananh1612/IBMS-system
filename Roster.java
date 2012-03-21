@@ -40,11 +40,13 @@ public class Roster {
 		// Initialize the timeSlots arraylist
 		timeSlots = new ArrayList<TimeSlot>();
 		
-		// An array of driver ID's
-    drivers = availableDrivers[0];
-		
 		// Number of drivers 
     noOfDrivers = availableDrivers.length;
+		
+		// An array of driver ID's
+    drivers = new int[noOfDrivers];
+		for (int d = 0; d < noOfDrivers; d++) 
+			drivers[d] = availableDrivers[d][0];
     
 		// Current and previous drivers
 		currentDriver = 0;
@@ -163,7 +165,7 @@ public class Roster {
 		}
     
     for (int currentService = 0; currentService < noOfServices; currentService++) {
-      
+     		 
       // The duration of the this service 
       int durationOfThisService = durations[currentService];
       
@@ -172,6 +174,8 @@ public class Roster {
 												+ durationOfThisService + ") = "
 												+ (shiftDurationToday + durationOfThisService));
 			System.out.println("avgWorkMins: " + avgWorkHrs);
+			
+			boolean assignmentSuccessful = false;
 			
       if (constraintsCheck(drivers[currentDriver],
                            currentDate,
@@ -196,7 +200,9 @@ public class Roster {
 				// If the previous driver has been on break, incr breakDuration
 				if (breakTaken[previousDriver])
 					breakDuration[previousDriver] += durationOfThisService;
-					
+				
+				assignmentSuccessful = true;
+				
       } // if we can assign this service
 			
       /* If we cannot assign this service */
@@ -232,7 +238,8 @@ public class Roster {
         	currentStartTime = startTimes[currentService+1];
         
         // The first service that will be assigned to the next driver
-        firstServiceAssigned += (firstServiceAssigned + noOfServicesAssigned + 1);
+        if ((firstServiceAssigned + noOfServicesAssigned + 1) < noOfServices)
+					firstServiceAssigned = (firstServiceAssigned + noOfServicesAssigned + 1);
 				noOfServicesAssigned = 0;
         
 				// If the previous driver had been on break 
