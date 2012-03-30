@@ -24,24 +24,24 @@ public class TestRoster {
 		
 		// Initialize startDate to today
 		Date startDate = Calendar.getInstance().getTime();
-		
+    
 		// Initialize an array of four services
 		int serviceInfoWeekday[][] =
 		{
 		//	 ServiceNumber			StartTime			EndTime			Duration
-			{				1,								700,				730,					30		},
-			{				2,								730,				830,					60		},
-			{				3,								830,				915,					45		},
-			{				4,								915,				945,					30		},
+			{				1,								700,				730,					100		},
+			{				2,								730,				830,					75		},
+			{				3,								830,				915,					120		},
+			{				4,								915,				945,					90		},
 		};
 		
 		int serviceInfoSat[][] =
 		{
 		//	 ServiceNumber			StartTime			EndTime			Duration
 			{				1,								800,				830,					30		},
-			{				2,								830,				930,					60		},
-			{				3,								930,				115,					45		},
-			{				4,								115,				145,					30		},
+			{				2,								830,				930,					90		},
+			{				3,								930,				115,					25		},
+			{				4,								115,				145,					150		},
 		};
 
 		int serviceInfoSun[][] = 
@@ -58,7 +58,7 @@ public class TestRoster {
 			{ 
 			//  ID    HolidaysTaken   M  T  W  T  F  S  S
 				{ 1234,				3,				1, 0, 1, 1, 0, 0, 0	}, 
-				{ 3526,			  0,				0, 0, 0, 0, 0, 0, 0	}, 
+				{ 3526,			  1,				0, 1, 0, 0, 0, 0, 0	}, 
 				{ 1783,			  1,				0, 0, 0, 0, 0, 0, 1	}, 
 				{ 7392,			  2,				0, 0, 0, 0, 1, 1, 0	}, 
 				{ 1024,			  0,				0, 0, 0, 0, 0, 0, 0	}, 
@@ -72,10 +72,29 @@ public class TestRoster {
 		int avgWorkHours = 360;
 	
 		// print stuff
+    System.out.println("INITIAL INFO");
+    System.out.println("StartDate: " + startDate.toString());
 		System.out.println("Number of drivers: " + drivers.length);
 		System.out.println("Number of services: " + serviceInfoSun.length);
-		System.out.println("Today's date: " + startDate.toString());
+		System.out.println("Today's date: " + startDate.toString() + "\n\n");
+    System.out.println("==============================================\n\n");
 		
+    // Generate a random TimeSlot for testing
+    System.out.println("RANDOM TIMESLOT OBJECT:");
+    int testServices[] = { 1, 2 };
+    TimeSlot testTS = new TimeSlot(startDate, 700, 800, 6289, testServices);
+    System.out.println(testTS + "\n\n");
+    System.out.println("==============================================\n\n");
+    
+    // Test whether nextDate works
+    System.out.println("GOING ONE DATE FORWARD");
+    DataMining.getNextDate(startDate);
+    System.out.println(startDate + "\n\n");
+    System.out.println("==============================================\n\n");
+    
+    System.out.println("BEGIN ROSTER\n\n");
+    System.out.println("==============================================\n\n");
+    
 		// Build the roster
 		Roster testRoster = new Roster(startDate,
 																	 serviceInfoWeekday,
