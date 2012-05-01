@@ -33,16 +33,19 @@ public class Constraints
       				       int iterationDuration, 
       				       Boolean breakTaken)
   {
+  
     //if hours worked today is less than 5, the driver can still drive.
-    if((minsWorkedToday + iterationDuration) < 5)
+    if((minsWorkedToday + iterationDuration) <= 300) {
       return true;
+    }
     //if the driving time reaches 5 hours, the driver musst take a break therefore, return false.
-    else if((minsWorkedToday + iterationDuration) == 5 && breakTaken == false)
+    else if((minsWorkedToday + iterationDuration) > 300 && breakTaken == false) {
       return false;
+    }
     //if the number of hours worked is greater than 5, then they are in the second driving period.
-    else if((minsWorkedToday + iterationDuration) > 5  && breakTaken == true)
+    else if((minsWorkedToday + iterationDuration) > 300  && breakTaken == true) {
       return true;
-    
+   } 
     //otherwise something we are outside the constraint so return false.
     else return false;
   }      
