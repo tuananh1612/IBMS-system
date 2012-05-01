@@ -107,4 +107,8 @@ public class DataManager {
 	public int[][] getRouteGraph() {
 		return routeGraph;
 	}
+	
+	public ArrayList<String> getStopNames() {
+		return stopName;
+	}
 }
