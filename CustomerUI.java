@@ -1,5 +1,5 @@
 
-package my.contacteditor;
+//package my.contacteditor;
 import java.sql.Date;
 import javax.swing.JOptionPane;
 
@@ -277,7 +277,7 @@ public class CustomerUI extends javax.swing.JFrame {
             public void run() {
                 
                 new CustomerUI().setVisible(true);
-                //database.openBusDatabase();
+                database.openBusDatabase();
             }
         });
     }
