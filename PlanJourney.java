@@ -10,16 +10,15 @@ public class PlanJourney {
   public PlanJourney(String startStop,
                      String endStop,
                      Date startTime,
-                     int time) {
+                     Date endTime) {
     
     // Get a relevant list of services
-    int stops[] = {startStop, endStop};
-    ArrayList<Integer[]> services = new ArrayList<Integer[]>();
-    services = DataManager.getServicesFor(stops, startTime);
+    // String stops[] = {startStop, endStop};
+    // ArrayList<Integer[]> services = new ArrayList<Integer[]>();
+    // services = DataManager.getServicesFor(stops, startTime);
    
-    // Create a graph with these services
-    ArrayList<BusStop> stopsGraph = new ArrayList<BusStop>();
-    stopsGraph = DataManager.createGraph(services);
+    // Get a graph representing all possible routes
+    int[][] stopsGraph = DataManager.createRouteGraph();
     
     // Find shortest path in the graph
     ShortestPath shortest = new ShortestPath(startStop,
