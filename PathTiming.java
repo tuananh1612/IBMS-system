@@ -21,6 +21,7 @@ public class PathTiming {
 	
 	//Get the duration of the route
 	public int getDuration() {
+		database.openBusDatabase();
 		int index = 0;
 		int[] currentStop = shortestPath.get(index);
 		int[] nextStop = shortestPath.get(index + 1);

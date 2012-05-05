@@ -8,6 +8,7 @@ public class DataManager {
 	public int[][] stopID;
 	
 	public void createRouteGraph() {
+		database.openBusDatabase();
 		int[] routes = BusStopInfo.getRoutes();
 		int[] busStops1 = BusStopInfo.getBusStops(routes[0]);
 		int[] busStops2 = BusStopInfo.getBusStops(routes[1]);
@@ -110,5 +111,9 @@ public class DataManager {
 	
 	public ArrayList<String> getStopNames() {
 		return stopName;
+	}
+	
+	public int[][] getStopID() {
+		return stopID;
 	}
 }

@@ -29,6 +29,7 @@ public class Simulator {
 	//expected within a certain time frame. Run randomizer to get status
 	//and delay time (if needed)
 	public String[][] working() {
+		database.openBusDatabase();
 		stopID = BusStopInfo.findBusStop(areaCode, stopName);
 		//stopID = BusStopInfo.findBusStop("SKP", "Bus Station");
 		//System.out.println(stopID);
