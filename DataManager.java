@@ -7,6 +7,10 @@ public class DataManager {
 	public ArrayList<String> stopName;
 	public int[][] stopID;
 	
+	public DataManager() {
+		
+	}
+	
 	public void createRouteGraph() {
 		database.openBusDatabase();
 		int[] routes = BusStopInfo.getRoutes();
