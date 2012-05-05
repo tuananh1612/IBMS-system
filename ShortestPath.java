@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 /* ShortestPath.java
  * 
@@ -16,21 +18,21 @@ import java.util.Date;
  */
 public class ShortestPath {
   
-  private int[][] stopsInShortest;
+  private ArrayList<Integer> stopsInShortest;
   private int[] timesInShortest;
   private PriorityQueue<QItem> Q;
   
-  public ShortestPath(String startStop,
-                      String endStop,
-                      Date startTime,
-                      Date endTime,
+  public ShortestPath(int startStop,
+                      int endStop,
+                      Date startDate,
+                      int time,
                       int[][] stopsGraph) {
     
     stopsInShortest = findShortestPath(startStop,
                                        endStop,
                                        stopsGraph);
-    timesInShortest = PathTiming.assignTimes(startTime,
-                                             endTime,
+    timesInShortest = PathTiming.assignTimes(startDate,
+                                             time,
                                              stopsInShortest);
   }
   
@@ -91,6 +93,7 @@ public class ShortestPath {
   } // findShortestPath
   
   public int[][] getStops() {
+			
     return stopsInShortest;
   } // getStops
   
