@@ -1,5 +1,5 @@
 
-
+package my.contacteditor;
 import java.awt.EventQueue;
 import java.sql.Date;
 import javax.swing.JOptionPane;
@@ -39,6 +39,8 @@ public class CustomerUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Customer Interface");
@@ -78,11 +80,25 @@ public class CustomerUI extends javax.swing.JFrame {
             }
         });
 
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("DD");
 
         jLabel6.setText("MM");
 
         jLabel7.setText("YYYY");
+
+        jLabel8.setText(":");
+
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,22 +125,29 @@ public class CustomerUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jTextField1)
                         .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel5))
+                            .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jLabel7))
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                                .addComponent(jLabel6))
+                            .addComponent(jTextField7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel7)))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +175,9 @@ public class CustomerUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -202,7 +227,8 @@ public class CustomerUI extends javax.swing.JFrame {
                     enteredDay = Integer.parseInt(jTextField3.getText());
                     enteredMonth = Integer.parseInt(jTextField4.getText());
                     enteredYear = Integer.parseInt(jTextField5.getText());
-                    time = Integer.parseInt(jTextField5.getText());
+                    hours = Integer.parseInt(jTextField6.getText());
+                    minutes = Integer.parseInt(jTextField7.getText());
                 }
                 catch(Exception e){
                     JOptionPane.showMessageDialog(this, "Please enter numerical values for date and time");
@@ -211,7 +237,7 @@ public class CustomerUI extends javax.swing.JFrame {
         
                 
             //check bus stop exists // need to add particular bus stop.
-               int start = BusStopInfo.findAreaByName(startPoint);
+              int start = BusStopInfo.findAreaByName(startPoint);
                if (start == 0 ) {
                     JOptionPane.showMessageDialog(this, "Please give a valid start point.");
                     }     
@@ -219,10 +245,17 @@ public class CustomerUI extends javax.swing.JFrame {
                
                int end = BusStopInfo.findAreaByName(endPoint);
                if (end == 0 ) {
-                    JOptionPane.showMessageDialog(this, "Please give a valid start point.");
+                    JOptionPane.showMessageDialog(this, "Please give a valid end point.");
                     }   
                
+              
+               if (hours > 24 || hours < 1) {
+                    JOptionPane.showMessageDialog(this, "Please give a valid hour");
+                    }   
                
+               if (minutes > 60 || hours < 1) {
+                    JOptionPane.showMessageDialog(this, "Please give a valid minute");
+                    } 
             if(!checkDate(enteredDay, enteredMonth, enteredYear)){}
             else{
             
@@ -232,13 +265,17 @@ public class CustomerUI extends javax.swing.JFrame {
                  if (startDay.before(database.today())) {
                     JOptionPane.showMessageDialog(this, "Please select a future date.");
                     }
-         
+                
+                String temp = hours + "" + minutes;
+                int time = Integer.parseInt(temp);
+                 
                 CustomerUIRoute nextFrame = new CustomerUIRoute(startPoint, endPoint, 
                         enteredDay, enteredMonth, enteredYear, time);
                 nextFrame.showRoute();
                 nextFrame.setVisible(true);
                 this.dispose();
             }
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -253,7 +290,16 @@ public class CustomerUI extends javax.swing.JFrame {
         jTextField4.setText("");
         jTextField5.setText("");
         jTextField6.setText("");
+        jTextField7.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField7ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,6 +399,10 @@ public class CustomerUI extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(this, "Please fill all fields.");
 			return true;
 		}
+                else if (jTextField7.getText().equals("")) {
+			JOptionPane.showMessageDialog(this, "Please fill all fields.");
+			return true;
+		}                
 		else {
 			return false;
 		}
@@ -362,7 +412,7 @@ public class CustomerUI extends javax.swing.JFrame {
         
     private String startPoint, endPoint;
     private int enteredDay, enteredMonth, enteredYear;
-    private int time; 
+    private int hours, minutes; 
     private Date startDay;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -375,6 +425,7 @@ public class CustomerUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
@@ -382,5 +433,6 @@ public class CustomerUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 }
