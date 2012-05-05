@@ -1,10 +1,25 @@
 
-//package my.contacteditor;
+import java.util.Date;
 
 public class CustomerUIRoute extends javax.swing.JFrame {
 
+    private static String start;
+    private static String end;
+    private static int day;
+    private static int month;
+    private static int year;
+    private static int time;
     
-    public CustomerUIRoute() {
+    public CustomerUIRoute(String startPoint, String endPoint, 
+                        int enteredDay, int enteredMonth, int enteredYear, int Intime) {
+        
+        start = startPoint;
+        end = endPoint;
+        day = enteredDay;
+        month = enteredMonth;
+        year = enteredYear;
+        time = Intime;
+        
         initComponents();
     }
 
@@ -139,7 +154,7 @@ public class CustomerUIRoute extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new CustomerUIRoute().setVisible(true);
+                new CustomerUIRoute(start, end, day, month, year, time).setVisible(true);
             }
         });
         
@@ -147,25 +162,44 @@ public class CustomerUIRoute extends javax.swing.JFrame {
     }
     
     public void showRoute(){
-        //DataManager data = new DataManager();
-       // data.createRouteGraph();
-        //dataFound = data.getRouteGraph();
+        DataManager data = new DataManager();
+        data.createRouteGraph();
+        dataFound = data.getRouteGraph();
         
+        Date startDate = new Date(day, month, year);
         
-        //int finishedResults = 0;        
-        //while(finishedResults = 0) {
-                jTextArea1.setText("Take Service  from Bus Stop   at Time    \n");   
-                //for(i = 0; i <    i ++)
-                    jTextArea1.append( "Time: \n" );    //("Time: " + time + "\n"")
+        int [][] journey;
+        PlanJourney newJourney = new PlanJourney(start, end, startDate, time);
+        journey = newJourney.getJourney();
+        int finishedResults = 0;        
+        while(finishedResults == 0) {
+            int i;
+            for(i = 0; i < journey.length; i ++){
+                
+                int stop = journey[i][0];
+                String busStop = BusStopInfo.getFullName(stop);
+                jTextArea1.setText("Take route " + journey[i][1] 
+                                + " from Bus Stop " + busStop 
+                                + " at Time " + journey[i][2] + "\n"); 
+                
+                while(journey[i][1] == journey[i + 1][1]){                    
+                    stop = journey[i][0];
+                    busStop = BusStopInfo.getFullName(stop);                    
+                    i ++;                    
+                    jTextArea1.append( "Time: " + journey[i][2] 
+                                     + " route " + journey[i][1]
+                                     + " is at bus stop " + busStop +"\n" );  
+                }   
                 jTextArea1.append("\n");
 
-                //if( not end  )
+                if(i < journey.length )
                     jTextArea1.append("Change Services\n");
-                //else{
+                else{
                     jTextArea1.append( "Destination Reached \n" );
-                    //finishedResults = 1;
-                //}
-         //}
+                    finishedResults = 1;
+                }
+            }       
+         }
     }
     
     

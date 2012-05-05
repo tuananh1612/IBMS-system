@@ -1,32 +1,16 @@
-/* PlanJourney.java
- * 
- * Main class to connect all of the functionality
- * First creates a graph, then applies a shortest path algorithm
- * to it before adding timing.
- * 
- * TO GET JOURNEY:
- * First construct a PlanJourney object
- * giving it the arguments int startStop, int endStop
- * Date startTime, Date endTime
- * Then get the journey[][] array with getJourney().
- * 
- * See doc http://goo.gl/Ezg7s for details
- * 
- * Person responsible: Elise
- * 
- */
 
-import java.util.ArrayList; 
+import java.util.Date;
+import java.util.ArrayList;
 
 public class PlanJourney {
   
   // Initialize the journey array
   private int[][] journey;
   
-  public PlanJourney(int startStop,
-                     int endStop,
+  public PlanJourney(String startStop,
+                     String endStop,
                      Date startTime,
-                     Date endTime) {
+                     int time) {
     
     // Get a relevant list of services
     int stops[] = {startStop, endStop};
@@ -55,7 +39,7 @@ public class PlanJourney {
   
   } // constructor
   
-  public int[][] getJourney {
+  public int[][] getJourney() {
     return journey;
-  } // getter method
+  } // getter method 
 } // class
