@@ -162,11 +162,12 @@ public class CustomerUIRoute extends javax.swing.JFrame {
     }
     
     public void showRoute(){
-        DataManager data = new DataManager();
+        Date startDate = new Date(day, month, year);
+        
+				DataManager data = new DataManager(startDate);
         data.createRouteGraph();
         dataFound = data.getRouteGraph();
         
-        Date startDate = new Date(day, month, year);
         
         int [][] journey;
         PlanJourney newJourney = new PlanJourney(start, end, startDate, time);
