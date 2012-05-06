@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class DataManager {
@@ -6,9 +7,10 @@ public class DataManager {
 	public int[][] routeGraph;
 	public ArrayList<String> stopName;
 	public int[][] stopID;
+	TimetableInfo.timetableKind kind;
 	
-	public DataManager() {
-		
+	public DataManager(Date requiredDate) {
+		kind = TimetableInfo.timetableKind(requiredDate);
 	}
 	
 	public void createRouteGraph() {
@@ -77,31 +79,40 @@ public class DataManager {
 		}
 		//Mark their connections
 		int temp;
+		int duration;
 		for (int i = 0; i < routeGraph.length; i ++) {
 			for (int j = 0; j < 10; j ++) {
 				if (stopID[i][j] != 0) {
 					if (stopID[i][j] < busStops1[busStops1.length - 1]) {
 						if ((temp = BusStopInfo.getNextStop(stopID[i][j], routes[0])) != 0) {
 							String name = BusStopInfo.getFullName(temp);
-							routeGraph[i][stopName.indexOf(name)] = 1;
+							duration = getDurationToNextStop(routes[0], stopID[i][j], temp);
+							//routeGraph[i][stopName.indexOf(name)] = 1;
+							routeGraph[i][stopName.indexOf(name)] = duration;
 						}
 					}
 					else if (stopID[i][j] < busStops2[busStops2.length - 1]) {
 						if ((temp = BusStopInfo.getNextStop(stopID[i][j], routes[1])) != 0) {
 							String name = BusStopInfo.getFullName(temp);
-							routeGraph[i][stopName.indexOf(name)] = 1;
+							duration = getDurationToNextStop(routes[1], stopID[i][j], temp);
+							//routeGraph[i][stopName.indexOf(name)] = 1;
+							routeGraph[i][stopName.indexOf(name)] = duration;
 						}
 					}
 					else if (stopID[i][j] < busStops3[busStops3.length - 1]) {
 						if ((temp = BusStopInfo.getNextStop(stopID[i][j], routes[2])) != 0) {
 							String name = BusStopInfo.getFullName(temp);
-							routeGraph[i][stopName.indexOf(name)] = 1;
+							duration = getDurationToNextStop(routes[2], stopID[i][j], temp);
+							//routeGraph[i][stopName.indexOf(name)] = 1;
+							routeGraph[i][stopName.indexOf(name)] = duration;
 						}
 					}
 					else {
 						if ((temp = BusStopInfo.getNextStop(stopID[i][j], routes[3])) != 0) {
 							String name = BusStopInfo.getFullName(temp);
-							routeGraph[i][stopName.indexOf(name)] = 1;
+							duration = getDurationToNextStop(routes[3], stopID[i][j], temp);
+							//routeGraph[i][stopName.indexOf(name)] = 1;
+							routeGraph[i][stopName.indexOf(name)] = duration;
 						}
 					}
 				}
@@ -119,5 +130,41 @@ public class DataManager {
 	
 	public int[][] getStopID() {
 		return stopID;
+	}
+	
+	public int getDurationToNextStop(int routeNumber, int start, int end) {
+		//Get the services of the route in a day. Get the service with
+		//both start and end in the list.
+		//Get the time.
+		int[] services = TimetableInfo.getServices(routeNumber, kind);
+		boolean startIsIn = false;
+		boolean endIsIn = false;
+		int[] timingPoint;
+		int[] serviceTime;
+		int serviceNumber = 0;
+		int startIndex = 0;
+		int endIndex = 0;
+		for (int i = 0; i < services.length; i ++) {
+			timingPoint = TimetableInfo.getTimingPoints(routeNumber, 
+					kind, services[i]);
+			for (int j = 0; j < timingPoint.length; j ++) {
+				if (timingPoint[j] == start) {
+					startIsIn = true;
+					startIndex = j;
+				}
+				if (timingPoint[j] == end) {
+					endIsIn = true;
+					endIndex = j;
+				}
+			}
+			if ((startIsIn) && (endIsIn)) {
+				serviceNumber = i;
+				break;
+			}
+		}
+		serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
+				kind, serviceNumber);
+		int duration = serviceTime[endIndex] - serviceTime[startIndex];
+		return duration;
 	}
 }
