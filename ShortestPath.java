@@ -18,7 +18,7 @@ import java.util.ListIterator;
  */
 public class ShortestPath {
   
-  private ArrayList<Integer> stopsInShortest;
+  private ArrayList<int[]> stopsAndRoutesInShortest;
   private int[] timesInShortest;
   private PriorityQueue<QItem> Q;
   
@@ -28,12 +28,18 @@ public class ShortestPath {
                       int time,
                       int[][] stopsGraph) {
     
-    stopsInShortest = findShortestPath(startStop,
-                                       endStop,
-                                       stopsGraph);
-    timesInShortest = PathTiming.assignTimes(startDate,
-                                             time,
-                                             stopsInShortest);
+    ArrayList<Integer> stopsInShortest = findShortestPath(startStop,
+                                         endStop,
+                                         stopsGraph);
+	  int[] routesInShortest = assignRoutes(stopsInShortest);
+		PathTiming timing = new PathTiming(stopsAndRoutesInShortest,
+																			 startDate,
+                                       time);
+		timing.getTiming();
+		
+		timesInShortest = timing.getTimeArray();
+		stopsAndRoutesInShortest = saveStopsAndRoutes(stopsInShortest, 
+																									timesInShortest);
   }
   
   /* Naive Dijkstra's to find shortest path */
@@ -91,10 +97,36 @@ public class ShortestPath {
     
     return seq;
   } // findShortestPath
+	
+	/* Assign route numbers to shortest path of stop ID-s */
+	private int[] assignRoutes(ArrayList<Integer> stops) {
+		return new int[stops.size()];	
+	} // assignRoutes
   
+	/* Save stops and routes into single ArrayList */
+	private ArrayList<int[]> saveStopsAndRoutes(ArrayList<Integer> stops, 
+																							int[] routes) {
+		ArrayList<int[]> stopsAndRoutes = new ArrayList<int[]>();
+		int len = stops.size();
+		for (int i = 0; i < len; i++) {
+			int stop = stops.get(i);
+			int[] item = {stop, routes[i]};
+			stopsAndRoutes.add(item);
+		} // for
+		return stopsAndRoutes;
+	} // saveStopsAndRoutes
+	
+	/* Convert the ArrayList of stops and routes into a regular array
+	 * and return it */
   public int[][] getStops() {
-			
-    return stopsInShortest;
+		int len = stopsAndRoutesInShortest.size();
+		int[][] stopsAndRoutes = new int[len][2];
+		for (int i = 0; i < len; i++) {
+			int[] thisItem = stopsAndRoutesInShortest.get(i);
+			stopsAndRoutes[i][0] = thisItem[0];
+			stopsAndRoutes[i][1] = thisItem[1];
+		}
+    return stopsAndRoutes;
   } // getStops
   
   public int[] getTimes() {

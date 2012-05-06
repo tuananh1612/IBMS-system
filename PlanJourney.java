@@ -12,15 +12,10 @@ public class PlanJourney {
                      Date startDate,
                      int time) {
     
-    // Get a relevant list of services
-    // String stops[] = {startStop, endStop};
-    // ArrayList<Integer[]> services = new ArrayList<Integer[]>();
-    // services = DataManager.getServicesFor(stops, startTime);
-   
     // Get a graph representing all possible routes
 		DataManager manager = new DataManager("Dave");
 		manager.createRouteGraph();
-    int[][] stopsGraph = DataManager.getRouteGraph();
+    int[][] stopsGraph = manager.getRouteGraph();
     
     // Find shortest path in the graph
     ShortestPath shortest = new ShortestPath(startStop,
