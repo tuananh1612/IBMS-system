@@ -61,10 +61,11 @@ public class PathTiming {
 	
 	public void updateTimeArray1Route(int routeNumber, int start, 
 									int end, int currentIndex) {
-		int[] sequence = BusStopInfo.getBusStops(routeNumber);
-		int startLocation = 0;
-		int endLocation = 0;
+		//int[] sequence = BusStopInfo.getBusStops(routeNumber);
+		int startLocation = start;
+		int endLocation = end;
 		//Get the index of start and end points in the route sequence
+		/*
 		for (int i = 0; i < sequence.length; i ++) {
 			if (start == sequence[i]) {
 				startLocation = i;
@@ -73,6 +74,7 @@ public class PathTiming {
 				endLocation = i;
 			}
 		}
+		*/
 		//Get the services time and compare to get the service number.
 		int[] servicesList = TimetableInfo.getServices(routeNumber, kind);
 		int serviceNumber = 0;
@@ -85,10 +87,26 @@ public class PathTiming {
 			currentTime = timeArray[currentIndex * 2 - 1];
 		}
 		int[] serviceTime;
+		int[] timingPoint;
 		for (int i = 0; i < servicesList.length; i ++) {
 			serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
 					kind, servicesList[i]);
-			if (serviceTime[startLocation] >= currentTime) {
+			timingPoint = TimetableInfo.getTimingPoints(routeNumber, 
+					kind, servicesList[i]);
+			//Check if the start point is in the timingPoint array
+			boolean startIsIn = false;
+			boolean endIsIn = false;
+			for (int j = 0; j < timingPoint.length; j ++) {
+				if (timingPoint[j] == start) {
+					startIsIn = true;
+					startLocation = j;
+				}
+				if (timingPoint[j] == end) {
+					endIsIn = true;
+					endLocation = j;
+				}
+			}
+			if ((startIsIn) && (endIsIn)) {
 				serviceNumber = servicesList[i];
 				break;
 			}

@@ -101,6 +101,17 @@ public class TimetableInfo
     return database.busDatabase.select_ids("time", source, "service", service, "time");
   }
   
+  //Get the timing point for a serviceNumber, with given route, date.
+  public static int[] getTimingPoints(int route, timetableKind kind, int serviceNumber)
+  {
+    if (route == 0) throw new InvalidQueryException("Nonexistent route");
+    int[] service_ids      = getServices(route, kind);
+    int   numberOfServices = service_ids.length;
+    if (serviceNumber < 0 || serviceNumber >=  numberOfServices) throw new InvalidQueryException("Invalid service number " + serviceNumber);
+    int service = service_ids[serviceNumber];
+    String source = database.join("timetable_line", "service", "service");
+    return database.busDatabase.select_ids("timing_point", source, "service", service, "time");
+  }
   /**
    * Get the service times on a given route for a givrn date
    * for a particular service. This method along with the methods to
