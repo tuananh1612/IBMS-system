@@ -173,11 +173,15 @@ public class ShortestPath {
 	private ArrayList<int[]> saveStopsAndRoutes(ArrayList<Integer> stops, 
 																							int[] routes) {
 		ArrayList<int[]> stopsAndRoutes = new ArrayList<int[]>();
-		int len = stops.size();
+		int len = routes.length;
+		int currentStop = 0;
 		for (int i = 0; i < len; i++) {
-			int stop = stops.get(i);
+			int stop = stops.get(currentStop);
 			int[] item = {stop, routes[i]};
 			stopsAndRoutes.add(item);
+			// Only update currentStop if the route stays the same
+			if (i < len - 1 && routes[i] == routes[i+1])
+				currentStop++;
 		} // for
 		return stopsAndRoutes;
 	} // saveStopsAndRoutes
