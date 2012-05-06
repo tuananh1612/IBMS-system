@@ -25,12 +25,12 @@ public class PlanJourney {
 		ArrayList<String> StringMap = manager.getStopNames();
 		
 		int[] stringIndexes = findStringIndexes(StringMap, startStop, endStop);
-		int startStopInt = IDmap[stringIndexes[0]][0];
-		int endStopInt = IDmap[stringIndexes[1]][0];
+		int startStopGraphIndex = stringIndexes[0];
+		int endStopGraphIndex = stringIndexes[1];
 		
     // Find shortest path in the graph
-    ShortestPath shortest = new ShortestPath(startStopInt,
-                                             endStopInt,
+    ShortestPath shortest = new ShortestPath(startStopGraphIndex,
+                                             endStopGraphIndex,
                                              startDate,
                                              time,
                                              stopsGraph);
