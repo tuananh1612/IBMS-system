@@ -32,14 +32,15 @@ public class ShortestPath {
                                          endStop,
                                          stopsGraph);
 	  int[] routesInShortest = assignRoutes(stopsInShortest);
+		
+		stopsAndRoutesInShortest = saveStopsAndRoutes(stopsInShortest, 
+																									timesInShortest);
+		
 		PathTiming timing = new PathTiming(stopsAndRoutesInShortest,
 																			 startDate,
                                        time);
 		timing.getTiming();
-		
 		timesInShortest = timing.getTimeArray();
-		stopsAndRoutesInShortest = saveStopsAndRoutes(stopsInShortest, 
-																									timesInShortest);
   }
   
   /* Naive Dijkstra's to find shortest path */
@@ -75,9 +76,9 @@ public class ShortestPath {
       
       /* Go through neighbors of u */
       for (int n = 0; n < graphsize; n++) {
-        if (graph[u][n] == 1) {
+        if (graph[u][n] != 0) {
           int v = n;
-          int alt = distance[u] + 1;
+          int alt = distance[u] + graph[u][n];
           if (alt < distance[v]) {
             distance[v] = alt;
             previous[v] = u;
@@ -100,8 +101,73 @@ public class ShortestPath {
 	
 	/* Assign route numbers to shortest path of stop ID-s */
 	private int[] assignRoutes(ArrayList<Integer> stops) {
-		return new int[stops.size()];	
+		int noOfStops = stops.size();
+		ArrayList<Integer> pathRoutes = new ArrayList<Integer>();
+		
+		// For each stop, get the routes which visit it
+		ArrayList<int[]> routes = new ArrayList<int[]>();
+		for (int i = 0; i < noOfStops; i++) 
+			routes.add(BusStopInfo.getRoutes(stops.get(i)));
+		
+		// Begin assigning from the first stop
+		int currentStop = 0;
+		int onStop = 1;
+		// While more stops exist
+		
+		while (onStop <= noOfStops) {
+			int[] routesVisitingThisStop = routes.get(onStop - 1);
+			int longestRunningRoute = routesVisitingThisStop[0];
+			int maxNoOfStops = 0;
+			
+			// For each route of this stop
+			for (int r = 0; r < routesVisitingThisStop.length; r++) {
+				
+				// Check how far we can go
+				int runsNoOfStops = 1;
+				int nextStop = currentStop + 1;
+				
+				if (nextStop <= noOfStops) {
+					int[] routesVisitingNextStop = routes.get(nextStop);
+					while (sameRouteAvailable(routesVisitingThisStop[r],
+																		routesVisitingNextStop)
+								 && nextStop <= noOfStops) {
+						runsNoOfStops++;
+						nextStop++;
+						routesVisitingNextStop = routes.get(nextStop);
+					} // while
+				} 
+				
+				// Update max
+				if (runsNoOfStops > maxNoOfStops) {
+					maxNoOfStops = runsNoOfStops;
+					longestRunningRoute = routesVisitingThisStop[r];
+				} 
+			} // for
+			
+			// Save this route to pathRoutes for each stop it reaches
+			// pathRoutes will have one extra item for each time we change routes
+			for (int s = 0; s < maxNoOfStops; s++)
+				pathRoutes.add(longestRunningRoute);
+			
+			// Update onStop
+			onStop += (maxNoOfStops - 1);
+		} // while
+		
+		int[] pathRoutesArray = new int[pathRoutes.size()];
+		Iterator<Integer> iterator = pathRoutes.iterator();
+		for (int i = 0; i < pathRoutesArray.length; i++)
+			pathRoutesArray[i] = iterator.next().intValue();
+		return pathRoutesArray;	
 	} // assignRoutes
+	
+	/* Check whether a given route exists in a list of routes */
+	private boolean sameRouteAvailable(int route, int[] others) {
+		for (int i = 0; i < others.length; i++) {
+			if (route == others[i])
+				return true;
+		}	
+		return false;	
+	} // sameRouteAvailable
   
 	/* Save stops and routes into single ArrayList */
 	private ArrayList<int[]> saveStopsAndRoutes(ArrayList<Integer> stops, 

@@ -13,7 +13,7 @@ public class PlanJourney {
                      int time) {
     
     // Get a graph representing all possible routes
-		DataManager manager = new DataManager("Dave");
+		DataManager manager = new DataManager(startDate);
 		manager.createRouteGraph();
     int[][] stopsGraph = manager.getRouteGraph();
     
