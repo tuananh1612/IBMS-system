@@ -7,25 +7,21 @@ public class PlanJourney {
   // Initialize the journey array
   private int[][] journey;
   
-  public PlanJourney(String startStop,
-                     String endStop,
-                     Date startTime,
+  public PlanJourney(int startStop,
+                     int endStop,
+                     Date startDate,
                      int time) {
     
-    // Get a relevant list of services
-    int stops[] = {startStop, endStop};
-    ArrayList<Integer[]> services = new ArrayList<Integer[]>();
-    services = DataManager.getServicesFor(stops, startTime);
-   
-    // Create a graph with these services
-    ArrayList<BusStop> stopsGraph = new ArrayList<BusStop>();
-    stopsGraph = DataManager.createGraph(services);
+    // Get a graph representing all possible routes
+		DataManager manager = new DataManager("Dave");
+		manager.createRouteGraph();
+    int[][] stopsGraph = manager.getRouteGraph();
     
     // Find shortest path in the graph
     ShortestPath shortest = new ShortestPath(startStop,
                                              endStop,
-                                             startTime,
-                                             endTime,
+                                             startDate,
+                                             time,
                                              stopsGraph);
     int[][] stopsInShortest = shortest.getStops();
     int[] timesInShortest = shortest.getTimes();
