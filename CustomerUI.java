@@ -1,7 +1,9 @@
 
+package my.contacteditor;
 import java.awt.EventQueue;
 import java.sql.Date;
 import javax.swing.JOptionPane;
+import java.lang.Math;
 
 public class CustomerUI extends javax.swing.JFrame {
 
@@ -221,13 +223,13 @@ public class CustomerUI extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Please enter text for start and end points.");                    
                     }
             
-            
+               double doubleMinutes = 0;
                 try{
                     enteredDay = Integer.parseInt(jTextField3.getText());
                     enteredMonth = Integer.parseInt(jTextField4.getText());
                     enteredYear = Integer.parseInt(jTextField5.getText());
                     hours = Integer.parseInt(jTextField6.getText());
-                    minutes = Integer.parseInt(jTextField7.getText());
+                    doubleMinutes = Integer.parseInt(jTextField7.getText());
                 }
                 catch(Exception e){
                     JOptionPane.showMessageDialog(this, "Please enter numerical values for date and time");
@@ -255,6 +257,8 @@ public class CustomerUI extends javax.swing.JFrame {
                if (minutes > 60 || hours < 1) {
                     JOptionPane.showMessageDialog(this, "Please give a valid minute");
                     } 
+               
+               minutes = (int)(doubleMinutes/60)* 100;
             if(!checkDate(enteredDay, enteredMonth, enteredYear)){}
             else{
             
@@ -411,7 +415,7 @@ public class CustomerUI extends javax.swing.JFrame {
         
     private String startPoint, endPoint;
     private int enteredDay, enteredMonth, enteredYear;
-    private int hours, minutes; 
+    private int hours,minutes; 
     private Date startDay;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -1,4 +1,5 @@
 
+package my.contacteditor;
 import java.util.Date;
 
 public class CustomerUIRoute extends javax.swing.JFrame {
@@ -162,12 +163,11 @@ public class CustomerUIRoute extends javax.swing.JFrame {
     }
     
     public void showRoute(){
-        Date startDate = new Date(day, month, year);
-        
-				DataManager data = new DataManager(startDate);
+        DataManager data = new DataManager();
         data.createRouteGraph();
         dataFound = data.getRouteGraph();
         
+        Date startDate = new Date(day, month, year);
         
         int [][] journey;
         PlanJourney newJourney = new PlanJourney(start, end, startDate, time);
