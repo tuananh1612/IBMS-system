@@ -25,12 +25,16 @@ public class PlanJourney {
                                              stopsGraph);
     int[][] stopsInShortest = shortest.getStops();
     int[] timesInShortest = shortest.getTimes();
+		
+		/* Use the StopID array from DataManager
+		 * to map the graph ID-s to the correct bus stops */
+		int[][] IDmap = manager.getStopID();
     
     // Populate journey[][]
     for (int i = 0; i < stopsInShortest.length; i++) {
-      journey[i][0] = stopsInShortest[i][0];
-      journey[i][1] = stopsInShortest[i][1];
-      journey[i][2] = timesInShortest[i];
+      journey[i][0] = IDmap[stopsInShortest[i][0]][0];
+      journey[i][1] = IDmap[stopsInShortest[i][1]][0];
+      journey[i][2] = IDmap[timesInShortest[i]][0];
     }
   
   } // constructor
