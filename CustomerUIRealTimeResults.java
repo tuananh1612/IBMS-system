@@ -1,8 +1,7 @@
 
-
 import java.util.Date;
 
-public class CustomerUIRoute extends javax.swing.JFrame {
+public class CustomerUIRealTimeResults extends javax.swing.JFrame {
 
     private static String start;
     private static String end;
@@ -11,11 +10,10 @@ public class CustomerUIRoute extends javax.swing.JFrame {
     private static int year;
     private static int time;
     
-    public CustomerUIRoute(String startPoint, String endPoint, 
-                        int enteredDay, int enteredMonth, int enteredYear, int Intime) {
+    public CustomerUIRealTimeResults(String startPoint, int enteredDay, 
+                        int enteredMonth, int enteredYear, int Intime) {
         
         start = startPoint;
-        end = endPoint;
         day = enteredDay;
         month = enteredMonth;
         year = enteredYear;
@@ -40,7 +38,7 @@ public class CustomerUIRoute extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Planned Journey");
+        setTitle("Real Time Results");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -108,7 +106,7 @@ public class CustomerUIRoute extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        CustomerUI nextFrame = new CustomerUI();
+        CustomerRealTimeUI nextFrame = new CustomerRealTimeUI();
 	nextFrame.setVisible(true);
 	this.dispose();
 
@@ -155,7 +153,7 @@ public class CustomerUIRoute extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new CustomerUIRoute(start, end, day, month, year, time).setVisible(true);
+                new CustomerUIRealTimeResults(start, day, month, year, time).setVisible(true);
             }
         });
         
@@ -166,46 +164,57 @@ public class CustomerUIRoute extends javax.swing.JFrame {
         
         Date startDate = new Date(day, month, year);
         
-        DataManager data = new DataManager(startDate);
-        data.createRouteGraph();
-        dataFound = data.getRouteGraph();
+        int area = BusStopInfo.findAreaByName(start);
+        areaCode = BusStopInfo.getAreaCode(area);       
         
         
-        int [][] journey;
-        PlanJourney newJourney = new PlanJourney(start, end, startDate, time);
-        journey = newJourney.getJourney();
-        int finishedResults = 0;        
-        while(finishedResults == 0) {
-            int i;
-            for(i = 0; i < journey.length; i ++){
+        Simulator simulator = new Simulator(areaCode, start, time, startDate);
+        
+        String [][] journey;
+                                                                           //PlanJourney newJourney = new PlanJourney(start, end, startDate, time);
+        journey = simulator.working();
+        
+        int i;
+        for(i = 0; i < journey.length; i ++){
+        
+            if(journey[i][0] == "normal")
+              jTextArea1.setText("There is no delay for this service \n" 
+                      +"The next Service is due at " + journey[1][3] + "\n");
+            
+            else{
+                if(journey[i][1] == "broken")
+                  jTextArea1.setText("This bus has broken down \n" 
+                      +"The next Service is due at " + journey[i][3] + "\n"
+                      + "We are sorry for any inconvenience this may cause");  
+               
+                if(journey[i][1] == "clouded wind shield" || journey[i][1] == "road closure")
+                  jTextArea1.setText("This service has been delayed due to a " 
+                          + journey[i][1] +  " by " + journey[i][2] + " minutes \n" 
+                      + "The next Service is due at " + journey[i][3] + "\n"
+                      + "We are sorry for any inconvenience this may cause"); 
                 
-                int stop = journey[i][0];
-                String busStop = BusStopInfo.getFullName(stop);
-                jTextArea1.setText("Take route " + journey[i][1] 
-                                + " from Bus Stop " + busStop 
-                                + " at Time " + journey[i][2] + "\n"); 
+                if(journey[i][1] == "extreme weather condition")
+                  jTextArea1.setText("This service has been delayed due to extreme weather conditions by " 
+                           + journey[i][2] + " minutes \n" 
+                      + "The next Service is due at " + journey[i][3] + "\n"
+                      + "We are sorry for any inconvenience this may cause"); 
                 
-                while(journey[i][1] == journey[i + 1][1]){                    
-                    stop = journey[i][0];
-                    busStop = BusStopInfo.getFullName(stop);                    
-                    i ++;                    
-                    jTextArea1.append( "Time: " + journey[i][2] 
-                                     + " route " + journey[i][1]
-                                     + " is at bus stop " + busStop +"\n" );  
-                }   
-                jTextArea1.append("\n");
-
-                if(i < journey.length )
-                    jTextArea1.append("Change Services\n");
-                else{
-                    jTextArea1.append( "Destination Reached \n" );
-                    finishedResults = 1;
-                }
-            }       
-         }
+                
+            }
+            
+            
+            
+        }
+        
+        
+                         
+                   
+                
+                 
+         
     }
     
-    
+    private String areaCode;
     private int[][] dataFound;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
