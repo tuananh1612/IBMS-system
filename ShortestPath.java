@@ -18,9 +18,9 @@ import java.util.ListIterator;
  */
 public class ShortestPath {
   
-  private ArrayList<int[]> stopsAndRoutesInShortest;
-  private int[] timesInShortest;
-  private PriorityQueue<QItem> Q;
+  private static ArrayList<int[]> stopsAndRoutesInShortest;
+  private static int[] timesInShortest;
+  private static PriorityQueue<QItem> Q;
   
   public ShortestPath(int startStop,
                       int endStop,
@@ -28,13 +28,15 @@ public class ShortestPath {
                       int time,
                       int[][] stopsGraph) {
     
-    ArrayList<Integer> stopsInShortest = findShortestPath(startStop,
-                                         endStop,
-                                         stopsGraph);
+    ArrayList<Integer> stopsInShortest = new ArrayList<Integer>();
+		stopsInShortest = findShortestPath(startStop,
+                                       endStop,
+                                       stopsGraph);
 	  int[] routesInShortest = assignRoutes(stopsInShortest);
 		
+		stopsAndRoutesInShortest = new ArrayList<int[]>();
 		stopsAndRoutesInShortest = saveStopsAndRoutes(stopsInShortest, 
-																									timesInShortest);
+																									routesInShortest);
 		
 		PathTiming timing = new PathTiming(stopsAndRoutesInShortest,
 																			 startDate,
