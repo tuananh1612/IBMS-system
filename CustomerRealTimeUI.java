@@ -299,7 +299,7 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CustomerUI frame = new CustomerUI();
+					CustomerRealTimeUI frame = new CustomerRealTimeUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
