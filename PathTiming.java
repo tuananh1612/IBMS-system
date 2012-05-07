@@ -96,10 +96,12 @@ public class PathTiming {
 		int[] serviceTime;
 		int[] timingPoint;
 		for (int i = 0; i < servicesList.length; i ++) {
-			serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
-					kind, servicesList[i]);
-			timingPoint = TimetableInfo.getTimingPoints(routeNumber, 
-					kind, servicesList[i]);
+			//serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
+			//		kind, servicesList[i]);
+			//timingPoint = TimetableInfo.getTimingPoints(routeNumber, 
+			//		kind, servicesList[i]);
+			serviceTime = TimetableInfo.getServiceTimes(routeNumber, kind, i);
+			timingPoint = TimetableInfo.getTimingPoints(routeNumber, kind, i);
 			//Check if the start point is in the timingPoint array
 			boolean startIsIn = false;
 			boolean endIsIn = false;
@@ -116,7 +118,8 @@ public class PathTiming {
 				}
 			}
 			if ((startIsIn) && (endIsIn)) {
-				serviceNumber = servicesList[i];
+				//serviceNumber = servicesList[i];
+				serviceNumber = i;
 				break;
 			}
 		}
@@ -241,8 +244,9 @@ public class PathTiming {
 			//Check if there is a service run from start to end
 			int[] services = TimetableInfo.getServices(routeNumber, kind);
 			for (int i = 0; i < services.length; i ++) {
-				int[] sequence = TimetableInfo.getTimingPoints(routeNumber, 
-						kind, services[i]);
+				//int[] sequence = TimetableInfo.getTimingPoints(routeNumber, 
+				//		kind, services[i]);
+				int[] sequence = TimetableInfo.getTimingPoints(routeNumber, kind, i);
 				startIndex = start;
 				found = false;
 				for (int k = 0; k < sequence.length; k ++) {
