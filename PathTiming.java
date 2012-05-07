@@ -9,9 +9,9 @@ public class PathTiming {
 
 	public Date startTime;
 	public int hour;
-	public ArrayList<int[]> shortestPath;
-	public ArrayList<int[]> workingPath;
-	public ArrayList<int[]> backUpPath;
+	public static ArrayList<int[]> shortestPath;
+	public static ArrayList<int[]> workingPath;
+	public static ArrayList<int[]> backUpPath;
 	//The format of int array in shortestPath is 2 element: 
 	//the stop and the route use that number(?)
 	public int numberOfNodes;
