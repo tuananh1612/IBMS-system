@@ -54,13 +54,13 @@ public class Simulator {
 		//Run the randomizer. Assign status. Output.
 		int statusIndex;
 		//The serviceStatus array is a 2-d array. It contain status (normal or delayed)
-		//as the first element, the second element is the reason and the last is
-		//the delayed time.
+		//as the first element, the second element is the reason, the third is
+		//the delayed time, and the last is the estimated time.
 		//The max time is currently set as 20 min. This is represented as 33 in the
 		//database. (I'm not sure about this representation. The last digits in the
 		//database run up 97 I think, so I think they run from 00 to 99, hence the
 		//format here.
-		String[][] serviceStatus = new String[servicesNumber.size()][3];
+		String[][] serviceStatus = new String[servicesNumber.size()][4];
 		for (int i = 0; i < serviceStatus.length; i ++) {
 			statusIndex = (int)(Math.random() * 10);
 			serviceStatus[i][0] = status[statusIndex];
@@ -69,14 +69,18 @@ public class Simulator {
 				serviceStatus[i][1] = subStatus[statusIndex];
 				if (statusIndex == 0) {
 					serviceStatus[i][2] = "";
+					serviceStatus[i][3] = "";
 				}
 				else {
-					serviceStatus[i][2] = "" + (8 + (int)(Math.random() * 25));
+					int delay = 8 + (int)(Math.random() * 25);
+					serviceStatus[i][2] = "" + delay;
+					serviceStatus[i][3] = "" + (delay + (servicesNumber.get(i))[2]);
 				}
 			}
 			else {
 				serviceStatus[i][1] = "";
 				serviceStatus[i][2] = "";
+				serviceStatus[i][3] = "";
 			}
 		}
 		return serviceStatus;
@@ -85,25 +89,28 @@ public class Simulator {
 	public void getServices(int requiredRoute, int requiredID) {
 		//Get all the services of the route
 		int[] services = TimetableInfo.getServices(requiredRoute, kind);
-		//Process requiredID to get the index of the stop
-		int index = 0;
-		int[] IDs = BusStopInfo.getBusStops(requiredRoute);
-		while (IDs[index] < requiredID) {
-			index ++;
-		}
+		
 		//Get the time for each services
 		int[] temp;
+		int[] timingPoint;
 		for (int i = 0; i < services.length; i ++) {
 			//temp = TimetableInfo.getServiceTimes(requiredRoute, kind, services[i]);
-			temp = TimetableInfo.getServiceTimes(requiredRoute, kind, i);
-			for (int j = 0; j < temp.length; j ++) {
-				if ((temp[j] >= (time - 33)) && (temp[j] <= (time + 33))) {
-					int[] newEntry = new int[3];
-					newEntry[0] = services[i];
-					newEntry[1] = requiredRoute;
-					newEntry[2] = temp[j];
-					servicesNumber.add(newEntry);
+			//newEntry is serviceNumber, route, time to the stop.
+			timingPoint = TimetableInfo.getTimingPoints(requiredRoute, kind, i);
+			int stopIndex = -1;
+			for (int j = 0; j < timingPoint.length; j ++) {
+				if (timingPoint[j] == requiredID) {
+					stopIndex = j;
+					break;
 				}
+			}
+			if (stopIndex != -1) {
+				temp = TimetableInfo.getServiceTimes(requiredRoute, kind, i);
+				int[] newEntry = new int[3];
+				newEntry[0] = services[i];
+				newEntry[1] = requiredRoute;
+				newEntry[2] = temp[stopIndex];
+				servicesNumber.add(newEntry);
 			}
 		}
 	}
@@ -113,4 +120,8 @@ public class Simulator {
 		working();
 	}
 	*/
+	
+	public ArrayList<int[]> getServicesNumber() {
+		return servicesNumber;
+	}
 }
