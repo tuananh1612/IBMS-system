@@ -91,7 +91,14 @@ public class DataManager {
 							String name = BusStopInfo.getFullName(temp);
 							duration = getDurationToNextStop(routes[0], stopID[i][j], temp);
 							//routeGraph[i][stopName.indexOf(name)] = 1;
-							routeGraph[i][stopName.indexOf(name)] = duration;
+							if (routeGraph[i][stopName.indexOf(name)] != 0) {
+								if (routeGraph[i][stopName.indexOf(name)] > duration) {
+									routeGraph[i][stopName.indexOf(name)] = duration;
+								}
+							}
+							else {
+								routeGraph[i][stopName.indexOf(name)] = duration;
+							}
 						}
 					}
 					else if (stopID[i][j] < busStops2[busStops2.length - 1]) {
@@ -99,7 +106,15 @@ public class DataManager {
 							String name = BusStopInfo.getFullName(temp);
 							duration = getDurationToNextStop(routes[1], stopID[i][j], temp);
 							//routeGraph[i][stopName.indexOf(name)] = 1;
-							routeGraph[i][stopName.indexOf(name)] = duration;
+							//routeGraph[i][stopName.indexOf(name)] = duration;
+							if (routeGraph[i][stopName.indexOf(name)] != 0) {
+								if (routeGraph[i][stopName.indexOf(name)] > duration) {
+									routeGraph[i][stopName.indexOf(name)] = duration;
+								}
+							}
+							else {
+								routeGraph[i][stopName.indexOf(name)] = duration;
+							}
 						}
 					}
 					else if (stopID[i][j] < busStops3[busStops3.length - 1]) {
@@ -107,7 +122,15 @@ public class DataManager {
 							String name = BusStopInfo.getFullName(temp);
 							duration = getDurationToNextStop(routes[2], stopID[i][j], temp);
 							//routeGraph[i][stopName.indexOf(name)] = 1;
-							routeGraph[i][stopName.indexOf(name)] = duration;
+							//routeGraph[i][stopName.indexOf(name)] = duration;
+							if (routeGraph[i][stopName.indexOf(name)] != 0) {
+								if (routeGraph[i][stopName.indexOf(name)] > duration) {
+									routeGraph[i][stopName.indexOf(name)] = duration;
+								}
+							}
+							else {
+								routeGraph[i][stopName.indexOf(name)] = duration;
+							}
 						}
 					}
 					else {
@@ -115,7 +138,15 @@ public class DataManager {
 							String name = BusStopInfo.getFullName(temp);
 							duration = getDurationToNextStop(routes[3], stopID[i][j], temp);
 							//routeGraph[i][stopName.indexOf(name)] = 1;
-							routeGraph[i][stopName.indexOf(name)] = duration;
+							//routeGraph[i][stopName.indexOf(name)] = duration;
+							if (routeGraph[i][stopName.indexOf(name)] != 0) {
+								if (routeGraph[i][stopName.indexOf(name)] > duration) {
+									routeGraph[i][stopName.indexOf(name)] = duration;
+								}
+							}
+							else {
+								routeGraph[i][stopName.indexOf(name)] = duration;
+							}
 						}
 					}
 				}
