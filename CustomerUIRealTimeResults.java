@@ -1,4 +1,5 @@
 
+
 import java.util.Date;
 
 public class CustomerUIRealTimeResults extends javax.swing.JFrame {
@@ -166,9 +167,12 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
         
         int area = BusStopInfo.findAreaByName(start);
         areaCode = BusStopInfo.getAreaCode(area);       
+        int[] busStopsInArea = BusStopInfo.getBusStopsInArea(area);
+        String fullName = BusStopInfo.getFullName(busStopsInArea[0]);
         
+        System.out.println(areaCode + "" + fullName + "" + time + "" + startDate);
         
-        Simulator simulator = new Simulator(areaCode, start, time, startDate);
+        Simulator simulator = new Simulator(areaCode, fullName, time, startDate);
         
         String [][] journey;
                                                                            //PlanJourney newJourney = new PlanJourney(start, end, startDate, time);

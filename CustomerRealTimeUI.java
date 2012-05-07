@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.sql.Date;
 import javax.swing.JOptionPane;
 import java.lang.Math;
+import java.util.ArrayList;
 
 public class CustomerRealTimeUI extends javax.swing.JFrame {
 
@@ -246,8 +247,12 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
             }
 
 
+           
+            
             //check bus stop exists // need to add particular bus stop.
             int start = BusStopInfo.findAreaByName(startPoint);
+             
+            
             if (start == 0) {
                 JOptionPane.showMessageDialog(this, "Please give a valid start point.");
             }
@@ -263,20 +268,50 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
             minutes = (int) (doubleMinutes / 60) * 100;
             if (!checkDate(enteredDay, enteredMonth, enteredYear)) {
             } //check start date is in the future
-            else {
-                enteredYear -= 1900;
-                enteredMonth -= 1;
-                startDay = new Date(enteredYear, enteredMonth - 1, enteredDay);
+            if(!checkDate(enteredDay, enteredMonth, enteredYear)){}
+                //check start date is in the future
+                else{
+                        enteredYear -= 1900;
+                        enteredMonth -= 1;
+                        startDay = new Date(enteredYear, enteredMonth - 1, enteredDay);
+                        
+                        if (startDay.before(database.today())) {
+                                JOptionPane.showMessageDialog(this, "Please select a future date.");
+                        }
+                        
+                        
+                        DataManager dataManager = new DataManager(startDay);  
+                        ArrayList<String> stopNames = dataManager.getStopNames();
+                
+                                //check bus stop exists // need to add particular bus stop.
+                        int starting = BusStopInfo.findAreaByName(startPoint);
+                        
+                        
+                        for(int i = 0; i < stopNames.size(); i ++){
+                            if(stopNames.contains(startPoint))
+                               break;
+                            else
+                                if (starting == 0 ) {
+                                       JOptionPane.showMessageDialog(this, "Please give a valid start point.");
+                                       int invalid = 1;
+                                }       
+                        }             
 
-                if (startDay.before(database.today())) {
-                    JOptionPane.showMessageDialog(this, "Please select a future date.");
-                } else {
-
-
-
-                    String temp = hours + "" + minutes;
+                        
+                                   
+                                   
+                       
+		if(invalid !=1){
+                    String tempMinutes = "" + minutes;
+                    if(minutes < 10)
+                        tempMinutes = "0" + minutes;
+                    
+                    String tempHours = "" + hours;
+                    if(hours < 10)
+                        tempHours = "0" + hours;
+                    
+                    String temp = tempHours + tempMinutes;
                     int time = Integer.parseInt(temp);
-
                     CustomerUIRealTimeResults nextFrame 
                             = new CustomerUIRealTimeResults(startPoint,
                             enteredDay, enteredMonth, enteredYear, time);
@@ -400,6 +435,7 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
     private String startPoint;
     private int enteredDay, enteredMonth, enteredYear;
     private int hours,minutes; 
+    private int invalid = 0;
     private Date startDay;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
