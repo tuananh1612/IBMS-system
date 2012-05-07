@@ -36,6 +36,10 @@ public class PlanJourney {
 		int startStopGraphIndex = stringIndexes[0];
 		int endStopGraphIndex = stringIndexes[1];
 		
+		System.out.println("startStopGraphIndex: " + startStopGraphIndex);
+		System.out.println("endStopGraphIndex: " + endStopGraphIndex);
+		
+		
     // Find shortest path in the graph
     ShortestPath shortest = new ShortestPath(startStopGraphIndex,
                                              endStopGraphIndex,
@@ -59,10 +63,15 @@ public class PlanJourney {
 		int[] indexes = new int[2];
 		int aInt = -1;
 		int bInt = -1;
+		System.out.println("a: " + a + ", b: " + b);
 		for (int i = 0; i < map.size(); i++) {
-			if (map.get(i) == a)
+			System.out.println("map.get(" + i + "): " + map.get(i));
+			if (a.equals(map.get(i))) {
+				System.out.println("Match! map.get(" + i + "): " + map.get(i) 
+													 + ", a: " + a);
 				aInt = i;
-			if (map.get(i) == b)
+			}
+			if (b.equals(map.get(i)))
 				bInt = i;
 		}
 		indexes[0] = aInt;

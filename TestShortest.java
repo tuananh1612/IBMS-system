@@ -6,8 +6,8 @@ import java.util.List;
 
 public class TestShortest {
 	public static void main(String[] args) {
-		String startStop = "Henry Street";
-		String endStop = "Royal Oak";
+		String startStop = "Glossop, Henry Street";
+		String endStop = "Strines, Royal Oak";
 		Date startDate = new Date();
 		int time = 0700;
 		
