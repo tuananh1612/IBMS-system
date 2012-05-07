@@ -69,7 +69,7 @@ public class Simulator {
 				serviceStatus[i][1] = subStatus[statusIndex];
 				if (statusIndex == 0) {
 					serviceStatus[i][2] = "";
-					serviceStatus[i][3] = "";
+					serviceStatus[i][3] = "" + (100 + (servicesNumber.get(i))[2]);
 				}
 				else {
 					int delay = 8 + (int)(Math.random() * 25);
@@ -80,7 +80,7 @@ public class Simulator {
 			else {
 				serviceStatus[i][1] = "";
 				serviceStatus[i][2] = "";
-				serviceStatus[i][3] = "";
+				serviceStatus[i][3] = "" + (servicesNumber.get(i))[2];
 			}
 		}
 		return serviceStatus;
