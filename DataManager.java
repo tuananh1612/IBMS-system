@@ -145,8 +145,9 @@ public class DataManager {
 		int startIndex = 0;
 		int endIndex = 0;
 		for (int i = 0; i < services.length; i ++) {
-			timingPoint = TimetableInfo.getTimingPoints(routeNumber, 
-					kind, services[i]);
+			//timingPoint = TimetableInfo.getTimingPoints(routeNumber, 
+			//		kind, services[i]);
+			timingPoint = TimetableInfo.getTimingPoints(routeNumber, kind, i);
 			for (int j = 0; j < timingPoint.length; j ++) {
 				if (timingPoint[j] == start) {
 					startIsIn = true;

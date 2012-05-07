@@ -35,7 +35,7 @@ public class Simulator {
 		//System.out.println(stopID);
 		int[] routes = BusStopInfo.getRoutes(stopID);
 		String fullName = BusStopInfo.getFullName(stopID);
-		DataManager manager = new DataManager();
+		DataManager manager = new DataManager(date);
 		ArrayList<String> nameList = manager.getStopNames();
 		int index = nameList.indexOf(fullName);
 		int[][] stopIDList = manager.getStopID();
@@ -94,7 +94,8 @@ public class Simulator {
 		//Get the time for each services
 		int[] temp;
 		for (int i = 0; i < services.length; i ++) {
-			temp = TimetableInfo.getServiceTimes(requiredRoute, kind, services[i]);
+			//temp = TimetableInfo.getServiceTimes(requiredRoute, kind, services[i]);
+			temp = TimetableInfo.getServiceTimes(requiredRoute, kind, i);
 			for (int j = 0; j < temp.length; j ++) {
 				if ((temp[j] >= (time - 33)) && (temp[j] <= (time + 33))) {
 					int[] newEntry = new int[3];
