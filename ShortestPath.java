@@ -32,11 +32,17 @@ public class ShortestPath {
 		stopsInShortest = findShortestPath(startStop,
                                        endStop,
                                        stopsGraph);
-	  int[] routesInShortest = assignRoutes(stopsInShortest);
+																			 
+		for (int i = 0; i < stopsInShortest.size(); i++)
+			System.out.println("stopsInShortest[" + i + "]: " + stopsInShortest.get(i));
+	  
+		int[] routesInShortest = assignRoutes(stopsInShortest);
 		
-		stopsAndRoutesInShortest = new ArrayList<int[]>();
-		stopsAndRoutesInShortest = saveStopsAndRoutes(stopsInShortest, 
-																									routesInShortest);
+		for (int i = 0; i < routesInShortest.length; i++)
+			System.out.println("routesInShortest[" + i + "]: " + routesInShortest[i]);
+			
+		saveStopsAndRoutes(stopsInShortest, 
+										   routesInShortest);
 		
 		PathTiming timing = new PathTiming(stopsAndRoutesInShortest,
 																			 startDate,
@@ -172,20 +178,19 @@ public class ShortestPath {
 	} // sameRouteAvailable
   
 	/* Save stops and routes into single ArrayList */
-	private ArrayList<int[]> saveStopsAndRoutes(ArrayList<Integer> stops, 
+	private void saveStopsAndRoutes(ArrayList<Integer> stops, 
 																							int[] routes) {
-		ArrayList<int[]> stopsAndRoutes = new ArrayList<int[]>();
+		stopsAndRoutesInShortest = new ArrayList<int[]>();
 		int len = routes.length;
 		int currentStop = 0;
 		for (int i = 0; i < len; i++) {
 			int stop = stops.get(currentStop);
 			int[] item = {stop, routes[i]};
-			stopsAndRoutes.add(item);
+			stopsAndRoutesInShortest.add(item);
 			// Only update currentStop if the route stays the same
 			if (i < len - 1 && routes[i] == routes[i+1])
 				currentStop++;
 		} // for
-		return stopsAndRoutes;
 	} // saveStopsAndRoutes
 	
 	/* Convert the ArrayList of stops and routes into a regular array

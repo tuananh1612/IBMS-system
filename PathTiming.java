@@ -22,12 +22,13 @@ public class PathTiming {
 	
 	public PathTiming(ArrayList<int[]> requiredShortestPath, Date requiredTime,
 						int requiredHour) {
+		shortestPath = new ArrayList<int[]>();
 		shortestPath = requiredShortestPath;
 		numberOfNodes = requiredShortestPath.size();
 		startTime = requiredTime;
 		hour = requiredHour;
 		kind = TimetableInfo.timetableKind(startTime);
-		backUpPath.addAll(shortestPath);
+		backUpPath.addAll(requiredShortestPath);
 	}
 	
 	//Get the timing of the route
