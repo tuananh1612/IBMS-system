@@ -150,6 +150,8 @@ public class DataManager {
 			timingPoint = TimetableInfo.getTimingPoints(routeNumber, kind, i);
 			startIsIn = false;
 			endIsIn = false;
+			startIndex = 0;
+			endIndex = 0;
 			for (int j = 0; j < timingPoint.length; j ++) {
 				if (timingPoint[j] == start) {
 					startIsIn = true;
@@ -165,9 +167,15 @@ public class DataManager {
 				break;
 			}
 		}
-		serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
-				kind, serviceNumber);
-		int duration = serviceTime[endIndex] - serviceTime[startIndex];
+		int duration;
+		if (startIndex != 0 && endIndex != 0 && startIndex < endIndex) {
+			serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
+					kind, serviceNumber);
+		  	duration = serviceTime[endIndex] - serviceTime[startIndex];
+		}
+		else {
+			duration = 0;
+		}
 		return duration;
 	}
 }
