@@ -22,6 +22,7 @@ public class DataManager {
 		int[] busStops4 = BusStopInfo.getBusStops(routes[3]);
 		stopName = new ArrayList<String>();
 		//Add the name of stops into the list, repeat this for all routes
+		/*
 		for (int i = 0; i < busStops1.length; i ++) {
 			stopName.add(BusStopInfo.getFullName(busStops1[i]));
 		}
@@ -34,6 +35,8 @@ public class DataManager {
 		for (int i = 0; i < busStops4.length; i ++) {
 			stopName.add(BusStopInfo.getFullName(busStops4[i]));
 		}
+		*/
+		createStopNameList();
 		stopID = new int[stopName.size()][10];
 		for (int i = 0; i < stopName.size(); i ++) {
 			for (int j = 0; j < 10; j ++) {
@@ -177,5 +180,25 @@ public class DataManager {
 			duration = 0;
 		}
 		return duration;
+	}
+	
+	public void createStopNameList() {
+		int[] routes = BusStopInfo.getRoutes();
+		int[] busStops1 = BusStopInfo.getBusStops(routes[0]);
+		int[] busStops2 = BusStopInfo.getBusStops(routes[1]);
+		int[] busStops3 = BusStopInfo.getBusStops(routes[2]);
+		int[] busStops4 = BusStopInfo.getBusStops(routes[3]);
+		for (int i = 0; i < busStops1.length; i ++) {
+			stopName.add(BusStopInfo.getFullName(busStops1[i]));
+		}
+		for (int i = 0; i < busStops2.length; i ++) {
+			stopName.add(BusStopInfo.getFullName(busStops2[i]));
+		}
+		for (int i = 0; i < busStops3.length; i ++) {
+			stopName.add(BusStopInfo.getFullName(busStops3[i]));
+		}
+		for (int i = 0; i < busStops4.length; i ++) {
+			stopName.add(BusStopInfo.getFullName(busStops4[i]));
+		}
 	}
 }
