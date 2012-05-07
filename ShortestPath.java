@@ -7,7 +7,7 @@ import java.util.ListIterator;
 
 /* ShortestPath.java
  * 
- * A class that uses any shortest path algorithm
+ * A class that uses Dijkstra's shortest path algorithm
  * to find the shortest path from node x to node y
  * in a given graph.
  * 

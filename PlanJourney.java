@@ -3,6 +3,8 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Iterator;
+import java.util.Date;
+import java.util.Calendar;
 
 public class PlanJourney {
   
@@ -23,6 +25,12 @@ public class PlanJourney {
 		 * to map the graph ID-s to the correct bus stops */
 		int[][] IDmap = manager.getStopID();
 		ArrayList<String> StringMap = manager.getStopNames();
+		
+		System.out.println("Input: " + startStop + ", " + endStop);
+		System.out.println("StringMap elements: ");
+		for (int i = 0; i < StringMap.size(); i++)
+			System.out.println(StringMap.get(i));
+			
 		
 		int[] stringIndexes = findStringIndexes(StringMap, startStop, endStop);
 		int startStopGraphIndex = stringIndexes[0];
