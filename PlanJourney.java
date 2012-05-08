@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class PlanJourney {
   
   // Initialize the journey array
-  private int[][] journey;
+  private static int[][] journey;
   
   public PlanJourney(String startStop,
                      String endStop,
@@ -49,7 +49,11 @@ public class PlanJourney {
     int[][] stopsInShortest = shortest.getStops();
     int[] timesInShortest = shortest.getTimes();
 		
-    
+		System.out.println("stopsInShortest.length: " + stopsInShortest.length);
+		System.out.println("timesInShortest.length: " + timesInShortest.length);
+		
+    journey = new int[stopsInShortest.length][3];
+		
     // Populate journey[][]
     for (int i = 0; i < stopsInShortest.length; i++) {
       journey[i][0] = IDmap[stopsInShortest[i][0]][0];

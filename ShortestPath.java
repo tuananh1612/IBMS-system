@@ -33,6 +33,13 @@ public class ShortestPath {
                                        endStop,
                                        stopsGraph);
 																			 
+		System.out.println("stopsInShortest.size(): " + stopsInShortest.size());
+		System.out.println("stopsGraph:");
+		for (int i = 0; i < stopsGraph.length; i++)
+			for (int j = 0; j < stopsGraph.length; j++)
+				System.out.println("stopsGraph["+i+"]["+j+"]: " + stopsGraph[i][j]);
+		
+		
 		for (int i = 0; i < stopsInShortest.size(); i++)
 			System.out.println("stopsInShortest[" + i + "]: " + stopsInShortest.get(i));
 	  
