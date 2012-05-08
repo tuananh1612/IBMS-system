@@ -87,7 +87,7 @@ public class PathTiming {
 		*/
 		//Get the services time and compare to get the service number.
 		int[] servicesList = TimetableInfo.getServices(routeNumber, kind);
-		int serviceNumber = 0;
+		int serviceNumber = -1;
 		int currentTime;
 		//Set the time for comparison
 		if (currentIndex == 0) {
@@ -108,6 +108,8 @@ public class PathTiming {
 			//Check if the start point is in the timingPoint array
 			boolean startIsIn = false;
 			boolean endIsIn = false;
+			startLocation= -1;
+			endLocation = -1;
 			startLocation = start;
 			for (int j = 0; j < timingPoint.length; j ++) {
 				if (timingPoint[j] == start) {
@@ -126,12 +128,20 @@ public class PathTiming {
 				break;
 			}
 		}
-		serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
-				kind, serviceNumber);
-		timeArray[currentIndex * 2] = serviceTime[startLocation];
-		timeArray[currentIndex * 2 + 1] = serviceTime[endLocation];
-		serviceArray[currentIndex * 2] = serviceNumber;
-		serviceArray[currentIndex * 2 + 1] = serviceNumber;
+		if (serviceNumber >= 0) {
+			serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
+					kind, serviceNumber);
+			timeArray[currentIndex * 2] = serviceTime[startLocation];
+			timeArray[currentIndex * 2 + 1] = serviceTime[endLocation];
+			serviceArray[currentIndex * 2] = serviceNumber;
+			serviceArray[currentIndex * 2 + 1] = serviceNumber;
+		}
+		else if (serviceNumber == -1) {
+			timeArray[currentIndex * 2] = 0;
+			timeArray[currentIndex * 2 + 1] = 0;
+			serviceArray[currentIndex * 2] = 0;
+			serviceArray[currentIndex * 2 + 1] = 0;
+		}
 	}
 	
 	//Check if the array found is possible. Return true if all elements

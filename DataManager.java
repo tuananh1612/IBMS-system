@@ -188,10 +188,6 @@ public class DataManager {
 	}
 	
 	public int[][] getRouteGraph() {
-		System.out.println("Printing in getRouteGraph()");
-		for (int i = 0; i < routeGraph.length; i++)
-			for (int j = 0; j < routeGraph.length; j++)
-				System.out.println("routeGraph["+i+"]["+j+"]: " + routeGraph[i][j]);
 		return routeGraph;
 	}
 	
@@ -216,6 +212,7 @@ public class DataManager {
 		int startIndex = 0;
 		int endIndex = 0;
 		int duration = 0;
+		int temp;
 		//System.out.println("Start: " + start);
 		//System.out.println("End: " + end);
 		//System.out.println();
@@ -239,7 +236,13 @@ public class DataManager {
 					//System.out.println("Service: " + serviceNumber);
 					serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
 								kind, serviceNumber);
-					duration = serviceTime[endIndex] - serviceTime[startIndex];
+					temp = serviceTime[endIndex] - serviceTime[startIndex];
+					if (duration == 0) {
+						duration = temp;
+					}
+					else if (duration > temp) {
+						duration = temp;
+					}
 				}
 			}
 		}
@@ -296,6 +299,7 @@ public class DataManager {
 			}
 			System.out.println();
 		}
+		System.out.println();
 		for (int i = 0; i < stopName.size(); i ++) {
 			if (i == 19 || i == 15 || i == 13 || i == 7) {
 				System.out.println(stopName.get(i));
