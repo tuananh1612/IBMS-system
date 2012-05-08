@@ -45,7 +45,8 @@ public class PlanJourney {
                                              endStopGraphIndex,
                                              startDate,
                                              time,
-                                             stopsGraph);
+                                             stopsGraph,
+																						 IDmap);
     int[][] stopsInShortest = shortest.getStops();
     int[] timesInShortest = shortest.getTimes();
 		

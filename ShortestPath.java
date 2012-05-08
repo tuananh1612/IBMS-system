@@ -22,13 +22,17 @@ public class ShortestPath {
   private static ArrayList<int[]> stopsAndRoutesInShortest;
   private static int[] timesInShortest;
   private static PriorityQueue<QItem> Q;
-  
+  private static int[][] IDmap;
+	
   public ShortestPath(int startStop,
                       int endStop,
                       Date startDate,
                       int time,
-                      int[][] stopsGraph) {
+                      int[][] stopsGraph,
+											int[][] givenIDmap) {
     
+		IDmap = givenIDmap;
+		
     ArrayList<Integer> stopsInShortest = new ArrayList<Integer>();
 		stopsInShortest = findShortestPath(startStop,
                                        endStop,
@@ -44,7 +48,8 @@ public class ShortestPath {
 		for (int i = 0; i < stopsInShortest.size(); i++)
 			System.out.println("stopsInShortest[" + i + "]: " + stopsInShortest.get(i));
 	  
-		int[] routesInShortest = assignRoutes(stopsInShortest);
+		ArrayList<Integer> stopIDs = findStopIDs(IDmap, stopsInShortest);
+		int[] routesInShortest = assignRoutes(stopIDs);
 		
 		for (int i = 0; i < routesInShortest.length; i++)
 			System.out.println("routesInShortest[" + i + "]: " + routesInShortest[i]);
@@ -217,6 +222,15 @@ public class ShortestPath {
 				currentStop++;
 		} // for
 	} // saveStopsAndRoutes
+	
+	/* Convert indexes into actual bus stop ID's */
+	private ArrayList<Integer> findStopIDs(int[][] map, ArrayList<Integer> indexes) {
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (int i = 0; i < indexes.size(); i++) {
+			ids.add(map[0][indexes.get(i)]);
+		}
+		return ids;
+	} // findStopIDs
 	
 	/* Convert the ArrayList of stops and routes into a regular array
 	 * and return it */
