@@ -37,7 +37,7 @@ public class DataManager {
 		}
 		*/
 		createStopNameList();
-		stopID = new int[stopName.size()][10];
+		stopID = new int[stopName.size() * 2][10];
 		for (int i = 0; i < stopName.size(); i ++) {
 			for (int j = 0; j < 10; j ++) {
 				stopID[i][j] = 0;
@@ -48,25 +48,29 @@ public class DataManager {
 			int index = 0;
 			for (int j = 0; j < busStops1.length; j ++) {
 				if ((stopName.get(i)).compareTo(BusStopInfo.getFullName(busStops1[j])) == 0) {
-					stopID[i][index] = busStops1[j];
+					stopID[i*2][index] = busStops1[j];
+					stopID[i*2+1][index] = routes[0];
 					index ++;
 				}
 			}
 			for (int j = 0; j < busStops2.length; j ++) {
 				if ((stopName.get(i)).compareTo(BusStopInfo.getFullName(busStops2[j])) == 0) {
-					stopID[i][index] = busStops2[j];
+					stopID[i*2][index] = busStops2[j];
+					stopID[i*2+1][index] = routes[1];
 					index ++;
 				}
 			}
 			for (int j = 0; j < busStops3.length; j ++) {
 				if ((stopName.get(i)).compareTo(BusStopInfo.getFullName(busStops3[j])) == 0) {
-					stopID[i][index] = busStops3[j];
+					stopID[i*2][index] = busStops3[j];
+					stopID[i*2+1][index] = routes[2];
 					index ++;
 				}
 			}
 			for (int j = 0; j < busStops4.length; j ++) {
 				if ((stopName.get(i)).compareTo(BusStopInfo.getFullName(busStops4[j])) == 0) {
-					stopID[i][index] = busStops4[j];
+					stopID[i*2][index] = busStops4[j];
+					stopID[i*2+1][index] = routes[3];
 					index ++;
 				}
 			}
