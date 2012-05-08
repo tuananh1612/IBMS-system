@@ -11,13 +11,13 @@ public class TestShortest {
 		Date startDate = new Date();
 		int time = 0700;
 		
-		PlanJourney plan = new PlanJourney(startStop, endStop, startDate, time);
-		int[][] journey = plan.getJourney();
-		
-		for (int i = 0; i < journey.length; i++) {
-			System.out.println("Take route " + journey[i][1] + " from stop " 
-												 + journey[i][0] + " at " + journey[i][2] + ".");
-		}
+	//	PlanJourney plan = new PlanJourney(startStop, endStop, startDate, time);
+	//	int[][] journey = plan.getJourney();
+	//	
+	//	for (int i = 0; i < journey.length; i++) {
+	//		System.out.println("Take route " + journey[i][1] + " from stop " 
+	//											 + journey[i][0] + " at " + journey[i][2] + ".");
+	//	}
 		
 		/* Testing Dijkstra's only */
 		int[][] testGraph = new int[6][6];
@@ -58,12 +58,24 @@ public class TestShortest {
 		testGraph[5][4] = 1;
 		testGraph[5][5] = 0;
 		
-		ShortestPathNoTiming test = new ShortestPathNoTiming(0, 4, testGraph);
-		int[] testShortest = test.getStops();
+	//	ShortestPathNoTiming test = new ShortestPathNoTiming(0, 4, testGraph);
+	//	int[] testShortest = test.getStops();
+	//	
+	//	System.out.println("testShortest.length: " + testShortest.length);
+	//	for (int i = 0; i < testShortest.length; i++)
+	//		System.out.println("testShortest[" + i + "]: " + testShortest[i]);
 		
-		System.out.println("testShortest.length: " + testShortest.length);
-		for (int i = 0; i < testShortest.length; i++)
-			System.out.println("testShortest[" + i + "]: " + testShortest[i]);
+		int[] testGetRoutes = BusStopInfo.getRoutes(770);
+		System.out.println("Routes for 0:");
+		for (int index = 0; index < testGetRoutes.length; index++)
+			System.out.println(testGetRoutes[index]);
 		
+		ShortestStopsAndRoutes testStopsAndRoutes = new ShortestStopsAndRoutes(0, 4, testGraph);
+		int[][] testShortestWithRoutes = testStopsAndRoutes.getStops();
+		
+		System.out.println("testShortestWithRoutes.length: " + testShortestWithRoutes.length);
+		for (int i = 0; i < testShortestWithRoutes.length; i++)
+			for (int j = 0; j < 2; j++)
+				System.out.println("testShortestWithRoutes[" + i + "][" + j + "]: " + testShortestWithRoutes[i][j]);
 	} // main
 } // TestShortest

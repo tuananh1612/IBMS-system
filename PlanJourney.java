@@ -19,8 +19,8 @@ public class PlanJourney {
     // Get a graph representing all possible routes
 		DataManager manager = new DataManager(startDate);
 		manager.createRouteGraph();
-    int[][] stopsGraph = manager.getRouteGraph();
-    
+    int[][] stopsGraph = manager.getRouteGraph(); 
+		
 		/* Use the StopID array from DataManager
 		 * to map the graph ID-s to the correct bus stops */
 		int[][] IDmap = manager.getStopID();
