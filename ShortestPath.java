@@ -20,6 +20,7 @@ import java.util.Collections;
 public class ShortestPath {
   
   private static ArrayList<int[]> stopsAndRoutesInShortest;
+	public static ArrayList<Integer> stopsInShortest;
   private static int[] timesInShortest;
   private static PriorityQueue<QItem> Q;
   private static int[][] IDmap;
@@ -35,7 +36,7 @@ public class ShortestPath {
 		IDmap = givenIDmap;
 		currentDate = startDate;
 		
-    ArrayList<Integer> stopsInShortest = new ArrayList<Integer>();
+    stopsInShortest = new ArrayList<Integer>();
 		stopsInShortest = findShortestPath(startStop,
                                        endStop,
                                        stopsGraph);
@@ -45,11 +46,10 @@ public class ShortestPath {
 		for (int i = 0; i < stopsGraph.length; i++)
 			for (int j = 0; j < stopsGraph.length; j++)
 				System.out.println("stopsGraph["+i+"]["+j+"]: " + stopsGraph[i][j]);
-		
-		
+			
 		for (int i = 0; i < stopsInShortest.size(); i++)
 			System.out.println("stopsInShortest[" + i + "]: " + stopsInShortest.get(i));
-	  
+	 
 		ArrayList<Integer> stopIDs = findStopIDs(IDmap, stopsInShortest);
 		int[] routesInShortest = assignRoutes(stopIDs);
 		
@@ -227,13 +227,14 @@ public class ShortestPath {
 	
 	/* Convert indexes into actual bus stop ID's */
 	private ArrayList<Integer> findStopIDs(int[][] map, ArrayList<Integer> indexes) {
+		System.out.println("map.length: " + map.length + ", map[0].length: " + map[0].length + ", map[5].length: " + map[5].length);
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		ArrayList<int[]> mediumList = new ArrayList<int[]>();
 		//The mediumList contains int array size 2 as element. The first index
 		//is the stopID, the second index is the route number
 		/*
 		for (int i = 0; i < indexes.size(); i++) {
-			ids.add(map[0][indexes.get(i)]);
+			ids.add(map[indexes.get(i)][0]);
 		}
 		*/
 		//Loop through the array

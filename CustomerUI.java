@@ -1,4 +1,5 @@
 
+
 import java.awt.EventQueue;
 import java.sql.Date;
 import javax.swing.JOptionPane;
@@ -261,10 +262,36 @@ public class CustomerUI extends javax.swing.JFrame {
                         }
                         
                         
+                        
+                        
+                        
+                         
+		
+		
+
+                        
                         DataManager dataManager = new DataManager(startDay);  
-                        ArrayList<String> stopNames = dataManager.getStopNames();
+                        dataManager.createRouteGraph();
+                        int[][] stopsGraph = dataManager.getRouteGraph(); 
+                        
+                        /* Use the StopID array from DataManager
+                        * to map the graph ID-s to the correct bus stops 
+                        int[][] IDmap = dataManager.getStopID();
+                        ArrayList<String> StringMap = dataManager.getStopNames();
+
+                        System.out.println("Input: " + startStop + ", " + endStop);
+                        System.out.println("StringMap elements: ");
+                        for (int i = 0; i < StringMap.size(); i++)
+			System.out.println(StringMap.get(i));*/
                 
-                                //check bus stop exists // need to add particular bus stop.
+                
+                        ArrayList<String> stopNames = new ArrayList<String>();
+                        stopNames = dataManager.getStopNames();
+                        System.out.println("StringMap elements: ");
+                        for (int i = 0; i < stopNames.size(); i++)
+			System.out.println(stopNames.get(i));
+                
+                         //check bus stop exists // need to add particular bus stop.
                         int start = BusStopInfo.findAreaByName(startPoint);
                         int end = BusStopInfo.findAreaByName(endPoint);
                         
@@ -284,7 +311,7 @@ public class CustomerUI extends javax.swing.JFrame {
                             else
                                 if (end == 0 ) {
                                        JOptionPane.showMessageDialog(this, "Please give a valid end point.");
-                                       int invalid = 1;
+                                       invalid = 1;
                                 }
                         }            
                                    
