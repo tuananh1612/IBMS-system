@@ -23,6 +23,7 @@ public class ShortestPath {
   private static int[] timesInShortest;
   private static PriorityQueue<QItem> Q;
   private static int[][] IDmap;
+  private Date currentDate;
 	
   public ShortestPath(int startStop,
                       int endStop,
@@ -32,6 +33,7 @@ public class ShortestPath {
 											int[][] givenIDmap) {
     
 		IDmap = givenIDmap;
+		currentDate = startDate;
 		
     ArrayList<Integer> stopsInShortest = new ArrayList<Integer>();
 		stopsInShortest = findShortestPath(startStop,
@@ -226,9 +228,102 @@ public class ShortestPath {
 	/* Convert indexes into actual bus stop ID's */
 	private ArrayList<Integer> findStopIDs(int[][] map, ArrayList<Integer> indexes) {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
+		ArrayList<int[]> mediumList = new ArrayList<int[]>();
+		//The mediumList contains int array size 2 as element. The first index
+		//is the stopID, the second index is the route number
+		/*
 		for (int i = 0; i < indexes.size(); i++) {
 			ids.add(map[0][indexes.get(i)]);
 		}
+		*/
+		//Loop through the array
+		//int[][] stopID = map;
+		for (int i = 0; i < indexes.size() - 1; i ++) {
+			int startPoint = indexes.get(i);
+			int endPoint = indexes.get(i+1);
+			ArrayList<int[]> startPointID = new ArrayList<int[]>();
+			ArrayList<int[]> endPointID = new ArrayList<int[]>();
+			int[] temp = new int[2];
+			//Add stops' IDs to their respective list
+			for (int j = 0; j < 10; j ++) {
+				if (map[startPoint*2][j] != 0) {
+					temp[0] = map[startPoint*2][j];
+					temp[1] = map[startPoint*2+1][j];
+					startPointID.add(temp);
+				}
+				if (map[endPoint*2][j] != 0) {
+					temp[0] = map[endPoint*2][j];
+					temp[1] = map[endPoint*2+1][j];
+					startPointID.add(temp);
+				}
+			}
+			//Look for matching route number
+			ArrayList<int[]> matchList = new ArrayList<int[]>();
+			//matchList use matchEntry below as element. The format of 
+			//matchEntry is index 0: startPoint, index 1: endPoint,
+			//index 2: route number.
+			int[] matchEntry = new int[3];
+			//Loop through startList
+			for (int j = 0; j < startPointID.size(); j ++) {
+				//Loop through endList
+				for (int k= 0; k < endPointID.size(); k ++) {
+					//Check if route number match
+					if ((startPointID.get(j))[1] == (endPointID.get(k))[1]) {
+						//Check if the ID is different
+						if ((startPointID.get(j))[0] < (endPointID.get(k))[0]) {
+							matchEntry[0] = startPointID.get(j)[0];
+							matchEntry[1] = endPointID.get(k)[0];
+							matchEntry[2] = startPointID.get(j)[1];
+							matchList.add(matchEntry);
+						}
+					}
+				}
+			}
+			//Look through the matchList
+			//Get the previous stop before startPoint
+			//If there is no previous stop, assign the first pair in matchList
+			int[] temp1 = new int[2];
+			if (i == 0) {
+				//Add to mediumList
+				temp1[0] = matchList.get(0)[0];
+				temp1[1] = matchList.get(0)[2];
+				mediumList.add(temp1);
+				temp1[0] = matchList.get(0)[1];
+				temp1[1] = matchList.get(0)[2];
+				mediumList.add(temp1);
+			}
+			else {
+				//Get the previous stop
+				temp = matchList.get(i-1);
+				boolean found = false;
+				for (int j = 0; j < matchList.size(); j ++) {
+					found = false;
+					//Match route
+					if (temp[1] == matchList.get(j)[2]) {
+						temp1[0] = matchList.get(j)[1];
+						temp1[1] = matchList.get(j)[2];
+						mediumList.add(temp1);
+						found = true;
+						break;
+					}
+				}
+				//Check if no match found
+				if (!found) {
+					//Add the first pair as new entry
+					temp1[0] = matchList.get(0)[0];
+					temp1[1] = matchList.get(0)[2];
+					mediumList.add(temp1);
+					temp1[0] = matchList.get(0)[1];
+					temp1[1] = matchList.get(0)[2];
+					mediumList.add(temp1);
+				}
+			}
+		}
+		//Shorten the list to get only stopIds
+		for (int i = 0; i < mediumList.size(); i ++) {
+			ids.add(mediumList.get(i)[0]);
+		}
+		//Check if the format is correct with the rest of the code
 		return ids;
 	} // findStopIDs
 	
