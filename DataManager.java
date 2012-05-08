@@ -81,8 +81,9 @@ public class DataManager {
 			}
 		}
 		//Mark their connections
-		int temp;
-		int duration;
+		//int temp;
+		//int duration;
+		/*
 		for (int i = 0; i < routeGraph.length; i ++) {
 			for (int j = 0; j < 10; j ++) {
 				if (stopID[i][j] != 0) {
@@ -151,6 +152,38 @@ public class DataManager {
 					}
 				}
 			}
+			
+		}
+		*/
+		for (int i = 0; i < routeGraph.length; i ++) {
+			//Loop through the IDs array. Check for routes
+			for (int j = 0; j < 10; j ++) {
+				if (stopID[i][j] != 0) {
+					for (int k = 0; k < routes.length; k ++) {
+						if (BusStopInfo.isTimingPointOnRoute(stopID[i][j], routes[k])) {
+							//Check if there is a next stop. If there is get the name.
+							//From the name, get index. Get duration, assign smallest.
+							int tempID;
+							if ((tempID = BusStopInfo.getNextStop(
+									stopID[i][j], routes[k])) != 0) {
+								String name = BusStopInfo.getFullName(tempID);
+								int index = stopName.indexOf(name);
+								int duration = getDurationToNextStop(routes[k], 
+										stopID[i][j], tempID);
+								System.out.println("duration: " + duration);
+								if (routeGraph[i][index] != 0) {
+									if (routeGraph[i][index] > duration) {
+										routeGraph[i][index] = duration;
+									}
+								}
+								else {
+									routeGraph[i][index] = duration;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -175,40 +208,36 @@ public class DataManager {
 		boolean endIsIn = false;
 		int[] timingPoint;
 		int[] serviceTime;
-		int serviceNumber = 0;
+		int serviceNumber = -1;
 		int startIndex = 0;
 		int endIndex = 0;
+		int duration = 0;
+		//System.out.println("Start: " + start);
+		//System.out.println("End: " + end);
+		//System.out.println();
 		for (int i = 0; i < services.length; i ++) {
 			//timingPoint = TimetableInfo.getTimingPoints(routeNumber, 
 			//		kind, services[i]);
 			timingPoint = TimetableInfo.getTimingPoints(routeNumber, kind, i);
-			startIsIn = false;
-			endIsIn = false;
-			startIndex = 0;
-			endIndex = 0;
+			//startIsIn = false;
+			//endIsIn = false;
+			startIndex = -1;
+			endIndex = -1;
 			for (int j = 0; j < timingPoint.length; j ++) {
 				if (timingPoint[j] == start) {
-					startIsIn = true;
+					//startIsIn = true;
 					startIndex = j;
 				}
-				if (timingPoint[j] == end) {
-					endIsIn = true;
+				if (timingPoint[j] == end && startIndex < j && startIndex >= 0) {
+					//endIsIn = true;
 					endIndex = j;
+					serviceNumber = i;
+					//System.out.println("Service: " + serviceNumber);
+					serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
+								kind, serviceNumber);
+					duration = serviceTime[endIndex] - serviceTime[startIndex];
 				}
 			}
-			if ((startIsIn) && (endIsIn)) {
-				serviceNumber = i;
-				break;
-			}
-		}
-		int duration;
-		if (startIndex != 0 && endIndex != 0 && startIndex < endIndex) {
-			serviceTime = TimetableInfo.getServiceTimes(routeNumber, 
-					kind, serviceNumber);
-		  	duration = serviceTime[endIndex] - serviceTime[startIndex];
-		}
-		else {
-			duration = 0;
 		}
 		return duration;
 	}
@@ -220,16 +249,53 @@ public class DataManager {
 		int[] busStops3 = BusStopInfo.getBusStops(routes[2]);
 		int[] busStops4 = BusStopInfo.getBusStops(routes[3]);
 		for (int i = 0; i < busStops1.length; i ++) {
-			stopName.add(BusStopInfo.getFullName(busStops1[i]));
+			if (!stopName.contains(BusStopInfo.getFullName(busStops1[i]))) {
+				stopName.add(BusStopInfo.getFullName(busStops1[i]));
+			}
 		}
 		for (int i = 0; i < busStops2.length; i ++) {
-			stopName.add(BusStopInfo.getFullName(busStops2[i]));
+			//stopName.add(BusStopInfo.getFullName(busStops2[i]));
+			if (!stopName.contains(BusStopInfo.getFullName(busStops2[i]))) {
+				stopName.add(BusStopInfo.getFullName(busStops2[i]));
+			}
 		}
 		for (int i = 0; i < busStops3.length; i ++) {
-			stopName.add(BusStopInfo.getFullName(busStops3[i]));
+			//stopName.add(BusStopInfo.getFullName(busStops3[i]));
+			if (!stopName.contains(BusStopInfo.getFullName(busStops3[i]))) {
+				stopName.add(BusStopInfo.getFullName(busStops3[i]));
+			}
 		}
 		for (int i = 0; i < busStops4.length; i ++) {
-			stopName.add(BusStopInfo.getFullName(busStops4[i]));
+			//stopName.add(BusStopInfo.getFullName(busStops4[i]));
+			if (!stopName.contains(BusStopInfo.getFullName(busStops4[i]))) {
+				stopName.add(BusStopInfo.getFullName(busStops4[i]));
+			}
+		}
+	}
+	
+	public void checkGraph() {
+		for (int i = 0; i < routeGraph.length; i ++) {
+			System.out.print("Index " + i + ": ");
+			for (int j = 0; j < routeGraph.length; j ++) {
+				System.out.print(routeGraph[i][j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		for (int i = 0; i < stopName.size(); i ++) {
+			System.out.println(stopName.get(i));
+		}
+		System.out.println();
+		for (int i = 0; i < stopID.length; i ++) {
+			for (int j = 0; j < 10; j ++) {
+				System.out.print(stopID[i][j] + " ");
+			}
+			System.out.println();
+		}
+		for (int i = 0; i < stopName.size(); i ++) {
+			if (i == 19 || i == 15 || i == 13 || i == 7) {
+				System.out.println(stopName.get(i));
+			}
 		}
 	}
 }
