@@ -34,8 +34,8 @@ public class Simulator {
 		DataManager manager = new DataManager(date);
 		manager.createStopNameList();
 		manager.createStopIDArray();
-		//stopID = BusStopInfo.findBusStop(areaCode, stopName);
-		stopID = BusStopInfo.findBusStop("SKP", "Bus Station");
+		stopID = BusStopInfo.findBusStop(areaCode, stopName);
+		//stopID = BusStopInfo.findBusStop("SKP", "Bus Station");
 		//System.out.println(stopID);
 		String fullName = BusStopInfo.getFullName(stopID);
 		ArrayList<String> nameList = manager.getStopNames();
