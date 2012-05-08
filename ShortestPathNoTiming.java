@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Collections;
 
 /* ShortestPath.java
  * 
@@ -94,6 +95,9 @@ public class ShortestPathNoTiming {
       seq.add(u);
       u = previous[u];
     }
+		// Add source to the end, then reverse
+		seq.add(start);
+		Collections.reverse(seq);
     
     return seq;
   } // findShortestPath

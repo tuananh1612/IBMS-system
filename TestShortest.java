@@ -19,6 +19,15 @@ public class TestShortest {
 	//											 + journey[i][0] + " at " + journey[i][2] + ".");
 	//	}
 		
+    // Get a graph representing all possible routes
+		DataManager manager = new DataManager(startDate);
+		manager.createRouteGraph();
+    int[][] stopsGraph = manager.getRouteGraph(); 
+		
+		/* Use the StopID array from DataManager
+		 * to map the graph ID-s to the correct bus stops */
+		int[][] IDmap = manager.getStopID();
+		
 		/* Testing Dijkstra's only */
 		int[][] testGraph = new int[6][6];
 		testGraph[0][0] = 0;
@@ -65,12 +74,13 @@ public class TestShortest {
 	//	for (int i = 0; i < testShortest.length; i++)
 	//		System.out.println("testShortest[" + i + "]: " + testShortest[i]);
 		
+		database.openBusDatabase();
 		int[] testGetRoutes = BusStopInfo.getRoutes(770);
 		System.out.println("Routes for 0:");
 		for (int index = 0; index < testGetRoutes.length; index++)
 			System.out.println(testGetRoutes[index]);
 		
-		ShortestStopsAndRoutes testStopsAndRoutes = new ShortestStopsAndRoutes(0, 4, testGraph);
+		ShortestStopsAndRoutes testStopsAndRoutes = new ShortestStopsAndRoutes(0, 4, testGraph, IDmap);
 		int[][] testShortestWithRoutes = testStopsAndRoutes.getStops();
 		
 		System.out.println("testShortestWithRoutes.length: " + testShortestWithRoutes.length);

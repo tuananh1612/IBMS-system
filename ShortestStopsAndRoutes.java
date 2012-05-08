@@ -21,11 +21,13 @@ public class ShortestStopsAndRoutes {
   
   private static ArrayList<int[]> stopsAndRoutesInShortest;
   private static PriorityQueue<QItem> Q;
+	private static int[][] IDmap;
   
   public ShortestStopsAndRoutes(int startStop,
                       int endStop,
-                      int[][] stopsGraph) {
-    
+                      int[][] stopsGraph,
+											int[][] givenIDmap) {
+    IDmap = givenIDmap;
     ArrayList<Integer> stopsInShortest = new ArrayList<Integer>();
 		stopsInShortest = findShortestPath(startStop,
                                        endStop,
@@ -41,12 +43,9 @@ public class ShortestStopsAndRoutes {
 		for (int i = 0; i < stopsInShortest.size(); i++)
 			System.out.println("stopsInShortest[" + i + "]: " + stopsInShortest.get(i));
 	  
-//		ArrayList<Integer> correctIDs = new ArrayList<Integer>();
-//		correctIDs.add(774);
-//		correctIDs.add(775);
-//		correctIDs.add(770);
 		
-		int[] routesInShortest = assignRoutes(stopsInShortest);
+		ArrayList<Integer> correctIDs = findStopIDs(IDmap, stopsInShortest);
+		int[] routesInShortest = assignRoutes(correctIDs);
 		
 		for (int i = 0; i < routesInShortest.length; i++)
 			System.out.println("routesInShortest[" + i + "]: " + routesInShortest[i]);
@@ -120,6 +119,8 @@ public class ShortestStopsAndRoutes {
 		int noOfStops = stops.size();
 		ArrayList<Integer> pathRoutes = new ArrayList<Integer>();
 		
+		database.openBusDatabase();
+		
 		// For each stop, get the routes which visit it
 		ArrayList<int[]> routes = new ArrayList<int[]>();
 		for (int i = 0; i < noOfStops; i++) { 
@@ -129,16 +130,15 @@ public class ShortestStopsAndRoutes {
 			int[] thisRoutes = routes.get(i);
 			System.out.println("Routes for stop ID " + stops.get(i) + ": ");
 			for (int j = 0; j < thisRoutes.length; j++)
-				System.out.println(thisRoutes[i]);
+				System.out.println(thisRoutes[j]);
 		}
 		
 		// Begin assigning from the first stop
 		int currentStop = 0;
-		int onStop = 1;
-		// While more stops exist
 		
-		while (onStop <= noOfStops) {
-			int[] routesVisitingThisStop = routes.get(onStop - 1);
+		// While more stops exist
+		while (currentStop < noOfStops) {
+			int[] routesVisitingThisStop = routes.get(currentStop);
 			int longestRunningRoute = routesVisitingThisStop[0];
 			int maxNoOfStops = 0;
 			
@@ -149,14 +149,19 @@ public class ShortestStopsAndRoutes {
 				int runsNoOfStops = 1;
 				int nextStop = currentStop + 1;
 				
-				if (nextStop <= noOfStops) {
+				if (nextStop < noOfStops) {
 					int[] routesVisitingNextStop = routes.get(nextStop);
+					boolean stop = false;
 					while (sameRouteAvailable(routesVisitingThisStop[r],
 																		routesVisitingNextStop)
-								 && nextStop <= noOfStops) {
+								 && !stop) {
 						runsNoOfStops++;
-						nextStop++;
-						routesVisitingNextStop = routes.get(nextStop);
+						if (nextStop + 1 < noOfStops) {
+							nextStop++;
+							routesVisitingNextStop = routes.get(nextStop);
+						}
+						else 
+							stop = true;
 					} // while
 				} 
 				
@@ -167,13 +172,14 @@ public class ShortestStopsAndRoutes {
 				} 
 			} // for
 			
+			System.out.println("maxNoOfStops: " + maxNoOfStops);
 			// Save this route to pathRoutes for each stop it reaches
 			// pathRoutes will have one extra item for each time we change routes
 			for (int s = 0; s < maxNoOfStops; s++)
 				pathRoutes.add(longestRunningRoute);
 			
 			// Update onStop
-			onStop += (maxNoOfStops - 1);
+			currentStop += (maxNoOfStops);
 		} // while
 		
 		int[] pathRoutesArray = new int[pathRoutes.size()];
@@ -207,6 +213,15 @@ public class ShortestStopsAndRoutes {
 				currentStop++;
 		} // for
 	} // saveStopsAndRoutes
+	
+	/* Convert indexes into actual bus stop ID's */
+	private ArrayList<Integer> findStopIDs(int[][] map, ArrayList<Integer> indexes) {
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (int i = 0; i < indexes.size(); i++) {
+			ids.add(map[0][indexes.get(i)]);
+		}
+		return ids;
+	} // findStopIDs
 	
 	/* Convert the ArrayList of stops and routes into a regular array
 	 * and return it */
