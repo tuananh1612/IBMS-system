@@ -37,12 +37,15 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Real Time Results");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false);
         jTextArea1.setRows(5);
+        jTextArea1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Back");
@@ -59,6 +62,13 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Show");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -67,7 +77,8 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2))
@@ -83,7 +94,8 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -116,6 +128,10 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        showRoute();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,13 +171,14 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
 
             public void run() {
                 new CustomerUIRealTimeResults(start, day, month, year, time).setVisible(true);
+                showRoute();
             }
         });
         
         
     }
     
-    public void showRoute(){
+    public static void showRoute(){
         
         Date startDate = new Date(day, month, year);
         
@@ -181,24 +198,24 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
         int i;
         for(i = 0; i < journey.length; i ++){
         
-            if(journey[i][0] == "normal")
-              jTextArea1.setText("There is no delay for this service \n" 
+            if(journey[i][0].equals("normal"))
+              jTextArea1.append("There is no delay for this service \n" 
                       +"The next Service is due at " + journey[1][3] + "\n");
             
             else{
-                if(journey[i][1] == "broken")
-                  jTextArea1.setText("This bus has broken down \n" 
+                if(journey[i][1].equals("broken"))
+                  jTextArea1.append("This bus has broken down \n" 
                       +"The next Service is due at " + journey[i][3] + "\n"
                       + "We are sorry for any inconvenience this may cause");  
                
-                if(journey[i][1] == "clouded wind shield" || journey[i][1] == "road closure")
-                  jTextArea1.setText("This service has been delayed due to a " 
+                if(journey[i][1].equals("clouded wind shield") || journey[i][1].equals("road closure"))
+                  jTextArea1.append("This service has been delayed due to a " 
                           + journey[i][1] +  " by " + journey[i][2] + " minutes \n" 
                       + "The next Service is due at " + journey[i][3] + "\n"
                       + "We are sorry for any inconvenience this may cause"); 
                 
-                if(journey[i][1] == "extreme weather condition")
-                  jTextArea1.setText("This service has been delayed due to extreme weather conditions by " 
+                if(journey[i][1].equals("extreme weather condition"))
+                  jTextArea1.append("This service has been delayed due to extreme weather conditions by " 
                            + journey[i][2] + " minutes \n" 
                       + "The next Service is due at " + journey[i][3] + "\n"
                       + "We are sorry for any inconvenience this may cause"); 
@@ -218,13 +235,14 @@ public class CustomerUIRealTimeResults extends javax.swing.JFrame {
          
     }
     
-    private String areaCode;
+    private static String areaCode;
     private int[][] dataFound;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private static javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
