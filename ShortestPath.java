@@ -321,7 +321,7 @@ public class ShortestPath {
 				mediumList.add(temp1);
 				temp2[0] = matchList.get(0)[1];
 				temp2[1] = matchList.get(0)[2];
-				mediumList.add(temp1);
+				mediumList.add(temp2);
 			}
 			else {
 				//Get the previous stop
@@ -344,9 +344,9 @@ public class ShortestPath {
 					temp1[0] = matchList.get(0)[0];
 					temp1[1] = matchList.get(0)[2];
 					mediumList.add(temp1);
-					temp1[0] = matchList.get(0)[1];
-					temp1[1] = matchList.get(0)[2];
-					mediumList.add(temp1);
+					temp2[0] = matchList.get(0)[1];
+					temp2[1] = matchList.get(0)[2];
+					mediumList.add(temp2);
 				}
 			}
 		}
