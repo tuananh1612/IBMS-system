@@ -234,6 +234,10 @@ public class ShortestPath {
 		System.out.println("map.length: " + map.length + ", map[0].length: " + map[0].length + ", map[5].length: " + map[5].length);
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		ArrayList<int[]> mediumList = new ArrayList<int[]>();
+		System.out.println("Input indexes:");
+		for (int index = 0; index < indexes.size(); index++)
+			System.out.println(indexes.get(index));
+			
 		//The mediumList contains int array size 2 as element. The first index
 		//is the stopID, the second index is the route number
 		/*
@@ -351,6 +355,11 @@ public class ShortestPath {
 			ids.add(mediumList.get(i)[0]);
 		}
 		//Check if the format is correct with the rest of the code
+		System.out.println("Output IDs:");
+		System.out.println("ids.size(): " + ids.size());
+		for (int index = 0; index < ids.size(); index++)
+			System.out.println(ids.get(index));
+			
 		return ids;
 	} // findStopIDs
 	
