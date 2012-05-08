@@ -20,7 +20,7 @@ public class DataManager {
 		int[] busStops2 = BusStopInfo.getBusStops(routes[1]);
 		int[] busStops3 = BusStopInfo.getBusStops(routes[2]);
 		int[] busStops4 = BusStopInfo.getBusStops(routes[3]);
-		stopName = new ArrayList<String>();
+		
 		//Add the name of stops into the list, repeat this for all routes
 		/*
 		for (int i = 0; i < busStops1.length; i ++) {
@@ -217,6 +217,7 @@ public class DataManager {
 	}
 	
 	public void createStopNameList() {
+		stopName = new ArrayList<String>();
 		int[] routes = BusStopInfo.getRoutes();
 		int[] busStops1 = BusStopInfo.getBusStops(routes[0]);
 		int[] busStops2 = BusStopInfo.getBusStops(routes[1]);

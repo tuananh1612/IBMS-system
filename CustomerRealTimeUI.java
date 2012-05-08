@@ -247,7 +247,16 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
             }
 
 
-          
+           
+            
+            //check bus stop exists // need to add particular bus stop.
+            int start = BusStopInfo.findAreaByName(startPoint);
+             
+            
+            if (start == 0) {
+                JOptionPane.showMessageDialog(this, "Please give a valid start point.");
+            }
+
             if (hours > 24 || hours < 1) {
                 JOptionPane.showMessageDialog(this, "Please give a valid hour");
             }
@@ -259,7 +268,9 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
             minutes = (int) (doubleMinutes / 60) * 100;
             if (!checkDate(enteredDay, enteredMonth, enteredYear)) {
             } //check start date is in the future
-            else{
+            if(!checkDate(enteredDay, enteredMonth, enteredYear)){}
+                //check start date is in the future
+                else{
                         enteredYear -= 1900;
                         enteredMonth -= 1;
                         startDay = new Date(enteredYear, enteredMonth - 1, enteredDay);
@@ -268,20 +279,12 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "Please select a future date.");
                         }
                         
-                                              
                         
-                        
-                        DataManager dataManager = new DataManager(startDay);  
-                        dataManager.createRouteGraph();
-                        int[][] stopsGraph = dataManager.getRouteGraph();
-                        
-                        ArrayList<String> stopNames = new ArrayList<String>();
-                        stopNames = dataManager.getStopNames();
-                        System.out.println("StringMap elements: ");
-                        for (int i = 0; i < stopNames.size(); i++)
-			System.out.println(stopNames.get(i));
-                        
-                        //check bus stop exists // need to add particular bus stop.
+                        DataManager dataManager = new DataManager(startDay); 
+                        dataManager.createStopNameList();
+                        ArrayList<String> stopNames = dataManager.getStopNames();
+                
+                                //check bus stop exists // need to add particular bus stop.
                         int starting = BusStopInfo.findAreaByName(startPoint);
                         
                         
@@ -313,7 +316,7 @@ public class CustomerRealTimeUI extends javax.swing.JFrame {
                     CustomerUIRealTimeResults nextFrame 
                             = new CustomerUIRealTimeResults(startPoint,
                             enteredDay, enteredMonth, enteredYear, time);
-                    //nextFrame.showRoute();
+                    nextFrame.showRoute();
                     nextFrame.setVisible(true);
                     this.dispose();
                 }
