@@ -123,18 +123,26 @@ public class ShortestPath {
 		int noOfStops = stops.size();
 		ArrayList<Integer> pathRoutes = new ArrayList<Integer>();
 		
+		database.openBusDatabase();
+		
 		// For each stop, get the routes which visit it
 		ArrayList<int[]> routes = new ArrayList<int[]>();
-		for (int i = 0; i < noOfStops; i++) 
+		for (int i = 0; i < noOfStops; i++) { 
 			routes.add(BusStopInfo.getRoutes(stops.get(i)));
+		}
+		for (int i = 0; i < noOfStops; i++) { 
+			int[] thisRoutes = routes.get(i);
+			System.out.println("Routes for stop ID " + stops.get(i) + ": ");
+			for (int j = 0; j < thisRoutes.length; j++)
+				System.out.println(thisRoutes[j]);
+		}
 		
 		// Begin assigning from the first stop
 		int currentStop = 0;
-		int onStop = 1;
-		// While more stops exist
 		
-		while (onStop <= noOfStops) {
-			int[] routesVisitingThisStop = routes.get(onStop - 1);
+		// While more stops exist
+		while (currentStop < noOfStops) {
+			int[] routesVisitingThisStop = routes.get(currentStop);
 			int longestRunningRoute = routesVisitingThisStop[0];
 			int maxNoOfStops = 0;
 			
@@ -145,14 +153,19 @@ public class ShortestPath {
 				int runsNoOfStops = 1;
 				int nextStop = currentStop + 1;
 				
-				if (nextStop <= noOfStops) {
+				if (nextStop < noOfStops) {
 					int[] routesVisitingNextStop = routes.get(nextStop);
+					boolean stop = false;
 					while (sameRouteAvailable(routesVisitingThisStop[r],
 																		routesVisitingNextStop)
-								 && nextStop <= noOfStops) {
+								 && !stop) {
 						runsNoOfStops++;
-						nextStop++;
-						routesVisitingNextStop = routes.get(nextStop);
+						if (nextStop + 1 < noOfStops) {
+							nextStop++;
+							routesVisitingNextStop = routes.get(nextStop);
+						}
+						else 
+							stop = true;
 					} // while
 				} 
 				
@@ -163,13 +176,14 @@ public class ShortestPath {
 				} 
 			} // for
 			
+			System.out.println("maxNoOfStops: " + maxNoOfStops);
 			// Save this route to pathRoutes for each stop it reaches
 			// pathRoutes will have one extra item for each time we change routes
 			for (int s = 0; s < maxNoOfStops; s++)
 				pathRoutes.add(longestRunningRoute);
 			
 			// Update onStop
-			onStop += (maxNoOfStops - 1);
+			currentStop += (maxNoOfStops);
 		} // while
 		
 		int[] pathRoutesArray = new int[pathRoutes.size()];
