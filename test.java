@@ -5,8 +5,8 @@ public class test {
 
 	public static void main(String args[]) {
 		database.openBusDatabase();
-		DataManager manager = new DataManager(new Date());
-		manager.createRouteGraph();
+		//DataManager manager = new DataManager(new Date());
+		//manager.createRouteGraph();
 		//manager.checkGraph();
 		/*
 		int[] routes = BusStopInfo.getRoutes(770);
@@ -16,6 +16,7 @@ public class test {
 		}
 		System.out.println();
 		*/
+		/*
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		temp.add(0);
 		temp.add(1);
@@ -34,5 +35,15 @@ public class test {
 		}
 		result = client.findStopIDs(map, temp);
 		System.out.println("Length: " + result.size());
+		*/
+		Simulator client = new Simulator("", "", 1250, new Date(112, 11, 12));
+		String[][] result = client.working();
+		for (int i = 0; i < result.length; i ++) {
+			System.out.print("Service number: " + result[i][0] + "\t" + 
+					"status: " + result[i][1] + "\t" + "reason: " + result[i][2] + 
+					"\t" + "time delayed: " + result[i][3] + "\t" + "estimated time: " 
+					+ result[i][4]);
+			System.out.println();
+		}
 	}
 }
