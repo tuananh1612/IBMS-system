@@ -19,5 +19,51 @@ public class TestShortest {
 												 + journey[i][0] + " at " + journey[i][2] + ".");
 		}
 		
+		/* Testing Dijkstra's only */
+		int[][] testGraph = new int[6][6];
+		testGraph[0][0] = 0;
+		testGraph[0][1] = 1;
+		testGraph[0][2] = 0;
+		testGraph[0][3] = 0;
+		testGraph[0][4] = 0;
+		testGraph[0][5] = 1;
+		testGraph[1][0] = 1;
+		testGraph[1][1] = 0;
+		testGraph[1][2] = 1;
+		testGraph[1][3] = 0;
+		testGraph[1][4] = 0;
+		testGraph[1][5] = 0;
+		testGraph[2][0] = 0;
+		testGraph[2][1] = 1;
+		testGraph[2][2] = 0;
+		testGraph[2][3] = 0;
+		testGraph[2][4] = 0;
+		testGraph[2][5] = 1;
+		testGraph[3][0] = 1;
+		testGraph[3][1] = 0;
+		testGraph[3][2] = 0;
+		testGraph[3][3] = 0;
+		testGraph[3][4] = 0;
+		testGraph[3][5] = 1;
+		testGraph[4][0] = 0;
+		testGraph[4][1] = 0;
+		testGraph[4][2] = 0;
+		testGraph[4][3] = 0;
+		testGraph[4][4] = 0;
+		testGraph[4][5] = 1;
+		testGraph[5][0] = 1;
+		testGraph[5][1] = 0;
+		testGraph[5][2] = 0;
+		testGraph[5][3] = 1;
+		testGraph[5][4] = 1;
+		testGraph[5][5] = 0;
+		
+		ShortestPathNoTiming test = new ShortestPathNoTiming(0, 4, testGraph);
+		int[] testShortest = test.getStops();
+		
+		System.out.println("testShortest.length: " + testShortest.length);
+		for (int i = 0; i < testShortest.length; i++)
+			System.out.println("testShortest[" + i + "]: " + testShortest[i]);
+		
 	} // main
 } // TestShortest

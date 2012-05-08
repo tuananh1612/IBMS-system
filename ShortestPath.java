@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Collections;
 
 /* ShortestPath.java
  * 
@@ -33,6 +34,13 @@ public class ShortestPath {
                                        endStop,
                                        stopsGraph);
 																			 
+		System.out.println("stopsInShortest.size(): " + stopsInShortest.size());
+		System.out.println("stopsGraph:");
+		for (int i = 0; i < stopsGraph.length; i++)
+			for (int j = 0; j < stopsGraph.length; j++)
+				System.out.println("stopsGraph["+i+"]["+j+"]: " + stopsGraph[i][j]);
+		
+		
 		for (int i = 0; i < stopsInShortest.size(); i++)
 			System.out.println("stopsInShortest[" + i + "]: " + stopsInShortest.get(i));
 	  
@@ -103,6 +111,9 @@ public class ShortestPath {
       seq.add(u);
       u = previous[u];
     }
+		// Add source to the end, then reverse
+		seq.add(start);
+		Collections.reverse(seq);
     
     return seq;
   } // findShortestPath

@@ -188,6 +188,10 @@ public class DataManager {
 	}
 	
 	public int[][] getRouteGraph() {
+		System.out.println("Printing in getRouteGraph()");
+		for (int i = 0; i < routeGraph.length; i++)
+			for (int j = 0; j < routeGraph.length; j++)
+				System.out.println("routeGraph["+i+"]["+j+"]: " + routeGraph[i][j]);
 		return routeGraph;
 	}
 	

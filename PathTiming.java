@@ -28,6 +28,8 @@ public class PathTiming {
 		startTime = requiredTime;
 		hour = requiredHour;
 		kind = TimetableInfo.timetableKind(startTime);
+		backUpPath = new ArrayList<int[]>();
+		workingPath = new ArrayList<int[]>();
 		backUpPath.addAll(requiredShortestPath);
 	}
 	
