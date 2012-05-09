@@ -172,29 +172,55 @@ public class PathTiming {
 		int[][] stopIDs = manager.getStopID();
 		int[] routes = BusStopInfo.getRoutes();
 		int routeNumber;
+		/*
+		System.out.println("Size: " + shortestPath.get(0).length);
+		for (int i = 0; i < shortestPath.size(); i ++) {
+			for (int j = 0; j < shortestPath.get(0).length; j ++) {
+				System.out.print(shortestPath.get(i)[j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println("The stopID array");
+		for (int i = 0; i < stopIDs.length; i ++) {
+			for (int j = 0; j < 10; j ++) {
+				System.out.print(stopIDs[i][j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		*/
 		ArrayList<String> temp = new ArrayList<String>();
 		for (int i = 0; i < shortestPath.size(); i ++) {
 			//Get the name of the stop
-			String name = BusStopInfo.getFullName((shortestPath.get(i))[0]);
+			//System.out.println(shortestPath.get(i)[0]);
+			String name = BusStopInfo.getFullName(stopIDs[(shortestPath.get(i)[0])*2][0]);
+			//System.out.println("Name: " + name);
 			temp.add(name);
 		}
 		//Resolve stop IDs in pair
 		for (int i = 0; i < noOfRoute; i ++) {
+			System.out.println("index: " + i);
 			int startIndex = stopName.indexOf(temp.get(i * 2));
 			int endIndex = stopName.indexOf(temp.get(i * 2 + 1));
+			//System.out.println("startIndex: " + startIndex);
+			//System.out.println("endIndex: " + endIndex);
 			ArrayList<Integer> temp1 = new ArrayList<Integer>();
 			ArrayList<Integer> temp2 = new ArrayList<Integer>();
 			//Get the suitable IDs for start and end points
 			for (int j = 0; j < 10; j ++) {
-				if (BusStopInfo.isTimingPointOnRoute(stopIDs[startIndex][j], 
-						(shortestPath.get(i * 2))[1])) {
-					temp1.add(stopIDs[startIndex][j]);
+				if (stopIDs[startIndex][j] != 0) {
+					if (BusStopInfo.isTimingPointOnRoute(stopIDs[startIndex][j], 
+							(shortestPath.get(i * 2))[1])) {
+						temp1.add(stopIDs[startIndex][j]);
+					}
 				}
 			}
 			for (int j = 0; j < 10; j ++) {
-				if (BusStopInfo.isTimingPointOnRoute(stopIDs[endIndex][j], 
-						(shortestPath.get(i * 2 + 1))[1])) {
-					temp2.add(stopIDs[endIndex][j]);
+				if (stopIDs[endIndex][j] != 00) {
+					if (BusStopInfo.isTimingPointOnRoute(stopIDs[endIndex][j], 
+							(shortestPath.get(i * 2 + 1))[1])) {
+						temp2.add(stopIDs[endIndex][j]);
+					}
 				}
 			}
 			//Check and register final ID to shortestPath
