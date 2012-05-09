@@ -166,6 +166,8 @@ public class PathTiming {
 		//Convert the stop IDs to suitable IDs for processing
 		int noOfRoute = shortestPath.size() / 2;
 		DataManager manager = new DataManager(startTime);
+		manager.createStopNameList();
+		manager.createStopIDArray();
 		ArrayList<String> stopName = manager.getStopNames();
 		int[][] stopIDs = manager.getStopID();
 		int[] routes = BusStopInfo.getRoutes();
