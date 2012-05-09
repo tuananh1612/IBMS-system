@@ -35,6 +35,8 @@ public class Simulator {
 		manager.createStopNameList();
 		manager.createStopIDArray();
 		stopID = BusStopInfo.findBusStop(areaCode, stopName);
+		//stopID = BusStopInfo.findBusStop("SKP", "Dialstone Lane/Hillcrest Road");
+		//stopID = BusStopInfo.findBusStop("ROM", "Corcoran Drive");
 		//stopID = BusStopInfo.findBusStop("SKP", "Bus Station");
 		//System.out.println(stopID);
 		String fullName = BusStopInfo.getFullName(stopID);
@@ -84,7 +86,7 @@ public class Simulator {
 				}
 				else {
 					int delay = 8 + (int)(Math.random() * 25);
-					serviceStatus[i][3] = "" + delay + " mins";
+					serviceStatus[i][3] = "" + (int)(delay * 60 / 100) + " mins";
 					serviceStatus[i][4] = "" + (delay + servicesNumber.get(i)[2]);
 				}
 			}
